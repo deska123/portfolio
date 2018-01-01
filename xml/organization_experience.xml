@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<organization_experience>
+	<organization id="1">
+		<name></name>
+		<position></position>
+		<division></division>
+		<start_month><start_month>
+		<end_month></end_month>
+		<start_year><start_year>
+		<end_year></end_year>
+		<description></description>
+	</organization>
+	<organization id="2">
+		<name></name>
+		<position></position>
+		<division></division>
+		<start_month><start_month>
+		<end_month></end_month>
+		<start_year><start_year>
+		<end_year></end_year>
+		<description></description>
+	</organization>
+</organization_experience>
