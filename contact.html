@@ -6,6 +6,7 @@
         <title>Portfolio - Contact</title>
         <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/bulma.min.css">
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="js/open_contact.js"></script>
     </head>
     <body>
@@ -15,7 +16,7 @@
                     <div class="container">
                         <div class="navbar-brand">
                             <a class="navbar-item">
-                                <h1 class="title is-1">DPK</h1>
+                                <h1 class="title is-1 contact_initial"></h1>
                             </a>
                             <span class="navbar-burger burger" data-target="navbarMenuHeroB">
                                 <span></span>
@@ -48,7 +49,7 @@
                 </nav>
                 <br><br><br>
                 <div class="container has-text-centered">
-                    <p id="about_name" class="title"></p>
+                    <p id="contact_name" class="title"></p>
                     <p class="subtitle">
                         Contact
                     </p>
@@ -59,31 +60,7 @@
                     <div class="columns">
                         <div class="column"></div>
                         <div class="column is-half">
-                            <div id="social_media" class="tabs is-centered is-large">
-                                <ul>
-                                    <li>
-                                        <a>
-                                            <span class="icon">
-                                                <i class="fa fa-facebook"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="icon">
-                                                <i class="fa fa-twitter"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="icon">
-                                                <i class="fa fa-linkedin"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>  
-                            </div>
+                            <div id="social_media" class="tabs is-centered is-large"></div>
                          <h2>If you have any questions, do not hesitate to contact me through message below :</h2>
                          <div class="field">
                             <div class="control has-icons-left">
@@ -124,7 +101,7 @@
             <div class="hero-foot">
                 <div class="content has-text-centered">
                     <p>
-                        <strong>Copyright &copy; 2017 DPK Collections All Rights Reserved</strong>
+                        <strong>Copyright &copy; 2017 <span class="contact_initial"></span> Collections All Rights Reserved</strong>
                     </p>
                 </div>
             </div>

@@ -1,23 +1,42 @@
-var xmlhttp;
-if(window.XMLHttpRequest) {
-    xmlhttp = new XMLHttpRequest();
-} else {
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-}
-xmlhttp.open("GET", "xml/contact.xml",true);
-xmlhttp.send();
-xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        var xmlDoc = xmlhttp.responseXML;
-        var media_head = xmlDoc.getElementsByTagName("media");
-        var media_output = "<ul>";
-        for(var a = 0; a < media_head.length; a++) {
-            media_output += "<li><a href='" + media_head[a].getElementsByTagName("link")[0].childNodes[0].nodeValue + "'><span class='icon'>";
-            media_output += "<i class='" + media_head[a].getElementsByTagName("icon")[0].childNodes[0].nodeValue +"'>"
-            media_output += "</i></span></a></li>";
+$(document).ready(function(){
+    $.ajax({        
+        type: "GET",
+        url: "xml/about.xml", 
+        dataType: "xml",
+        success: function(xmlDoc){
+            var about = $(xmlDoc).find('about');
+            var initial = $(about).find('initial').text();
+            var name = $(about).find('name').text(); 
+            $(".contact_initial").text(initial);
+            $("#contact_name").text(name);
         }
-        media_output += "</ul>";
-        document.getElementById("social_media").innerHTML = media_output;
-        document.getElementById("about_name").innerHTML = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
-    }
-}
+    });
+ 
+    $.ajax({
+        type: "GET",
+        url: "xml/contact.xml", 
+        dataType: "xml",
+        success: function(xmlDoc) {
+            var contact = $(xmlDoc).find('contact');
+            var media_head = $(contact).find('social_media');
+            var media_head_children = $(media_head).children();
+            var media_output = "<ul>";
+            var media_curr = media_head_children.first();
+            while(!(media_curr.is(media_head_children.last()))) {
+                var link = $(media_curr).find('link').text();
+                var icon = $(media_curr).find('icon').text();
+                media_output += "<li><a href='" + link + "'><span class='icon'>";
+                media_output += "<i class='" + icon +"'>"
+                media_output += "</i></span></a></li>";   
+                media_curr = media_curr.next();
+            }
+            var link = $(media_curr).find('link').text();
+            var icon = $(media_curr).find('icon').text();
+            media_output += "<li><a href='" + link + "'><span class='icon'>";
+            media_output += "<i class='" + icon +"'>"
+            media_output += "</i></span></a></li>";
+            media_output += "</ul>";
+            $("#social_media").html(media_output);
+        }
+    });
+});

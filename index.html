@@ -6,6 +6,8 @@
         <title>Portfolio - Main Page</title>
         <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/bulma.min.css">
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/open_index.js"></script>
     </head>
     <body>
         <section class="hero is-info is-fullheight">
@@ -14,7 +16,7 @@
                     <div class="container">
                         <div class="navbar-brand">
                             <a class="navbar-item">
-                                <h1 class="title is-1">DPK</h1>
+                                <h1 class="title is-1 index_initial"></h1>
                             </a>
                             <span class="navbar-burger burger" data-target="navbarMenuHeroB">
                                 <span></span>
@@ -47,18 +49,14 @@
                 </nav>
                 <br><br><br>
                 <div class="container has-text-centered">
-                    <p class="title">
-                      Dennis Pratama Kamah
-                    </p>
-                    <p class="subtitle">
-                        Work Hard, Play Hard, Think Hard
-                    </p>
+                    <p id="index_name" class="title"></p>
+                    <p id="index_motto" class="subtitle"></p>
                 </div>
             </div>
             <div class="hero-foot">
                 <div class="content has-text-centered">
                     <p>
-                        <strong>Copyright &copy; 2017 DPK Collections All Rights Reserved</strong>
+                        <strong>Copyright &copy; 2017 <span class="index_initial"></span> Collections All Rights Reserved</strong>
                     </p>
                 </div>
             </div>

@@ -1,14 +1,5 @@
-var xmlhttp;
-if(window.XMLHttpRequest) {
-    xmlhttp = new XMLHttpRequest();
-} else {
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-}
-xmlhttp.open("GET", "xml/about.xml",true);
-xmlhttp.send();
-xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        var xmlDoc = xmlhttp.responseXML;
+$(document).ready(function(){
+    $.ajax({url: "xml/about.xml", success: function(xmlDoc){
         document.getElementById("about_name").innerHTML = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
         document.getElementById("occupation").innerHTML = xmlDoc.getElementsByTagName("occupation")[0].childNodes[0].nodeValue;
         document.getElementById("location").innerHTML = xmlDoc.getElementsByTagName("location")[0].childNodes[0].nodeValue;
@@ -57,6 +48,6 @@ xmlhttp.onreadystatechange = function() {
             working_output += "</i><br>";
             working_output += "<p style='text-align: justify;'>" + working_experience_head[b].getElementsByTagName("description")[0].childNodes[0].nodeValue + "</p><br>";
         }
-        document.getElementById("experience").innerHTML = working_output;        
-    }
-}
+        document.getElementById("experience").innerHTML = working_output; 
+    }});
+});
