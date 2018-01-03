@@ -18,5 +18,6 @@ xmlhttp.onreadystatechange = function() {
         }
         media_output += "</ul>";
         document.getElementById("social_media").innerHTML = media_output;
+        document.getElementById("about_name").innerHTML = xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
     }
 }

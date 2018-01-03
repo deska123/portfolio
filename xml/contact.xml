@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <social_media>
+	<name>Dennis Pratama Kamah</name>
 	<media id="1">
 		<name>Facebook</name>
 		<icon>fa fa-facebook</icon>
