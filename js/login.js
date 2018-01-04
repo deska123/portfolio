@@ -34,6 +34,7 @@ $(document).ready(function(){
                 password: password
             },
             function(data, status){
+                $("#password").val('');
                 if(data == "error username") {
                     $("#username").addClass("is-danger");
                     $("#username_not_existed").show();
@@ -41,6 +42,7 @@ $(document).ready(function(){
                     $("#password").addClass("is-danger");
                     $("#wrong_password").show();
                 } else {
+                    $("#username").val('');
                     alert("login sukses");
                 }
             });
