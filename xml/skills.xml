@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<skills lastUpdate="2 January 2018 13.54">
-	<skill id="1">
+<skills lastUpdate="">
+	<skill id="">
 		<name></name>
 		<description></description>
-		<list id="1-1"></list>
-		<list id="1-2"></list>
-	</skill>
-	<skill id="2">
-		<name></name>
-		<description></description>
-		<list id="2-1"></list>
-		<list id="2-2"></list>
+		<lists>
+			<list id=""></list>
+		</lists>
 	</skill>
 </skills>
