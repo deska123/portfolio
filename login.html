@@ -16,7 +16,7 @@
                     <div class="container">
                         <div class="navbar-brand">
                             <a class="navbar-item">
-                                <h1 class="title is-1">DPK</h1>
+                                <h1 class="login_initial title is-1"></h1>
                             </a>
                             <span class="navbar-burger burger" data-target="navbarMenuHeroB">
                                 <span></span>
@@ -59,15 +59,20 @@
                             <i class="fa fa-user"></i>
                           </span>
                           <p id="username_empty" class="help is-danger is-size-4" style="display:none">Username must be filled !</p>
+                          <p id="username_not_existed" class="help is-danger is-size-4" style="display:none">Username is not existed !</p>
                         </p>
                       </div>
                       <div class="field">
-                        <p class="control has-icons-left">
+                        <p class="control has-icons-left has-icons-right">
                           <input name="password" id="password" class="input is-medium" type="password" placeholder="Password">
                           <span class="icon is-left">
                             <i class="fa fa-lock"></i>
                           </span>
+                          <span class="icon is-small is-right">
+                            <i class="fa fa-eye"></i>
+                          </span>
                           <p id="password_empty" class="help is-danger is-size-4" style="display:none">Password must be filled !</p>
+                          <p id="wrong_password" class="help is-danger is-size-4" style="display:none">Wrong Password !</p>
                         </p>
                       </div>
                       <br>
@@ -88,7 +93,7 @@
             <div class="hero-foot">
                 <div class="content has-text-centered">
                     <p>
-                        <strong>Copyright &copy; 2017 DPK Collections All Rights Reserved</strong>
+                        <strong>Copyright &copy; <span class="login_initial"></span> Collections All Rights Reserved</strong>
                     </p>
                 </div>
             </div>
