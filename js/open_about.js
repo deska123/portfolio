@@ -150,31 +150,4 @@ $(document).ready(function(){
             $("#about_job_experience").html(working_output);
         }
     });
-
-    /*
-    $.ajax({url: "xml/about.xml", success: function(xmlDoc){
-        for(var a = 0; a < education_head.length; a++) {
-            education_output += "<strong>" + education_head[a].getElementsByTagName("degree")[0].childNodes[0].nodeValue + " in ";
-            education_output += education_head[a].getElementsByTagName("major")[0].childNodes[0].nodeValue + "</strong> at ";
-            education_output += "<i><a href='" + education_head[a].getElementsByTagName("school_link")[0].childNodes[0].nodeValue + "'>"; 
-            education_output += education_head[a].getElementsByTagName("school_name")[0].childNodes[0].nodeValue + "</a></i><br>";    
-            education_output += "<i>" + education_head[a].getElementsByTagName("start_month")[0].childNodes[0].nodeValue + ", ";       
-            education_output += education_head[a].getElementsByTagName("start_year")[0].childNodes[0].nodeValue + " - ";   
-            education_output += education_head[a].getElementsByTagName("end_month")[0].childNodes[0].nodeValue + ", ";       
-            education_output += education_head[a].getElementsByTagName("end_year")[0].childNodes[0].nodeValue + " | ";
-            education_output += education_head[a].getElementsByTagName("city")[0].childNodes[0].nodeValue + ", ";       
-            education_output += education_head[a].getElementsByTagName("province")[0].childNodes[0].nodeValue + ", ";                   
-            education_output += education_head[a].getElementsByTagName("country")[0].childNodes[0].nodeValue;
-            education_output += "</i><br><br>";
-        }
-        document.getElementById("education").innerHTML = education_output;
-
-        var working_experience_head = xmlDoc.getElementsByTagName("job_experience");
-        var working_output = "";
-        for(var b = 0; b < working_experience_head.length; b++) {
-            
-        }
-        document.getElementById("experience").innerHTML = working_output; 
-    }});
-    */
 });
