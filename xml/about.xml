@@ -6,17 +6,19 @@
 	<quote>Hard-Working, Optimistic, Realistic</quote>
 	<motto>Work Hard, Think Hard, Play Hard</motto>
 	<location>Bekasi, Jawa Barat, Indonesia</location>
-	<education id="1">
-		<school_name>Universitas Indonesia</school_name>
-		<school_link>http://www.ui.ac.id/</school_link>
-		<degree>Bachelor Degree</degree>
-		<major>Computer Science</major>
-		<start_month>August</start_month>
-		<end_month>January</end_month>
-		<start_year>2013</start_year>
-		<end_year>2017</end_year>
-		<city>Depok</city>
-		<province>Jawa Barat</province>
-		<country>Indonesia</country>
-	</education>
+	<educations>
+		<education id="1">
+			<school_name>Universitas Indonesia</school_name>
+			<school_link>http://www.ui.ac.id/</school_link>
+			<degree>Bachelor Degree</degree>
+			<major>Computer Science</major>
+			<start_month>August</start_month>
+			<end_month>January</end_month>
+			<start_year>2013</start_year>
+			<end_year>2017</end_year>
+			<city>Depok</city>
+			<province>Jawa Barat</province>
+			<country>Indonesia</country>
+		</education>
+	</educations>
 </about>
