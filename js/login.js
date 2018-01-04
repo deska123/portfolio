@@ -43,7 +43,7 @@ $(document).ready(function(){
                     $("#wrong_password").show();
                 } else {
                     $("#username").val('');
-                    alert("login sukses");
+                    $("#login_modal").show();
                 }
             });
         }
@@ -60,5 +60,11 @@ $(document).ready(function(){
         $("#password_empty").hide();
         $("#wrong_password").hide();
     });
+
+    $(".close_login_modal").click(function(){
+        $("#login_modal").hide();
+    });
+
+    
 });
 
