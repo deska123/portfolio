@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<organization_experience lastUpdate="2 January 2018 13.54">
-	<organization id="1">
-		<name></name>
-		<position></position>
-		<division></division>
-		<start_month><start_month>
-		<end_month></end_month>
-		<start_year><start_year>
-		<end_year></end_year>
-		<description></description>
-	</organization>
-	<organization id="2">
+<organization_experience lastUpdate="">
+	<organization id="">
 		<name></name>
 		<position></position>
 		<division></division>

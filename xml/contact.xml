@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<contact lastUpdate="2 January 2018 13.54">
-	<email>dkamah913@gmail.com</email>
+<contact lastUpdate="">
+	<email></email>
 	<social_media>
-		<media id="1">
-			<name>Facebook</name>
-			<icon>fa fa-facebook</icon>
-			<link>https://www.facebook.com/den452</link>
+		<media id="">
+			<name></name>
+			<icon></icon>
+			<link></link>
 		</media>
-		<media id="2">
-			<name>Twitter</name>
-			<icon>fa fa-twitter</icon>
-			<link>https://twitter.com/den452</link>
-		</media>
-		<media id="3">
-			<name>Linkedin</name>
-			<icon>fa fa-linkedin</icon>
-			<link>https://id.linkedin.com/in/dennis-pratama-kamah-49052895</link>
-		</media>
-		<!-->
-		<instagram></instagram>
-		<github></github>
-		<tumblr></tumblr>
-		<youtube></youtube>
-		<google_plus></google_plus>
-	-->
 	</social_media>
 </contact>

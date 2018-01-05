@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<about lastUpdate="2 January 2018 13.54">
-	<name>Dennis Pratama Kamah</name>
-	<initial>DPK</initial>
-	<occupation>IT Engineer</occupation>
-	<quote>Hard-Working, Optimistic, Realistic</quote>
-	<motto>Work Hard, Think Hard, Play Hard</motto>
-	<location>Bekasi, Jawa Barat, Indonesia</location>
+<about lastUpdate="">
+	<name></name>
+	<initial></initial>
+	<occupation></occupation>
+	<quote></quote>
+	<motto></motto>
+	<location></location>
 	<educations>
-		<education id="1">
-			<school_name>Universitas Indonesia</school_name>
-			<school_link>http://www.ui.ac.id/</school_link>
-			<degree>Bachelor Degree</degree>
-			<major>Computer Science</major>
-			<start_month>August</start_month>
-			<end_month>January</end_month>
-			<start_year>2013</start_year>
-			<end_year>2017</end_year>
-			<city>Depok</city>
-			<province>Jawa Barat</province>
-			<country>Indonesia</country>
+		<education id="">
+			<school_name></school_name>
+			<school_link></school_link>
+			<degree></degree>
+			<major></major>
+			<start_month></start_month>
+			<end_month></end_month>
+			<start_year></start_year>
+			<end_year></end_year>
+			<city></city>
+			<province></province>
+			<country></country>
 		</education>
 	</educations>
 </about>
