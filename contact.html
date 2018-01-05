@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/bulma.min.css">
         <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/check_login.js"></script>
         <script type="text/javascript" src="js/open_contact.js"></script>
     </head>
     <body>
@@ -36,11 +37,17 @@
                                     Contact
                                 </a>
                                 <span class="navbar-item is-active">
-                                    <a href="login.html" class="button is-info is-inverted">
+                                    <a id="login_link" href="login.html" class="button is-info is-inverted">
                                         <span class="icon">
                                             <i class="fa fa-user"></i>
                                         </span>
                                         <span>Login</span>
+                                    </a>
+                                    <a id="logout_link" class="button is-info is-inverted" style="display: none">
+                                        <span class="icon">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                        <span>Logout</span>
                                     </a>
                                 </span>
                             </div>

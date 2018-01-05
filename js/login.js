@@ -43,11 +43,38 @@ $(document).ready(function(){
                     $("#wrong_password").show();
                 } else {
                     $("#username").val('');
+                    $("#login_modal").addClass("is-active");
                     $("#login_modal").show();
                 }
             });
         }
     });
+
+    $('#key_file[type="file"]').change(function(keyFile){
+        $("#file_not_matched").hide();
+        var fileName = keyFile.target.files[0].name;
+        $("#key_file_name").text(fileName);
+    });
+
+    $("#keyUpload").on('submit',(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: "key_process.php", 
+            type: "POST",             
+            data: new FormData(this), 
+            contentType: false,       
+            cache: false,            
+            processData: false,        
+            success: function(data) {
+               if(data != 'not matched') {
+                    sessionStorage.loggedUser = data;
+                    window.location.replace("index.html");
+               } else {
+                    $("#file_not_matched").show();
+               }
+            }
+        });
+    }));
 
     $("#username").keypress(function(){
         $("#username").removeClass("is-danger");
@@ -63,6 +90,7 @@ $(document).ready(function(){
 
     $(".close_login_modal").click(function(){
         $("#login_modal").hide();
+        $("#login_modal").removeClass("is-active");
     });
 
     
