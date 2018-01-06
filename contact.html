@@ -11,6 +11,37 @@
         <script type="text/javascript" src="js/open_contact.js"></script>
     </head>
     <body>
+
+                        <div id="logout_warning_modal" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <div class="box">
+                                    <article class="media">
+                                      <div class="media-content">
+                                        <div class="content">
+                                            <p class="title">
+                                              Are you sure you want to logout ?
+                                            </p>
+                                            <div class="field is-grouped">
+                                                <p class="control">
+                                                  <a id="logout_link" class="button is-warning">
+                                                      Logout
+                                                  </a>
+                                                </p>
+                                                <p class="control">
+                                                    <a class="button is-danger close_logout_warning_modal">
+                                                        Cancel
+                                                    </a>
+                                                </p>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                </article>
+                            </div>
+                                    </div>
+                            <button class="modal-close is-large close_login_modal"></button>
+                        </div>
         <section class="hero is-info is-fullheight">
             <div class="hero-head">
                 <nav class="navbar">
@@ -39,13 +70,13 @@
                                 <span class="navbar-item is-active">
                                     <a id="login_link" href="login.html" class="button is-info is-inverted">
                                         <span class="icon">
-                                            <i class="fa fa-user"></i>
+                                            <i class="fa fa-lock"></i>
                                         </span>
                                         <span>Login</span>
                                     </a>
-                                    <a id="logout_link" class="button is-info is-inverted" style="display: none">
+                                    <a id="logout_warning" class="button is-info is-inverted" style="display: none">
                                         <span class="icon">
-                                            <i class="fa fa-user"></i>
+                                            <i class="fa fa-unlock"></i>
                                         </span>
                                         <span>Logout</span>
                                     </a>
@@ -83,12 +114,12 @@
                                 <span class="icon is-left">
                                     <i class="fa fa-envelope"></i>
                                 </span>
-                            </div>  
+                            </div>
                          </div>
                          <div class="field">
                             <div class="control">
                                 <textarea  id="sender_message" class="textarea" placeholder="Enter your message here" rows="10"></textarea>
-                            </div>  
+                            </div>
                          </div>
                          <div class="field is-grouped is-grouped-centered">
                             <p class="control">
@@ -112,6 +143,6 @@
                     </p>
                 </div>
             </div>
-        </section>  
+        </section>
     </body>
 </html>
