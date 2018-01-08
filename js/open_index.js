@@ -46,19 +46,25 @@ $(document).ready(function(){
               works_output += "<p class=\"menu-label\">Type</p>";
               works_output += "<ul class=\"menu-list\">" + "<li style=\"color:black\"><a>" + works_curr.find('type').text() + "</a></li></ul>";
               works_output += "</aside>";
-              works_output += "</section>";
-              works_output += "<footer class=\"modal-card-foot\">";
+              works_output += "<ul>";
               var works_details_pictures = $(works_pictures).first();
               while(!(works_details_pictures.is(works_pictures.last()))) {
-                works_output += "<figure class=\"image is-256x256\">";
+                works_output += "<li>";
+                works_output += "<figure class=\"image is-480x480\">";
                 works_output += "<img src='" + works_details_pictures.text() + "'>";
                 works_output += "</figure>";
+                works_output += "</li><br>";
                 works_details_pictures = works_details_pictures.next();
               }
               works_details_pictures = $(works_pictures).last();
-              works_output += "<figure class=\"image is-256x256\">";
+              works_output += "<li>";
+              works_output += "<figure class=\"image is-480x480\">";
               works_output += "<img src='" + works_details_pictures.text() + "'>";
               works_output += "</figure>";
+              works_output += "</li>";
+              works_output += "</ul>"
+              works_output += "</section>";
+              works_output += "<footer class=\"modal-card-foot\">";
               works_output += "</footer>";
               works_output += "</div></div>";
               works_output += "<div class=\"card\"><div class=\"card-image\"><figure class=\"image is-16by9\">";
@@ -92,20 +98,25 @@ $(document).ready(function(){
             works_output += "<p class=\"menu-label\">Type</p>";
             works_output += "<ul class=\"menu-list\">" + "<li style=\"color:black\"><a>" + works_curr.find('type').text() + "</a></li></ul>";
             works_output += "</aside>";
-            works_output += "</section>";
-            works_output += "</section>";
-            works_output += "<footer class=\"modal-card-foot\">";
+            works_output += "<ul>";
             var works_details_pictures = $(works_pictures).first();
             while(!(works_details_pictures.is(works_pictures.last()))) {
-              works_output += "<figure class=\"image is-256x256\">";
+              works_output += "<li>";
+              works_output += "<figure class=\"image is-480x480\">";
               works_output += "<img src='" + works_details_pictures.text() + "'>";
               works_output += "</figure>";
+              works_output += "</li><br>";
               works_details_pictures = works_details_pictures.next();
             }
             works_details_pictures = $(works_pictures).last();
-            works_output += "<figure class=\"image is-256x256\">";
+            works_output += "<li>";
+            works_output += "<figure class=\"image is-480x480\">";
             works_output += "<img src='" + works_details_pictures.text() + "'>";
             works_output += "</figure>";
+            works_output += "</li>";
+            works_output += "</ul>"
+            works_output += "</section>";
+            works_output += "<footer class=\"modal-card-foot\">";
             works_output += "</footer>";
             works_output += "</div></div>";
             works_output += "<div class=\"card\"><div class=\"card-image\"><figure class=\"image is-4by3\">";

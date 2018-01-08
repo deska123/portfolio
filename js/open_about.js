@@ -19,8 +19,8 @@ $(document).ready(function(){
             var education_head = $(about).find('educations');
             var education_head_children = $(education_head).children();
             var education_output = "";
-            var education_curr = education_head_children.first();
-            while(!(education_curr.is(education_head_children.last()))) {
+            var education_curr = education_head_children.last();
+            while(!(education_curr.is(education_head_children.first()))) {
                 var degree = $(education_curr).find('degree').text();
                 var major = $(education_curr).find('major').text();
                 var school_link = $(education_curr).find('school_link').text();
@@ -44,7 +44,7 @@ $(document).ready(function(){
                 education_output += province + ", ";                   
                 education_output += country;
                 education_output += "</i><br><br>"; 
-                education_curr = education_curr.next();
+                education_curr = education_curr.prev();
             }
             var degree = $(education_curr).find('degree').text();
             var major = $(education_curr).find('major').text();
@@ -81,8 +81,8 @@ $(document).ready(function(){
             var job_experience_head = $(xmlDoc).find('job_experience');
             var job_experience_head_children = $(job_experience_head).children();
             var working_output = "";
-            var job_experience_curr = job_experience_head_children.first();
-            while(!(job_experience_curr.is(job_experience_head_children.last()))) {
+            var job_experience_curr = job_experience_head_children.last();
+            while(!(job_experience_curr.is(job_experience_head_children.first()))) {
                 var position = $(job_experience_curr).find('position').text();
                 var company_name = $(job_experience_curr).find('company_name').text();
                 var company_link = $(job_experience_curr).find('company_link').text();
@@ -112,9 +112,9 @@ $(document).ready(function(){
                 working_output += city + ", ";
                 working_output += province + ", ";
                 working_output += country + " ";
-                working_output += "</i><br><br>";
-                working_output += "<p class='has-text-justified'>" + description + "</p><br>"; 
-                job_experience_curr = job_experience_curr.next();
+                working_output += "</i><br>";
+                working_output += "<p class='has-text-justified' style='color:#8B4513'>" + description + "</p><br>"; 
+                job_experience_curr = job_experience_curr.prev();
             }
             var position = $(job_experience_curr).find('position').text();
             var company_name = $(job_experience_curr).find('company_name').text();
@@ -145,8 +145,8 @@ $(document).ready(function(){
             working_output += city + ", ";
             working_output += province + ", ";
             working_output += country + " ";
-            working_output += "</i><br><br>";
-            working_output += "<p class='has-text-justified'>" + description + "</p><br>"; 
+            working_output += "</i><br>";
+            working_output += "<p class='has-text-justified' style='color:#8B4513'>" + description + "</p><br>"; 
             $("#about_job_experience").html(working_output);
         }
     });
