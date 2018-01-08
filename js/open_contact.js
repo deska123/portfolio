@@ -63,7 +63,11 @@ $(document).ready(function(){
                         message: message
                     },
                     function(data, status){
-                        alert(data);
+                        if(data == "success") {
+                            alert("Successful Delivery");
+                        } else {
+                            alert("Failed Delivery");
+                        }
                     });
                 }
             }
@@ -79,7 +83,11 @@ $(document).ready(function(){
                     message: message
                 },
                 function(data, status){
-                    alert(data);
+                    if(data == "success") {
+                        alert("Successful Delivery");
+                    } else {
+                        alert("Failed Delivery");
+                    }
                 });
             }
         }

@@ -9,5 +9,17 @@
         $message = $_POST['message'];
     }
 
-    echo "name : " . $name . " , email : ". $email . ", message : " . $message;
+    $to = "dkamah913@gmail.com";
+    $subject = "New Contact Message";
+    $content = "Name : " . $name . "\r\n";
+    $content += "Email : " . $email . "\r\n";
+    $content += "Message : " . "\r\n";
+    $content += $message;
+    $headers = "From : " . $email . "\r\n";
+
+    if(mail($to, $subject, $content, $headers)) {
+        echo "success";
+    } else {
+        echo "failed";
+    }
 ?>
