@@ -39,4 +39,59 @@ $(document).ready(function(){
             $("#social_media").html(media_output);
         }
     });
+
+    $("#sender_submit").click(function(){
+        var name = $("#sender_name").val();
+        var email = $("#sender_email").val();
+        var message = $("#sender_message").val();
+        if(email != undefined && email != '') {
+            //Taken from https://www.w3schools.com/js/tryit.asp?filename=tryjs_form_validate_email
+            var atpos = email.indexOf("@");
+            var dotpos = email.lastIndexOf(".");
+            if (atpos < 1 || dotpos < (atpos + 2) || dotpos + 2 >= email.length) {
+                $("#sender_email").addClass("is-danger");
+                $("#wrong_email_format").show();
+            } else {
+                if(message == undefined || message == '') {
+                    $("#sender_message").addClass("is-danger");
+                    $("#empty_message").show();
+                } else {
+                    $.post("message_process.php",
+                    {
+                        name: name,
+                        email: email,
+                        message: message
+                    },
+                    function(data, status){
+                        alert(data);
+                    });
+                }
+            }
+        } else {
+            if(message == undefined || message == '') {
+                $("#sender_message").addClass("is-danger");
+                $("#empty_message").show();
+            } else {
+                $.post("message_process.php",
+                {
+                    name: name,
+                    email: email,
+                    message: message
+                },
+                function(data, status){
+                    alert(data);
+                });
+            }
+        }
+    });
+
+    $("#sender_message").keypress(function(){
+        $("#sender_message").removeClass("is-danger");
+        $("#empty_message").hide();
+    });
+
+    $("#sender_email").keypress(function(){
+        $("#sender_email").removeClass("is-danger");
+        $("#wrong_email_format").hide();
+    });
 });

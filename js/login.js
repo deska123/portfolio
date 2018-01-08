@@ -92,7 +92,5 @@ $(document).ready(function(){
         $("#login_modal").hide();
         $("#login_modal").removeClass("is-active");
     });
-
-    
 });
 

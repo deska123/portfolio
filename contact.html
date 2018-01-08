@@ -114,16 +114,18 @@
                                 <span class="icon is-left">
                                     <i class="fa fa-envelope"></i>
                                 </span>
+                                <p id="wrong_email_format" class="help is-danger is-size-6" style="display:none">Email Format is Wrong !</p>
                             </div>
                          </div>
                          <div class="field">
                             <div class="control">
-                                <textarea  id="sender_message" class="textarea" placeholder="Enter your message here" rows="10"></textarea>
+                                <textarea id="sender_message" class="textarea" placeholder="Enter your message here" rows="10"></textarea>
                             </div>
+                            <p id="empty_message" class="help is-danger is-size-6" style="display:none">Message can't be empty !</p>
                          </div>
                          <div class="field is-grouped is-grouped-centered">
                             <p class="control">
-                                <a class="button is-medium is-warning">
+                                <a id="sender_submit" class="button is-medium is-warning">
                                     <span class="icon">
                                       <i class="fa fa-paper-plane"></i>
                                     </span>
