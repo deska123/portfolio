@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Portfolio - About</title>
+        <link rel="stylesheet" href="assets/font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/bulma.min.css">
+        <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="js/check_login.js"></script>
+    </head>
+    <body>
+      
+                        <div id="logout_warning_modal" class="modal">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                                <div class="box">
+                                    <article class="media">
+                                      <div class="media-content">
+                                        <div class="content">
+                                            <p class="title">
+                                              Are you sure you want to logout ?
+                                            </p>
+                                            <div class="field is-grouped">
+                                                <p class="control">
+                                                  <a id="logout_link" class="button is-warning">
+                                                      Logout
+                                                  </a>
+                                                </p>
+                                                <p class="control">
+                                                    <a class="button is-danger close_logout_warning_modal">
+                                                        Cancel
+                                                    </a>
+                                                </p>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                </article>
+                            </div>
+                                    </div>
+                            <button class="modal-close is-large close_login_modal"></button>
+                        </div>
+
+
+
+      <section class="hero is-info is-fullheight">
+            <div class="hero-head">
+                <nav class="navbar">
+                    <div class="container">
+                        <div class="navbar-brand">
+                            <a class="navbar-item">
+                                <h1 class="title is-1 about_initial"></h1>
+                            </a>
+                            <span class="navbar-burger burger" data-target="navbarMenuHeroB">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </div>
+                        <div id="navbarMenuHeroB" class="navbar-menu">
+                            <div class="navbar-end">
+                                <a href="index.html" class="navbar-item">
+                                    Home
+                                </a>
+                                <a href="about.html" class="navbar-item">
+                                    About
+                                </a>
+                                <a href="contact.html" class="navbar-item">
+                                    Contact
+                                </a>
+                                <a id="index_management" href="manage_index.html" class="navbar-item" style="display: none">
+                                    Home Management
+                                </a>
+                                <a id="about_management" href="manage_about.html" class="navbar-item" style="display: none">
+                                    About Management
+                                </a>
+                                <a id="contact_management" href="manage_contact.html" class="navbar-item" style="display: none">
+                                    Contact Management
+                                </a>
+                                <span class="navbar-item is-active">
+                                    <a id="login_link" href="login.html" class="button is-info is-inverted">
+                                        <span class="icon">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                        <span>Login</span>
+                                    </a>
+                                    <a id="logout_warning" class="button is-info is-inverted" style="display: none">
+                                        <span class="icon">
+                                            <i class="fa fa-unlock"></i>
+                                        </span>
+                                        <span>Logout</span>
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <br><br><br>
+                <div class="container has-text-centered">
+                    <p class="title is-1">Contact Management</p>
+                </div>
+            </div>
+            <div class="hero-body">
+                <div class="container">
+                    <!--
+                    <div class="columns">
+                        <div class="column"></div>
+                        <div class="column is-two-thirds">
+                            <p class="title is-3">Social Media</p>
+                            <table class="table is-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Icon</th>
+                                        <th>Link</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="column"></div>
+                    </div>
+                    -->
+                </div>
+            </div>
+            <div class="hero-foot">
+                <div class="content has-text-centered">
+                    <p>
+                        <strong>Copyright &copy; 2017 <span class="about_initial"></span> Collections All Rights Reserved</strong>
+                    </p>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

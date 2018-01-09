@@ -41,7 +41,9 @@ $(document).ready(function(){
     });
 
     $("#sender_submit").click(function(){
-        var name = $("#sender_name").val();
+        //TODO temporary situation because of no SMTP installed
+        if($("#sender_submit").prop('disabled') == false) {
+            var name = $("#sender_name").val();
         var email = $("#sender_email").val();
         var message = $("#sender_message").val();
         if(email != undefined && email != '') {
@@ -90,6 +92,7 @@ $(document).ready(function(){
                     }
                 });
             }
+        }
         }
     });
 

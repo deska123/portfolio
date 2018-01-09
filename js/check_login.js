@@ -12,7 +12,16 @@ $(document).ready(function(){
             $("#login_link").hide();
             $("#logout_warning").show();
 
-            //TODO after a user is logged on
+            $("#index_management").show();
+            $("#about_management").show();
+            $("#contact_management").show();
+        } else {
+            var pagePath = window.location.pathname;
+            var temp = pagePath.split("/");
+            var current = temp[temp.length - 1];
+            if(current == 'manage_about.html' || current == 'manage_index.html' || current == 'manage_contact.html') {
+                window.location.assign("index.html");
+            }
         }
     } else {
         alert("Login is not available in this browser");
@@ -30,6 +39,9 @@ $(document).ready(function(){
         sessionStorage.clear();
         $("#login_modal").show();
         $("#logout_link").hide();
+        $("#index_management").hide();
+        $("#about_management").hide();
+        $("#contact_management").hide();
         window.location.assign("index.html");
     });
 });
