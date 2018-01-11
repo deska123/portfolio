@@ -209,4 +209,79 @@ $(document).ready(function(){
             $("#working_experience_content_manage").html(working_output);
         }
     });
+
+    $.ajax({ 
+        type: "GET",
+        url: "xml/skills.xml", 
+        dataType: "xml",
+        success: function(xmlDoc){
+            var skills_head = $(xmlDoc).find('skills');
+            var skills_head_children = $(skills_head).children();
+            var skills_output = "";
+            var skills_curr = skills_head_children.first();
+
+            while(!(skills_curr.is(skills_head_children.last()))) {
+                var name = skills_curr.find('name').text();
+                var description = skills_curr.find('description').text();
+                var lists_head = $(skills_curr).find('lists');
+                var lists_head_children = $(lists_head).children();
+                var lists_first = lists_head_children.first();
+                var lists_curr = lists_first;
+                var span = 0;
+                while(!(lists_curr.is(lists_head_children.last()))) {
+                    lists_curr = lists_curr.next();
+                    span++;
+                }
+                span += 1;
+
+                var i = 0;
+                var lists_curr_2 = lists_first;
+                while(!(lists_curr_2.is(lists_head_children.last()))) {
+                    skills_output += "<tr>";
+                    if(i == 0) {
+                        skills_output += "<td rowspan='" + span + "'>" + name + "</td>";
+                        skills_output += "<td rowspan='" + span + "'>" + description + "</td>";
+                    }
+                    skills_output += "<td>" + lists_curr_2.text() + "</td>";
+                    skills_output += "</tr>";
+                    i++;
+                    lists_curr_2 = lists_curr_2.next();
+                }
+                skills_output += "<tr>";
+                skills_output += "<td>" + lists_curr_2.text() + "</td>";
+                skills_output += "</tr>";
+                skills_curr = skills_curr.next();
+            }
+            var name = skills_curr.find('name').text();
+            var description = skills_curr.find('description').text();
+            var lists_head = $(skills_curr).find('lists');
+            var lists_head_children = $(lists_head).children();
+            var lists_first = lists_head_children.first();
+            var lists_curr = lists_first;
+            var span = 0;
+            while(!(lists_curr.is(lists_head_children.last()))) {
+                lists_curr = lists_curr.next();
+                span++;
+            }
+            span += 1;
+
+            var i = 0;
+            var lists_curr_2 = lists_first;
+            while(!(lists_curr_2.is(lists_head_children.last()))) {
+                skills_output += "<tr>";
+                if(i == 0) {
+                    skills_output += "<td rowspan='" + span + "'>" + name + "</td>";
+                    skills_output += "<td rowspan='" + span + "'>" + description + "</td>";
+                }
+                skills_output += "<td>" + lists_curr_2.text() + "</td>";
+                skills_output += "</tr>";
+                i++;
+                lists_curr_2 = lists_curr_2.next();
+            }
+            skills_output += "<tr>";
+            skills_output += "<td>" + lists_curr_2.text() + "</td>";
+            skills_output += "</tr>";
+            $("#skills_content_manage").html(skills_output);
+        }
+    });
 });

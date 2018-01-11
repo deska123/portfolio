@@ -1,4 +1,48 @@
 $(document).ready(function(){
+    $.ajax({ 
+        type: "GET",
+        url: "xml/skills.xml", 
+        dataType: "xml",
+        success: function(xmlDoc){
+            var skills_head = $(xmlDoc).find('skills');
+            var skills_head_children = $(skills_head).children();
+            var skills_output = "";
+            var skills_curr = skills_head_children.first();
+
+            while(!(skills_curr.is(skills_head_children.last()))) {
+                var name = skills_curr.find('name').text();
+                var description = skills_curr.find('description').text();
+                skills_output += "<p><strong>" + name + "</p></strong>";
+                skills_output += "<p>" + description + "</p>";
+                var lists_head = $(skills_curr).find('lists');
+                var lists_head_children = $(lists_head).children();
+                var lists_curr = lists_head_children.first();
+                while(!(lists_curr.is(lists_head_children.last()))) {
+                    skills_output += "<span class=\"tag is-dark\">" + lists_curr.text() + "</span>&nbsp;";
+                    lists_curr = lists_curr.next();
+                }
+                skills_output += "<span class=\"tag is-dark\">" + lists_curr.text() + "</span>&nbsp;";
+                lists_curr = lists_curr.next();
+                skills_output += "<br><br>";
+                skills_curr = skills_curr.next();
+            }
+            var name = skills_curr.find('name').text();
+            var description = skills_curr.find('description').text();
+            skills_output += "<p><strong>" + name + "</p></strong>";
+            skills_output += "<p>" + description + "</p>";
+            var lists_head = $(skills_curr).find('lists');
+            var lists_head_children = $(lists_head).children();
+            var lists_curr = lists_head_children.first();
+            while(!(lists_curr.is(lists_head_children.last()))) {
+                skills_output += "<span class=\"tag is-dark\">" + lists_curr.text() + "</span>&nbsp;";
+                lists_curr = lists_curr.next();
+            }
+            skills_output += "<span class=\"tag is-dark\">" + lists_curr.text() + "</span>&nbsp;";
+            lists_curr = lists_curr.next();
+            $("#about_skills").html(skills_output);
+        }
+    });
+    
     $.ajax({        
         type: "GET",
         url: "xml/about.xml", 
