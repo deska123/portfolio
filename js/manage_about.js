@@ -58,8 +58,6 @@ $(document).ready(function(){
         
     });
 
-
-
     $.ajax({        
         type: "GET",
         url: "xml/about.xml", 
@@ -74,6 +72,7 @@ $(document).ready(function(){
             var location = $(about).find('location').text();
             $("#name_manage").text(name);
             $("#initial_manage").text(initial);
+            $(".manage_about_initial").text(initial);
             $("#quote_manage").text(quote);
             $("#motto_manage").text(motto);
             $("#occupation_manage").text(occupation);

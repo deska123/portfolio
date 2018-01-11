@@ -2,6 +2,10 @@ $(document).ready(function(){
     $("#login_link").show();
     $("#logout_warning").hide();
 
+    var date = new Date();
+    var year = date.getFullYear();
+    $("#copyright_year").text(year);
+
     if(typeof(Storage) !== "undefined") {
         if(sessionStorage.loggedUser != undefined) {
             var pagePath = window.location.pathname;
