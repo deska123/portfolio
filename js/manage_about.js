@@ -56,6 +56,52 @@ $(document).ready(function(){
         var province = $("#province").val();
         var country = $("#country").val();
         
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/about.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+                var temp = parseInt(sessionStorage.educationsSize);
+                temp += 1;
+                sessionStorage.educationsSize = temp;
+                
+                var educationsNode = xmlDoc.getElementsByTagName("educations")[0];
+
+                var educationNode = xmlDoc.createElement("education");
+                var idAttr = xmlDoc.createAttribute("id");
+                idAttr.nodeValue = sessionStorage.educationsSize;
+                educationNode.setAttributeNode(idAttr);
+                
+                var schoolNameNode = xmlDoc.createElement("school_name");
+                var schoolNameText = xmlDoc.createTextNode(school_name);
+                schoolNameNode.appendChild(schoolNameText)
+                educationNode.appendChild(schoolNameNode);
+
+                var schoolLinkNode = xmlDoc.createElement("school_link");
+                var schoolLinkText = xmlDoc.createTextNode(school_link);
+                schoolLinkNode.appendChild(schoolLinkText)
+                educationNode.appendChild(schoolLinkNode);
+
+                educationsNode.appendChild(educationNode);
+
+                //alert(xmlDoc.getElementsByTagName("education")[1].getElementsByTagName("school_name")[0].childNodes[0].nodeValue);
+                var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                $.post("data_management.php",
+                {
+                    type: "education",
+                    data: data
+                },
+                function(data, status){
+                    location.reload(true);
+                });
+            }
+        };
     });
 
     $.ajax({        
