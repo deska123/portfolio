@@ -39,6 +39,36 @@ $(document).ready(function(){
         return month;
     }
 
+    function stringToNumMonth(string) {
+        var month = "";
+        if(string == "Jan") {
+            month = "01";
+        } else if(num == "Feb") {
+            month = "02";
+        } else if(num == "Mar") {
+            month = "03";
+        } else if(num == "Apr") {
+            month = "04";
+        } else if(num == "May") {
+            month = "05";
+        } else if(num == "Jun") {
+            month = "06";
+        } else if(num == "Jul") {
+            month = "07";
+        } else if(num == "Aug") {
+            month = "08";
+        } else if(num == "Sep") {
+            month = "09";
+        } else if(num == "Oct") {
+            month = "10";
+        } else if(num == "Nov") {
+            month = "11";
+        } else if(num == "Dec") {
+            month = "12";
+        } 
+        return month;
+    }
+
     $("#create_new_education_button").click(function(){
         var school_name = $("#school_name").val();
         var school_link = $("#school_link").val();
@@ -88,6 +118,51 @@ $(document).ready(function(){
                 schoolLinkNode.appendChild(schoolLinkText)
                 educationNode.appendChild(schoolLinkNode);
 
+                var degreeNode = xmlDoc.createElement("degree");
+                var degreeText = xmlDoc.createTextNode(degree);
+                degreeNode.appendChild(degreeText)
+                educationNode.appendChild(degreeNode);
+
+                var majorNode = xmlDoc.createElement("major");
+                var majorText = xmlDoc.createTextNode(major);
+                majorNode.appendChild(majorText)
+                educationNode.appendChild(majorNode);
+
+                var startMonthNode = xmlDoc.createElement("start_month");
+                var startMonthText = xmlDoc.createTextNode(start_month);
+                startMonthNode.appendChild(startMonthText)
+                educationNode.appendChild(startMonthNode);
+
+                var startYearNode = xmlDoc.createElement("start_year");
+                var startYearText = xmlDoc.createTextNode(start_year);
+                startYearNode.appendChild(startYearText)
+                educationNode.appendChild(startYearNode);
+
+                var endMonthNode = xmlDoc.createElement("end_month");
+                var endMonthText = xmlDoc.createTextNode(end_month);
+                endMonthNode.appendChild(endMonthText)
+                educationNode.appendChild(endMonthNode);
+
+                var endYearNode = xmlDoc.createElement("end_year");
+                var endYearText = xmlDoc.createTextNode(end_year);
+                endYearNode.appendChild(endYearText)
+                educationNode.appendChild(endYearNode);
+
+                var cityNode = xmlDoc.createElement("city");
+                var cityText = xmlDoc.createTextNode(city);
+                cityNode.appendChild(cityText)
+                educationNode.appendChild(cityNode);
+
+                var provinceNode = xmlDoc.createElement("province");
+                var provinceText = xmlDoc.createTextNode(province);
+                provinceNode.appendChild(provinceText)
+                educationNode.appendChild(provinceNode);
+
+                var countryNode = xmlDoc.createElement("country");
+                var countryText = xmlDoc.createTextNode(country);
+                countryNode.appendChild(countryText)
+                educationNode.appendChild(countryNode);
+
                 educationsNode.appendChild(educationNode);
 
                 //alert(xmlDoc.getElementsByTagName("education")[1].getElementsByTagName("school_name")[0].childNodes[0].nodeValue);
@@ -102,6 +177,29 @@ $(document).ready(function(){
                 });
             }
         };
+    });
+
+    $("#start_time").change(function(){
+        if($("#start_time").val() == undefined || $("#start_time").val() == '') {
+            alert("kosong");
+        }
+        var startTime = $("#start_time").val();
+        var startDate = new Date(startTime);
+        startDate = startDate.setDate(startDate.getDate() + 1);
+        var newDate = String(new Date(startDate));
+        var tempDate = newDate.split(" ");
+        var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+        $("#end_time").attr("min", modifiedDate);
+    }); 
+
+    $("#end_time").change(function(){
+        var endTime = $("#end_time").val();
+        var endDate = new Date(endTime);
+        endDate = endDate.setDate(endDate.getDate() - 1);
+        var endDate = String(new Date(endDate));
+        var tempDate = endDate.split(" ");
+        var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+        $("#start_time").attr("max", modifiedDate);
     });
 
     $.ajax({        
