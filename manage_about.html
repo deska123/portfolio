@@ -74,11 +74,31 @@
                     </div>
                 </div>
                 <br>
-              </section>
-              <footer class="modal-card-foot">
                 <button id="create_new_education_button" class="button is-success">Create New</button>
                 <button class="button is-danger close_create_new_education_modal">Cancel</button>
-              </footer>
+                <br><br>
+              </section>
+            </div>
+          </div>
+          <div id="edit_name_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Edit Name</p>
+                <button class="delete close_edit_name_modal" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                      <input id="name" class="input" type="text">
+                    </div>
+                </div>
+                <br>
+                <button id="edit_name_button" class="button is-success edit_submit">Edit</button>
+                <button class="button is-danger close_edit_name_modal">Cancel</button>
+                <br><br>
+              </section>
             </div>
           </div>
                         <div id="logout_warning_modal" class="modal">
@@ -111,38 +131,6 @@
                                     </div>
                             <button class="modal-close is-large close_logout_warning_modal"></button>
                         </div>
-
-                        <div id="create_new_education_modal" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <div class="box">
-                                    <article class="media">
-                                      <div class="media-content">
-                                        <div class="content">
-                                            <p class="title">
-                                                <u>
-                                                    Create New Education
-                                                </u>
-                                            </p>
-
-                                            <div class="field is-grouped">
-                                                <p class="control">
-                                                    <input class="button is-success" type="submit" value="Upload Key" name="submit">
-                                                </p>
-                                                <p class="control">
-                                                    <a class="button is-danger close_login_modal">
-                                                        Cancel
-                                                    </a>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-                                    </div>
-                            <button class="modal-close is-large close_login_modal"></button>
-                        </div>
-
       <section class="hero is-info is-fullheight">
             <div class="hero-head">
                 <nav class="navbar">
@@ -215,26 +203,32 @@
                             <tr>
                                 <td>Name</td>
                                 <td id="name_manage"></td>
+                                <td id="name_action"></td>
                             </tr>
                             <tr>
                                 <td>Initial</td>
                                 <td id="initial_manage"></td>
+                                <td id="initial_action"></td>
                             </tr>
                             <tr>
                                 <td>Occupation</td>
                                 <td id="occupation_manage"></td>
+                                <td id="occupation_action"></td>
                             </tr>
                             <tr>
                                 <td>Quote</td>
                                 <td id="quote_manage"></td>
+                                <td id="quote_action"></td>
                             </tr>
                             <tr>
                                 <td>Motto</td>
                                 <td id="motto_manage"></td>
+                                <td id="motto_action"></td>
                             </tr>
                             <tr>
                                 <td>Location</td>
                                 <td id="location_manage"></td>
+                                <td id="location_action"></td>
                             </tr>
                         </tbody>
                     </table>

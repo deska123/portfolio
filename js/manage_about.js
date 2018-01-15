@@ -180,26 +180,67 @@ $(document).ready(function(){
     });
 
     $("#start_time").change(function(){
-        if($("#start_time").val() == undefined || $("#start_time").val() == '') {
-            alert("kosong");
-        }
         var startTime = $("#start_time").val();
-        var startDate = new Date(startTime);
-        startDate = startDate.setDate(startDate.getDate() + 1);
-        var newDate = String(new Date(startDate));
-        var tempDate = newDate.split(" ");
-        var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
-        $("#end_time").attr("min", modifiedDate);
+        if(startTime != undefined && startTime != '') {
+            var startDate = new Date(startTime);
+            startDate = startDate.setDate(startDate.getDate() + 1);
+            var newDate = String(new Date(startDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#end_time").attr("min", modifiedDate);
+        } else {
+            $("#end_time").attr("min", "");
+        }
     }); 
 
     $("#end_time").change(function(){
         var endTime = $("#end_time").val();
-        var endDate = new Date(endTime);
-        endDate = endDate.setDate(endDate.getDate() - 1);
-        var endDate = String(new Date(endDate));
-        var tempDate = endDate.split(" ");
-        var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
-        $("#start_time").attr("max", modifiedDate);
+        if(endTime != undefined && endTime != '') {
+            var endDate = new Date(endTime);
+            endDate = endDate.setDate(endDate.getDate() - 1);
+            var newDate = String(new Date(endDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#start_time").attr("max", modifiedDate);
+        } else {
+            $("#start_time").attr("max", "");
+        }
+    });
+
+    $("#name_action").on("click", ".identity_edit", function() { 
+        var temp = $(".identity_edit").attr("id").split("_");
+        var field = temp[0];
+        $.ajax({        
+            type: "GET",
+            url: "xml/about.xml", 
+            dataType: "xml",
+            success: function(xmlDoc){
+                var about = $(xmlDoc).find('about');
+                var initial = $(about).find('initial').text();
+                var name = $(about).find('name').text(); 
+                var quote = $(about).find('quote').text();
+                var motto = $(about).find('motto').text();
+                var occupation = $(about).find('occupation').text();
+                var location = $(about).find('location').text();
+                if(field == "name") {
+                    $("#edit_name_modal").show();
+                    $("#name").val(name);
+                }
+            }
+        });
+    });
+
+    $(".edit_submit").on('click',(function(e) {
+        e.preventDefault();
+        var temp = $(".edit_submit").attr("id").split("_");
+        var field = temp[1];
+        if(field == "name") {
+            //TODO
+        }
+    }));
+
+    $(".close_edit_name_modal").click(function(){
+        $("#edit_name_modal").hide();
     });
 
     $.ajax({        
@@ -214,6 +255,8 @@ $(document).ready(function(){
             var motto = $(about).find('motto').text();
             var occupation = $(about).find('occupation').text();
             var location = $(about).find('location').text();
+            $("#name_action").html("<span id=\"name_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
+            
             $("#name_manage").text(name);
             $("#initial_manage").text(initial);
             $(".manage_about_initial").text(initial);
