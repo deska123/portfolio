@@ -164,8 +164,7 @@ $(document).ready(function(){
                 educationNode.appendChild(countryNode);
 
                 educationsNode.appendChild(educationNode);
-
-                //alert(xmlDoc.getElementsByTagName("education")[1].getElementsByTagName("school_name")[0].childNodes[0].nodeValue);
+                
                 var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
                 $.post("data_management.php",
                 {
@@ -173,7 +172,10 @@ $(document).ready(function(){
                     data: data
                 },
                 function(data, status){
-                    location.reload(true);
+                    setTimeout(function(){ 
+                        window.location.href = "#manage_education_title";
+                        window.location.reload(true);
+                    }, 5);
                 });
             }
         };
