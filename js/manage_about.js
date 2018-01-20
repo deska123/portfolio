@@ -88,9 +88,53 @@ $(document).ready(function(){
                 schoolLinkNode.appendChild(schoolLinkText)
                 educationNode.appendChild(schoolLinkNode);
 
-                educationsNode.appendChild(educationNode);
+                var degreeNode = xmlDoc.createElement("degree");
+                var degreeText = xmlDoc.createTextNode(degree);
+                degreeNode.appendChild(degreeText)
+                educationNode.appendChild(degreeNode);
 
-                //alert(xmlDoc.getElementsByTagName("education")[1].getElementsByTagName("school_name")[0].childNodes[0].nodeValue);
+                var majorNode = xmlDoc.createElement("major");
+                var majorText = xmlDoc.createTextNode(major);
+                majorNode.appendChild(majorText)
+                educationNode.appendChild(majorNode);
+
+                var start_monthNode = xmlDoc.createElement("start_month");
+                var start_monthText = xmlDoc.createTextNode(start_month);
+                start_monthNode.appendChild(start_monthText)
+                educationNode.appendChild(start_monthNode);
+
+                var end_monthNode = xmlDoc.createElement("end_month");
+                var end_monthText = xmlDoc.createTextNode(end_month);
+                end_monthNode.appendChild(end_monthText)
+                educationNode.appendChild(end_monthNode);
+
+                var start_yearNode = xmlDoc.createElement("start_year");
+                var start_yearText = xmlDoc.createTextNode(start_year);
+                start_yearNode.appendChild(start_yearText)
+                educationNode.appendChild(start_yearNode);
+
+                var end_yearNode = xmlDoc.createElement("end_year");
+                var end_yearText = xmlDoc.createTextNode(end_year);
+                end_yearNode.appendChild(end_yearText)
+                educationNode.appendChild(end_yearNode);
+
+                var cityNode = xmlDoc.createElement("city");
+                var cityText = xmlDoc.createTextNode(city);
+                cityNode.appendChild(cityText)
+                educationNode.appendChild(cityNode);
+
+                var provinceNode = xmlDoc.createElement("province");
+                var provinceText = xmlDoc.createTextNode(province);
+                provinceNode.appendChild(provinceText)
+                educationNode.appendChild(provinceNode);
+
+                var countryNode = xmlDoc.createElement("country");
+                var countryText = xmlDoc.createTextNode(country);
+                countryNode.appendChild(countryText)
+                educationNode.appendChild(countryNode);
+
+                educationsNode.appendChild(educationNode);
+                
                 var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
                 $.post("data_management.php",
                 {
@@ -98,7 +142,10 @@ $(document).ready(function(){
                     data: data
                 },
                 function(data, status){
-                    location.reload(true);
+                    setTimeout(function(){ 
+                        window.location.href = "#manage_education_title";
+                        window.location.reload(true);
+                    }, 5);
                 });
             }
         };
