@@ -101,6 +101,27 @@
               </section>
             </div>
           </div>
+          <div id="edit_initial_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Edit Initial</p>
+                <button class="delete close_edit_initial_modal" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <div class="field">
+                    <label class="label">Initial</label>
+                    <div class="control">
+                      <input id="initial" class="input" type="text">
+                    </div>
+                </div>
+                <br>
+                <button id="edit_initial_button" class="button is-success edit_submit">Edit</button>
+                <button class="button is-danger close_edit_initial_modal">Cancel</button>
+                <br><br>
+              </section>
+            </div>
+          </div>
                         <div id="logout_warning_modal" class="modal">
                             <div class="modal-background"></div>
                             <div class="modal-content">
@@ -131,10 +152,6 @@
                                     </div>
                             <button class="modal-close is-large close_logout_warning_modal"></button>
                         </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> feature/data_management
       <section class="hero is-info is-fullheight">
             <div class="hero-head">
                 <nav class="navbar">
@@ -194,7 +211,7 @@
             </div>
             <div class="hero-body">
                 <div class="container">
-                    <p class="title is-3">Personal Identity</p>
+                    <p id="manage_personal_identity_title" class="title is-3">Personal Identity</p>
                     <table class="table is-striped">
                         <thead>
                             <tr>

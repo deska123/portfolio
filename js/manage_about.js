@@ -1,4 +1,31 @@
 $(document).ready(function(){
+    /*
+        Retrieve Data of Identity Part
+    */
+    var initial = "";
+    var name = ""; 
+    var quote = "";
+    var motto = "";
+    var occupation = "";
+    var location = "";
+    $.ajax({        
+        type: "GET",
+        url: "xml/about.xml", 
+        dataType: "xml",
+        success: function(xmlDoc){
+            var about = $(xmlDoc).find('about');
+            initial = $(about).find('initial').text();
+            name = $(about).find('name').text(); 
+            quote = $(about).find('quote').text();
+            motto = $(about).find('motto').text();
+            occupation = $(about).find('occupation').text();
+            location = $(about).find('location').text();
+        }
+    });
+    
+    /*
+        Open and Close Modal
+    */
     $("#create_new_education_trigger").click(function(){
         $("#create_new_education_modal").addClass("is-active");
         $("#create_new_education_modal").show();
@@ -7,6 +34,58 @@ $(document).ready(function(){
     $(".close_create_new_education_modal").click(function(){
         $("#create_new_education_modal").removeClass("is-active");
         $("#create_new_education_modal").hide();
+    });
+
+    $(".close_edit_name_modal").click(function(){
+        $("#edit_name_modal").hide();
+    });
+
+    $(".close_edit_initial_modal").click(function(){
+        $("#edit_initial_modal").hide();
+    });
+
+    $('body').on('click', '.identity_edit', function (){
+        var id = $(this).attr('id').split("_");
+        var field = id[0];
+        if(field == "name") {
+            $("#edit_name_modal").show();
+            $("#name").val(name);
+        } else if(field == "initial") {
+            $("#edit_initial_modal").show();
+            $("#initial").val(initial);
+        }
+    });
+
+
+    /*
+        Other Functions or Triggers
+    */
+    $("#start_time").change(function(){
+        var startTime = $("#start_time").val();
+        if(startTime != undefined && startTime != '') {
+            var startDate = new Date(startTime);
+            startDate = startDate.setDate(startDate.getDate() + 1);
+            var newDate = String(new Date(startDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#end_time").attr("min", modifiedDate);
+        } else {
+            $("#end_time").attr("min", "");
+        }
+    }); 
+
+    $("#end_time").change(function(){
+        var endTime = $("#end_time").val();
+        if(endTime != undefined && endTime != '') {
+            var endDate = new Date(endTime);
+            endDate = endDate.setDate(endDate.getDate() - 1);
+            var newDate = String(new Date(endDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#start_time").attr("max", modifiedDate);
+        } else {
+            $("#start_time").attr("max", "");
+        }
     });
 
     function numToStringMonth(num) {
@@ -69,6 +148,23 @@ $(document).ready(function(){
         return month;
     }
 
+    function updateXML(typeInput, dataInput, hrefInput) {
+        $.post("data_management.php",
+        {
+            type: typeInput,
+            data: dataInput
+        },
+        function(data, status){
+            setTimeout(function(){ 
+                window.location.href = hrefInput;
+                window.location.reload(true);
+            }, 20);
+        });
+    }
+
+    /*
+        Create New Part
+    */
     $("#create_new_education_button").click(function(){
         var school_name = $("#school_name").val();
         var school_link = $("#school_link").val();
@@ -166,85 +262,59 @@ $(document).ready(function(){
                 educationsNode.appendChild(educationNode);
                 
                 var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
-                $.post("data_management.php",
-                {
-                    type: "education",
-                    data: data
-                },
-                function(data, status){
-                    setTimeout(function(){ 
-                        window.location.href = "#manage_education_title";
-                        window.location.reload(true);
-                    }, 5);
-                });
+                updateXML("about", data, "#manage_education_title");
             }
         };
     });
 
-    $("#start_time").change(function(){
-        var startTime = $("#start_time").val();
-        if(startTime != undefined && startTime != '') {
-            var startDate = new Date(startTime);
-            startDate = startDate.setDate(startDate.getDate() + 1);
-            var newDate = String(new Date(startDate));
-            var tempDate = newDate.split(" ");
-            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
-            $("#end_time").attr("min", modifiedDate);
-        } else {
-            $("#end_time").attr("min", "");
-        }
-    }); 
-
-    $("#end_time").change(function(){
-        var endTime = $("#end_time").val();
-        if(endTime != undefined && endTime != '') {
-            var endDate = new Date(endTime);
-            endDate = endDate.setDate(endDate.getDate() - 1);
-            var newDate = String(new Date(endDate));
-            var tempDate = newDate.split(" ");
-            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
-            $("#start_time").attr("max", modifiedDate);
-        } else {
-            $("#start_time").attr("max", "");
-        }
-    });
-
-    $("#name_action").on("click", ".identity_edit", function() { 
-        var temp = $(".identity_edit").attr("id").split("_");
-        var field = temp[0];
-        $.ajax({        
-            type: "GET",
-            url: "xml/about.xml", 
-            dataType: "xml",
-            success: function(xmlDoc){
-                var about = $(xmlDoc).find('about');
-                var initial = $(about).find('initial').text();
-                var name = $(about).find('name').text(); 
-                var quote = $(about).find('quote').text();
-                var motto = $(about).find('motto').text();
-                var occupation = $(about).find('occupation').text();
-                var location = $(about).find('location').text();
-                if(field == "name") {
-                    $("#edit_name_modal").show();
-                    $("#name").val(name);
-                }
-            }
-        });
-    });
-
-    $(".edit_submit").on('click',(function(e) {
-        e.preventDefault();
-        var temp = $(".edit_submit").attr("id").split("_");
-        var field = temp[1];
+    /*
+        Edit Part
+    */
+    $('body').on('click', '.edit_submit', function (){
+        var id = $(this).attr('id').split("_");
+        var field = id[1];
         if(field == "name") {
-            //TODO
+            var xmlhttp;
+            if(window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "xml/about.xml", true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+                    var nameNode = xmlDoc.getElementsByTagName("name")[0].childNodes[0];
+                    nameNode.nodeValue = $("#name").val();
+                    var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                    updateXML("about", data, "#manage_personal_identity_title");
+                }
+            };
+        } else if(field == "initial") {
+            var xmlhttp;
+            if(window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "xml/about.xml", true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+                    var initialNode = xmlDoc.getElementsByTagName("initial")[0].childNodes[0];
+                    initialNode.nodeValue = $("#initial").val();
+                    var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                    updateXML("about", data, "#manage_personal_identity_title");
+                }
+            };
         }
-    }));
-
-    $(".close_edit_name_modal").click(function(){
-        $("#edit_name_modal").hide();
     });
 
+    /*
+        Fill Contents from about.xml
+    */
     $.ajax({        
         type: "GET",
         url: "xml/about.xml", 
@@ -258,7 +328,8 @@ $(document).ready(function(){
             var occupation = $(about).find('occupation').text();
             var location = $(about).find('location').text();
             $("#name_action").html("<span id=\"name_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
-            
+            $("#initial_action").html("<span id=\"initial_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
+
             $("#name_manage").text(name);
             $("#initial_manage").text(initial);
             $(".manage_about_initial").text(initial);
@@ -326,6 +397,9 @@ $(document).ready(function(){
         }
     });
 
+    /*
+        Fill Contents from job_experience.xml
+    */
     $.ajax({        
         type: "GET",
         url: "xml/job_experience.xml", 
@@ -399,6 +473,9 @@ $(document).ready(function(){
         }
     });
 
+    /*
+        Fill Contents from skills.xml
+    */
     $.ajax({ 
         type: "GET",
         url: "xml/skills.xml", 
