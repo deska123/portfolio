@@ -44,6 +44,22 @@ $(document).ready(function(){
         $("#edit_initial_modal").hide();
     });
 
+    $(".close_edit_occupation_modal").click(function(){
+        $("#edit_occupation_modal").hide();
+    });
+
+    $(".close_edit_quote_modal").click(function(){
+        $("#edit_quote_modal").hide();
+    });
+
+    $(".close_edit_motto_modal").click(function(){
+        $("#edit_motto_modal").hide();
+    });
+
+    $(".close_edit_location_modal").click(function(){
+        $("#edit_location_modal").hide();
+    });
+
     $('body').on('click', '.identity_edit', function (){
         var id = $(this).attr('id').split("_");
         var field = id[0];
@@ -53,6 +69,18 @@ $(document).ready(function(){
         } else if(field == "initial") {
             $("#edit_initial_modal").show();
             $("#initial").val(initial);
+        } else if(field == "occupation") {
+            $("#edit_occupation_modal").show();
+            $("#occupation").val(occupation);
+        } else if(field == "quote") {
+            $("#edit_quote_modal").show();
+            $("#quote").val(quote);
+        } else if(field == "motto") {
+            $("#edit_motto_modal").show();
+            $("#motto").val(motto);
+        } else if(field == "location") {
+            $("#edit_location_modal").show();
+            $("#location").val(location);
         }
     });
 
@@ -156,7 +184,7 @@ $(document).ready(function(){
         },
         function(data, status){
             setTimeout(function(){ 
-                window.location.href = hrefInput;
+                //window.location.href = hrefInput;
                 window.location.reload(true);
             }, 20);
         });
@@ -309,6 +337,78 @@ $(document).ready(function(){
                     updateXML("about", data, "#manage_personal_identity_title");
                 }
             };
+        } else if(field == "occupation") {
+            var xmlhttp;
+            if(window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "xml/about.xml", true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+                    var occupationNode = xmlDoc.getElementsByTagName("occupation")[0].childNodes[0];
+                    occupationNode.nodeValue = $("#occupation").val();
+                    var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                    updateXML("about", data, "#manage_personal_identity_title");
+                }
+            };
+        } else if(field == "quote") {
+            var xmlhttp;
+            if(window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "xml/about.xml", true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+                    var quoteNode = xmlDoc.getElementsByTagName("quote")[0].childNodes[0];
+                    quoteNode.nodeValue = $("#quote").val();
+                    var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                    updateXML("about", data, "#manage_personal_identity_title");
+                }
+            };
+        } else if(field == "motto") {
+            var xmlhttp;
+            if(window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "xml/about.xml", true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+                    var mottoNode = xmlDoc.getElementsByTagName("motto")[0].childNodes[0];
+                    mottoNode.nodeValue = $("#motto").val();
+                    var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                    updateXML("about", data, "#manage_personal_identity_title");
+                }
+            };
+        } else if(field == "location") {
+            var xmlhttp;
+            if(window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("GET", "xml/about.xml", true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+                    var locationNode = xmlDoc.getElementsByTagName("location")[0].childNodes[0];
+                    locationNode.nodeValue = $("#location").val();
+                    var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                    updateXML("about", data, "#manage_personal_identity_title");
+                }
+            };
         }
     });
 
@@ -329,6 +429,10 @@ $(document).ready(function(){
             var location = $(about).find('location').text();
             $("#name_action").html("<span id=\"name_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
             $("#initial_action").html("<span id=\"initial_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
+            $("#occupation_action").html("<span id=\"occupation_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
+            $("#quote_action").html("<span id=\"quote_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
+            $("#motto_action").html("<span id=\"motto_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
+            $("#location_action").html("<span id=\"location_edit\" style=\"cursor: pointer;\" class=\"icon identity_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>");
 
             $("#name_manage").text(name);
             $("#initial_manage").text(initial);
