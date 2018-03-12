@@ -25,7 +25,7 @@ $(document).ready(function(){
             while(!(media_curr.is(media_head_children.last()))) {
                 var link = $(media_curr).find('link').text();
                 var icon = $(media_curr).find('icon').text();
-                media_output += "<li><a href='" + link + "'><span class='icon'>";
+                media_output += "<li><a href='" + link + "' target='_blank'><span class='icon'>";
                 media_output += "<i class='" + icon +"'>"
                 media_output += "</i></span></a></li>";   
                 media_curr = media_curr.next();

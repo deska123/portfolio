@@ -14,228 +14,256 @@
         <div id="create_new_education_modal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Create New Education</p>
-                <button class="delete close_create_new_education_modal" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">School Name</label>
-                    <div class="control">
-                      <input id="school_name" class="input" type="text" placeholder="e.g Universitas Mustika Jaya">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">School Link</label>
-                    <div class="control">
-                      <input id="school_link" class="input" type="text" placeholder="e.g http://www.mj.ac.id/">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Degree</label>
-                    <div class="control">
-                      <input id="degree" class="input" type="text" placeholder="e.g Celcius Degree">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Major</label>
-                    <div class="control">
-                      <input id="major" class="input" type="text" placeholder="e.g Candy Engineering">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Start Time</label>
-                    <div class="control">
-                      <input id="start_time" class="input" type="date">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">End Time</label>
-                    <div class="control">
-                      <input id="end_time" class="input" type="date">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">City</label>
-                    <div class="control">
-                      <input id="city" class="input" type="text" placeholder="e.g Raccoon City">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Province</label>
-                    <div class="control">
-                      <input id="province" class="input" type="text" placeholder="e.g Meikarta">
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label">Country</label>
-                    <div class="control">
-                      <input id="country" class="input" type="text" placeholder="e.g Candy Bekasi">
-                    </div>
-                </div>
-                <br>
-                <button id="create_new_education_button" class="button is-success">Create New</button>
-                <button class="button is-danger close_create_new_education_modal">Cancel</button>
-                <br><br>
-              </section>
-            </div>
-          </div>
-          <div id="edit_name_modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Edit Name</p>
-                <button class="delete close_edit_name_modal" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">Name</label>
-                    <div class="control">
-                      <input id="name" class="input" type="text">
-                    </div>
-                </div>
-                <br>
-                <button id="edit_name_button" class="button is-success edit_submit">Edit</button>
-                <button class="button is-danger close_edit_name_modal">Cancel</button>
-                <br><br>
-              </section>
-            </div>
-          </div>
-          <div id="edit_initial_modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Edit Initial</p>
-                <button class="delete close_edit_initial_modal" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">Initial</label>
-                    <div class="control">
-                      <input id="initial" class="input" type="text">
-                    </div>
-                </div>
-                <br>
-                <button id="edit_initial_button" class="button is-success edit_submit">Edit</button>
-                <button class="button is-danger close_edit_initial_modal">Cancel</button>
-                <br><br>
-              </section>
-            </div>
-          </div>
-          <div id="edit_occupation_modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Edit Occupation</p>
-                <button class="delete close_edit_occupation_modal" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">Occupation</label>
-                    <div class="control">
-                      <input id="occupation" class="input" type="text">
-                    </div>
-                </div>
-                <br>
-                <button id="edit_occupation_button" class="button is-success edit_submit">Edit</button>
-                <button class="button is-danger close_edit_occupation_modal">Cancel</button>
-                <br><br>
-              </section>
-            </div>
-          </div>
-          <div id="edit_quote_modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Edit Quote</p>
-                <button class="delete close_edit_quote_modal" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">Quote</label>
-                    <div class="control">
-                      <input id="quote" class="input" type="text">
-                    </div>
-                </div>
-                <br>
-                <button id="edit_quote_button" class="button is-success edit_submit">Edit</button>
-                <button class="button is-danger close_edit_quote_modal">Cancel</button>
-                <br><br>
-              </section>
-            </div>
-          </div>
-          <div id="edit_motto_modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Edit Motto</p>
-                <button class="delete close_edit_motto_modal" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">Motto</label>
-                    <div class="control">
-                      <input id="motto" class="input" type="text">
-                    </div>
-                </div>
-                <br>
-                <button id="edit_motto_button" class="button is-success edit_submit">Edit</button>
-                <button class="button is-danger close_edit_motto_modal">Cancel</button>
-                <br><br>
-              </section>
-            </div>
-          </div>
-          <div id="edit_location_modal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-              <header class="modal-card-head">
-                <p class="modal-card-title">Edit Location</p>
-                <button class="delete close_edit_location_modal" aria-label="close"></button>
-              </header>
-              <section class="modal-card-body">
-                <div class="field">
-                    <label class="label">Location</label>
-                    <div class="control">
-                      <input id="location" class="input" type="text">
-                    </div>
-                </div>
-                <br>
-                <button id="edit_location_button" class="button is-success edit_submit">Edit</button>
-                <button class="button is-danger close_edit_location_modal">Cancel</button>
-                <br><br>
-              </section>
-            </div>
-          </div>
-                        <div id="logout_warning_modal" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <div class="box">
-                                    <article class="media">
-                                      <div class="media-content">
-                                        <div class="content">
-                                            <p class="title has-text-centered">
-                                              Are you sure you want to logout ?
-                                            </p>
-                                            <div class="field is-grouped is-grouped-centered">
-                                                <p class="control">
-                                                  <a id="logout_link" class="button is-warning">
-                                                      Logout
-                                                  </a>
-                                                </p>
-                                                <p class="control">
-                                                    <a class="button is-danger close_logout_warning_modal">
-                                                        Cancel
-                                                    </a>
-                                                </p>
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                </article>
-                            </div>
-                                    </div>
-                            <button class="modal-close is-large close_logout_warning_modal"></button>
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Create New Education</p>
+                    <button class="delete close_create_new_education_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">School Name</label>
+                        <div class="control">
+                            <input id="school_name" class="input" type="text" placeholder="e.g Universitas Mustika Jaya">
                         </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">School Link</label>
+                        <div class="control">
+                            <input id="school_link" class="input" type="text" placeholder="e.g http://www.mj.ac.id/">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Degree</label>
+                        <div class="control">
+                            <input id="degree" class="input" type="text" placeholder="e.g Celcius Degree">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Major</label>
+                        <div class="control">
+                            <input id="major" class="input" type="text" placeholder="e.g Candy Engineering">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Start Time</label>
+                        <div class="control">
+                            <input id="start_time" class="input" type="date">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">End Time</label>
+                        <div class="control">
+                            <input id="end_time" class="input" type="date">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">City</label>
+                        <div class="control">
+                            <input id="city" class="input" type="text" placeholder="e.g Raccoon City">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Province</label>
+                        <div class="control">
+                            <input id="province" class="input" type="text" placeholder="e.g Meikarta">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Country</label>
+                        <div class="control">
+                            <input id="country" class="input" type="text" placeholder="e.g Candy Bekasi">
+                        </div>
+                    </div>
+                    <br>
+                    <button id="create_new_education_button" class="button is-success">Create New</button>
+                    <button class="button is-danger close_create_new_education_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
+        <div id="edit_name_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Name</p>
+                    <button class="delete close_edit_name_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                        <input id="name" class="input" type="text">
+                        </div>
+                    </div>
+                    <br>
+                    <button id="edit_name_button" class="button is-success edit_submit">Edit</button>
+                    <button class="button is-danger close_edit_name_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
+        <div id="edit_initial_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Initial</p>
+                    <button class="delete close_edit_initial_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Initial</label>
+                        <div class="control">
+                            <input id="initial" class="input" type="text">
+                        </div>
+                    </div>
+                    <br>
+                    <button id="edit_initial_button" class="button is-success edit_submit">Edit</button>
+                    <button class="button is-danger close_edit_initial_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
+        <div id="edit_occupation_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Occupation</p>
+                    <button class="delete close_edit_occupation_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Occupation</label>
+                        <div class="control">
+                            <input id="occupation" class="input" type="text">
+                        </div>
+                    </div>
+                    <br>
+                    <button id="edit_occupation_button" class="button is-success edit_submit">Edit</button>
+                    <button class="button is-danger close_edit_occupation_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
+        <div id="edit_quote_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Quote</p>
+                    <button class="delete close_edit_quote_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Quote</label>
+                        <div class="control">
+                        <input id="quote" class="input" type="text">
+                        </div>
+                    </div>
+                    <br>
+                    <button id="edit_quote_button" class="button is-success edit_submit">Edit</button>
+                    <button class="button is-danger close_edit_quote_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
+        <div id="edit_motto_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Motto</p>
+                    <button class="delete close_edit_motto_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Motto</label>
+                        <div class="control">
+                            <input id="motto" class="input" type="text">
+                        </div>
+                    </div>
+                    <br>
+                    <button id="edit_motto_button" class="button is-success edit_submit">Edit</button>
+                    <button class="button is-danger close_edit_motto_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
+        <div id="edit_location_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Location</p>
+                    <button class="delete close_edit_location_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Location</label>
+                        <div class="control">
+                            <input id="location" class="input" type="text">
+                        </div>
+                    </div>
+                    <br>
+                    <button id="edit_location_button" class="button is-success edit_submit">Edit</button>
+                    <button class="button is-danger close_edit_location_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
+        <div id="logout_warning_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box">
+                    <article class="media">
+                      <div class="media-content">
+                        <div class="content">
+                            <p class="title has-text-centered">
+                              Are you sure you want to logout ?
+                            </p>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                  <a id="logout_link" class="button is-warning">
+                                      Logout
+                                  </a>
+                                </p>
+                                <p class="control">
+                                    <a class="button is-danger close_logout_warning_modal">
+                                        Cancel
+                                    </a>
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <button class="modal-close is-large close_logout_warning_modal"></button>
+        </div>
+        <div id="delete_education_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box">
+                    <article class="media">
+                      <div class="media-content">
+                        <div class="content">
+                            <p class="title has-text-centered">
+                              Are you sure you want to delete this row (<b class="education_id_text"></b>)?
+                            </p>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                  <a id="" class="button is-warning education_delete_id_confirm">
+                                      Delete
+                                  </a>
+                                </p>
+                                <p class="control">
+                                    <a class="button is-danger close_delete_education_modal">
+                                        Cancel
+                                    </a>
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <button class="modal-close is-large close_delete_education_modal"></button>
+        </div>
       <section class="hero is-info is-fullheight">
             <div class="hero-head">
                 <nav class="navbar">
@@ -294,7 +322,7 @@
                 </div>
             </div>
             <div class="hero-body">
-                <div class="container">
+                <div class="container" style="overflow-x: scroll;">
                     <p id="manage_personal_identity_title" class="title is-3">Personal Identity</p>
                     <table class="table is-striped">
                         <thead>

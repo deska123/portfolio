@@ -60,6 +60,10 @@ $(document).ready(function(){
         $("#edit_location_modal").hide();
     });
 
+    $(".close_delete_education_modal").click(function(){
+        $("#delete_education_modal").hide();
+    });
+
     $('body').on('click', '.identity_edit', function (){
         var id = $(this).attr('id').split("_");
         var field = id[0];
@@ -84,6 +88,12 @@ $(document).ready(function(){
         }
     });
 
+    $('body').on('click', '.education_delete', function (){
+        var id = $(this).attr('id');
+        $(".education_id_text").text("ID : " + id);
+        $(".education_delete_id_confirm").attr("id", "education_delete_" + id);
+        $("#delete_education_modal").show();
+    });
 
     /*
         Other Functions or Triggers
@@ -413,6 +423,51 @@ $(document).ready(function(){
     });
 
     /*
+        Delete Part
+    */
+    $('body').on('click', '.education_delete_id_confirm', function (){
+        var temp = $(this).attr('id').split("_");
+        var id = temp[2];
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/about.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+                var temp = parseInt(sessionStorage.educationsSize);
+                temp -= 1;
+                sessionStorage.educationsSize = temp;
+                var lastIndex = -1;
+                var educationNode = xmlDoc.getElementsByTagName("education");
+                for(var a = 0; a < educationNode.length; a++) {
+                    if(educationNode[a].getAttribute('id') == id) {
+                        educationNode[a].parentNode.removeChild(educationNode[a]);
+                        break;
+                    }
+                }
+                /*
+                //Decrement id of each node
+                if(lastIndex != -1) {
+                    var educationNewNode = xmlDoc.getElementsByTagName("education");
+                    for(var b = lastIndex; b < educationNewNode.length; b++) {
+                        var attr = parseInt(educationNewNode[b].getAttribute('id'));
+                        attr -= 1;
+                        educationNewNode[b].setAttribute("id", attr + "");
+                    }
+                }
+                */
+                var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                updateXML("about", data, "#manage_education_title");
+            }
+        };
+    });
+
+    /*
         Fill Contents from about.xml
     */
     $.ajax({        
@@ -446,6 +501,7 @@ $(document).ready(function(){
             var education_output = "";
             var education_curr = education_head_children.last();
             while(!(education_curr.is(education_head_children.first()))) {
+                var id = $(education_curr).attr('id');
                 var degree = $(education_curr).find('degree').text();
                 var major = $(education_curr).find('major').text();
                 var school_link = $(education_curr).find('school_link').text();
@@ -469,9 +525,11 @@ $(document).ready(function(){
                 education_output += "<td>" + city + "</td>";
                 education_output += "<td>" + province + "</td>";
                 education_output += "<td>" + country + "</td>";
+                education_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon education_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
                 education_output += "</tr>";
                 education_curr = education_curr.prev();
             }
+            var id = $(education_curr).attr('id');
             var degree = $(education_curr).find('degree').text();
             var major = $(education_curr).find('major').text();
             var school_link = $(education_curr).find('school_link').text();
@@ -495,6 +553,7 @@ $(document).ready(function(){
             education_output += "<td>" + city + "</td>";
             education_output += "<td>" + province + "</td>";
             education_output += "<td>" + country + "</td>";
+            education_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon education_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
             education_output += "</tr>"; 
 
             $("#education_content_manage").html(education_output);
