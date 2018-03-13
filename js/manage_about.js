@@ -39,6 +39,14 @@ $(document).ready(function(){
         $("#create_new_education_modal").hide();
     });
 
+    $("#create_new_working_experience_trigger").click(function(){
+        $("#create_new_working_experience_modal").show();
+    });
+
+    $(".close_create_new_working_experience_modal").click(function(){
+        $("#create_new_working_experience_modal").hide();
+    });
+
     $(".close_edit_name_modal").click(function(){
         $("#edit_name_modal").hide();
     });
@@ -188,6 +196,25 @@ $(document).ready(function(){
         } 
         return month;
     }
+
+    $("#still_working").change(function() {
+        if($("#still_working").prop("checked")) {
+            $('#working_end_time').val('');
+            $("#working_end_time").prop("disabled", true);
+        } else {
+            $("#working_end_time").prop("disabled", false);
+        }
+    });
+
+    $("#working_start_time").change(function(){
+        var startTime = $("#working_start_time").val();
+        $("#working_end_time").attr("min", startTime);
+    }); 
+
+    $("#working_end_time").change(function(){
+        var endTime = $("#working_end_time").val();
+        $("#working_start_time").attr("max", endTime);
+    });
 
     function updateXML(typeInput, dataInput, hrefInput) {
         $.post("data_management.php",

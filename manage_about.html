@@ -80,6 +80,78 @@
                 </section>
             </div>
         </div>
+        <div id="create_new_working_experience_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Create New Working Experience</p>
+                    <button class="delete close_create_new_working_experience_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Position</label>
+                        <div class="control">
+                            <input id="position" class="input" type="text" placeholder="e.g Staff">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Company Name</label>
+                        <div class="control">
+                            <input id="company_name" class="input" type="text" placeholder="e.g PT. Makmur Sejahtera">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Company Link</label>
+                        <div class="control">
+                            <input id="company_link" class="input" type="text" placeholder="e.g www.makmur.com">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Working Start Date at Company</label>
+                        <div class="control">
+                            <input id="working_start_time" class="input" type="date">
+                        </div>
+                    </div>
+                    <label class="checkbox">
+                        <input id="still_working" type="checkbox">  Still Working ?
+                    </label><br><br>
+                    <div class="field">
+                        <label class="label">Working End Date at Company</label>
+                        <div class="control">
+                            <input id="working_end_time" class="input" type="date">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">City</label>
+                        <div class="control">
+                            <input id="city" class="input" type="text" placeholder="e.g Janarta">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Province</label>
+                        <div class="control">
+                            <input id="province" class="input" type="text" placeholder="e.g San Andreas">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Country</label>
+                        <div class="control">
+                            <input id="country" class="input" type="text" placeholder="e.g nowhere">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <div class="control">
+                            <textarea id="description" class="textarea" placeholder="e.g Loren Ipsum"></textarea>
+                        </div>
+                    </div>
+                    <br>
+                    <button id="create_new_working_experience_button" class="button is-success">Create New</button>
+                    <button class="button is-danger close_create_new_working_experience_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
         <div id="edit_name_modal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -365,54 +437,60 @@
                             </tr>
                         </tbody>
                     </table>
-                            <p id="manage_education_title" class="title is-3">Education</p>
-                            <a id="create_new_education_trigger" class="button is-dark">
-                                <span class="icon is-small">
-                                  <i class="fa fa-plus"></i>
-                                </span>
-                                <span>Create New Education</span>
-                            </a><br><br>
-                            <table class="table is-striped">
-                                <thead>
-                                    <tr>
-                                        <th>School Name</th>
-                                        <th>School Link</th>
-                                        <th>Degree</th>
-                                        <th>Major</th>
-                                        <th>Start Month</th>
-                                        <th>Start Year</th>
-                                        <th>End Month</th>
-                                        <th>End Year</th>
-                                        <th>City</th>
-                                        <th>Province</th>
-                                        <th>Country</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="education_content_manage"></tbody>
-                            </table>
-                            <p class="title is-3">Working Experience</p>
-                            <table class="table is-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Position</th>
-                                        <th>Description</th>
-                                        <th>Company Name</th>
-                                        <th>Company Link</th>
-                                        <th>Start Date</th>
-                                        <th>Start Month</th>
-                                        <th>Start Year</th>
-                                        <th>End Date</th>
-                                        <th>End Month</th>
-                                        <th>End Year</th>
-                                        <th>City</th>
-                                        <th>Province</th>
-                                        <th>Country</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="working_experience_content_manage"></tbody>
-                            </table>
+                    <p id="manage_education_title" class="title is-3">Education</p>
+                    <a id="create_new_education_trigger" class="button is-dark">
+                        <span class="icon is-small">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                       <span>Create New Education</span>
+                    </a><br><br>
+                    <table class="table is-striped">
+                        <thead>
+                            <tr>
+                                <th>School Name</th>
+                                <th>School Link</th>
+                                <th>Degree</th>
+                                <th>Major</th>
+                                <th>Start Month</th>
+                                <th>Start Year</th>
+                                <th>End Month</th>
+                                <th>End Year</th>
+                                <th>City</th>
+                                <th>Province</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="education_content_manage"></tbody>
+                    </table>
+                    <p class="title is-3">Working Experience</p>
+                    <a id="create_new_working_experience_trigger" class="button is-dark">
+                        <span class="icon is-small">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                       <span>Create New Working Experience</span>
+                    </a><br><br>
+                    <table class="table is-striped">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Description</th>
+                                <th>Company Name</th>
+                                <th>Company Link</th>
+                                <th>Start Date</th>
+                                <th>Start Month</th>
+                                <th>Start Year</th>
+                                <th>End Date</th>
+                                <th>End Month</th>
+                                <th>End Year</th>
+                                <th>City</th>
+                                <th>Province</th>
+                                <th>Country</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="working_experience_content_manage"></tbody>
+                    </table>
                     <p class="title is-3">Skills</p>
                     <table class="table is-bordered is-striped">
                         <thead>
