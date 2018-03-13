@@ -74,7 +74,7 @@ $(document).ready(function(){
                         var about = $(xmlDoc).find('about');
                         var education_head = $(about).find('educations');
                         var education_head_children = $(education_head).children();
-                        var education_last = education_head_children.first();
+                        var education_last = education_head_children.last();
                         sessionStorage.educationsSize = $(education_last).attr("id");
                     }
                 });

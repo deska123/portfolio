@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    //Initial Variable
+    var deletedId = "";
+    
     /*
         Retrieve Data of Identity Part
     */
@@ -427,7 +430,7 @@ $(document).ready(function(){
     */
     $('body').on('click', '.education_delete_id_confirm', function (){
         var temp = $(this).attr('id').split("_");
-        var id = temp[2];
+        deletedId = temp[2];
         var xmlhttp;
         if(window.XMLHttpRequest) {
             xmlhttp = new XMLHttpRequest();
@@ -439,28 +442,32 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
-                var temp = parseInt(sessionStorage.educationsSize);
-                temp -= 1;
-                sessionStorage.educationsSize = temp;
-                var lastIndex = -1;
+                var temp2 = parseInt(sessionStorage.educationsSize);
+                temp2 -= 1;
+                sessionStorage.educationsSize = temp2;
                 var educationNode = xmlDoc.getElementsByTagName("education");
+                var lastIndex = 0;
                 for(var a = 0; a < educationNode.length; a++) {
-                    if(educationNode[a].getAttribute('id') == id) {
+                    if(educationNode[a].getAttribute('id') == deletedId) {
+                        if(a == (educationNode.length - 1)) {
+                            lastIndex = 1;
+                        }
                         educationNode[a].parentNode.removeChild(educationNode[a]);
                         break;
                     }
                 }
-                /*
                 //Decrement id of each node
-                if(lastIndex != -1) {
-                    var educationNewNode = xmlDoc.getElementsByTagName("education");
-                    for(var b = lastIndex; b < educationNewNode.length; b++) {
-                        var attr = parseInt(educationNewNode[b].getAttribute('id'));
-                        attr -= 1;
-                        educationNewNode[b].setAttribute("id", attr + "");
+                var educationNewNode = xmlDoc.getElementsByTagName("education");
+                if(lastIndex == 0) {
+                    for(var b = 0; b < educationNewNode.length; b++) {
+                        var id = parseInt(educationNewNode[b].getAttribute('id'));
+                        if(id != (b + 1)) {
+                            var newId = id - 1;
+                            educationNewNode[b].setAttribute("id", newId + "");
+                        }
                     }
                 }
-                */
+                deletedId = "";
                 var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
                 updateXML("about", data, "#manage_education_title");
             }
