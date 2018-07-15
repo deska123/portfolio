@@ -330,7 +330,128 @@ $(document).ready(function(){
                 educationsNode.appendChild(educationNode);
                 
                 var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
-                updateXML("about", data, "#manage_education_title");
+                updateXML("about", data, "#manage_working_experience_title");
+            }
+        };
+    });
+
+    $("#create_new_working_experience_button").click(function(){
+        var position = $("#position").val();
+        var company_name = $("#company_name").val();
+        var company_link = $("#company_link").val();
+        var working_start_time = $("#working_start_time").val();
+        var working_end_time = $("#working_end_time").val();
+        
+        var working_start_temp = working_start_time.split("-");
+        var working_start_date = working_start_temp[2];
+        var working_start_month = numToStringMonth(working_start_temp[1]);
+        var working_start_year = working_start_temp[0];
+        if(working_end_time != "" && working_end_time != undefined) {
+            var working_end_temp = working_end_time.split("-");
+            var working_end_date = working_end_temp[2];
+            var working_end_month = numToStringMonth(working_end_temp[1]);
+            var working_end_year = working_end_temp[0];
+        } else {
+            var working_end_date = "-";
+            var working_end_month = "-";
+            var working_end_year = "-";
+        }
+        var city = $("#working_city").val();
+        var province = $("#working_province").val();
+        var country = $("#working_country").val();
+        var description = $("#working_description").val();
+
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/job_experience.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+                var temp = parseInt(sessionStorage.worksSize);
+                temp += 1;
+                sessionStorage.worksSize = temp;
+                
+                var jobExperienceNode = xmlDoc.getElementsByTagName("job_experience")[0];
+
+                var jobNode = xmlDoc.createElement("job");
+                var idAttr = xmlDoc.createAttribute("id");
+                idAttr.nodeValue = sessionStorage.worksSize;
+                jobNode.setAttributeNode(idAttr);
+                
+                var positionNode = xmlDoc.createElement("position");
+                var positionText = xmlDoc.createTextNode(position);
+                positionNode.appendChild(positionText)
+                jobNode.appendChild(positionNode);
+                
+                var companyNameNode = xmlDoc.createElement("company_name");
+                var companyNameText = xmlDoc.createTextNode(company_name);
+                companyNameNode.appendChild(companyNameText)
+                jobNode.appendChild(companyNameNode);
+
+                var companyLinkNode = xmlDoc.createElement("company_link");
+                var companyLinkText = xmlDoc.createTextNode(company_link);
+                companyLinkNode.appendChild(companyLinkText)
+                jobNode.appendChild(companyLinkNode);
+
+                var startDateNode = xmlDoc.createElement("start_date");
+                var startDateText = xmlDoc.createTextNode(working_start_date);
+                startDateNode.appendChild(startDateText)
+                jobNode.appendChild(startDateNode);
+
+                var startMonthNode = xmlDoc.createElement("start_month");
+                var startMonthText = xmlDoc.createTextNode(working_start_month);
+                startMonthNode.appendChild(startMonthText)
+                jobNode.appendChild(startMonthNode);
+
+                var startYearNode = xmlDoc.createElement("start_year");
+                var startYearText = xmlDoc.createTextNode(working_start_year);
+                startYearNode.appendChild(startYearText)
+                jobNode.appendChild(startYearNode);
+
+                var endDateNode = xmlDoc.createElement("end_date");
+                var endDateText = xmlDoc.createTextNode(working_end_date);
+                endDateNode.appendChild(endDateText)
+                jobNode.appendChild(endDateNode);
+
+                var endMonthNode = xmlDoc.createElement("end_month");
+                var endMonthText = xmlDoc.createTextNode(working_end_month);
+                endMonthNode.appendChild(endMonthText)
+                jobNode.appendChild(endMonthNode);
+
+                var endYearNode = xmlDoc.createElement("end_year");
+                var endYearText = xmlDoc.createTextNode(working_end_year);
+                endYearNode.appendChild(endYearText)
+                jobNode.appendChild(endYearNode);
+
+                var cityNode = xmlDoc.createElement("city");
+                var cityText = xmlDoc.createTextNode(city);
+                cityNode.appendChild(cityText)
+                jobNode.appendChild(cityNode);
+
+                var provinceNode = xmlDoc.createElement("province");
+                var provinceText = xmlDoc.createTextNode(province);
+                provinceNode.appendChild(provinceText)
+                jobNode.appendChild(provinceNode);
+
+                var countryNode = xmlDoc.createElement("country");
+                var countryText = xmlDoc.createTextNode(country);
+                countryNode.appendChild(countryText)
+                jobNode.appendChild(countryNode);
+
+                var descriptionNode = xmlDoc.createElement("description");
+                var descriptionText = xmlDoc.createTextNode(description);
+                descriptionNode.appendChild(descriptionText)
+                jobNode.appendChild(descriptionNode);
+
+                jobExperienceNode.appendChild(jobNode);
+                
+                var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                updateXML("job_experience", data, "#manage_working_experience_title");
             }
         };
     });

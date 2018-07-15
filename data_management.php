@@ -7,6 +7,12 @@
                 fwrite($myfile, $data);
                 fclose($myfile);
             }
-        }
+        } else if($_POST['type'] == "job_experience") {
+            if(file_exists("xml/job_experience.xml")) {
+                $myfile = fopen("xml/job_experience.xml", "w") or die("Unable to open file!");
+                fwrite($myfile, $data);
+                fclose($myfile);
+            }
+        } 
     }
 ?>
