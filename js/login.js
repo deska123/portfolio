@@ -52,6 +52,7 @@ $(document).ready(function(){
 
     $('#key_file[type="file"]').change(function(keyFile){
         $("#file_not_matched").hide();
+        $("#wrong_file_type").hide();
         var fileName = keyFile.target.files[0].name;
         $("#key_file_name").text(fileName);
     });
@@ -66,12 +67,17 @@ $(document).ready(function(){
             cache: false,            
             processData: false,        
             success: function(data) {
-               if(data != 'not matched') {
-                    sessionStorage.loggedUser = data;
-                    window.location.replace("index.html");
-               } else {
-                    $("#file_not_matched").show();
-               }
+                switch(data) {
+                    case 'wrong file type' :
+                        $("#wrong_file_type").show();
+                        break;
+                    case 'not matched' :
+                        $("#file_not_matched").show();
+                        break;
+                    default :
+                        sessionStorage.loggedUser = data;
+                        window.location.replace("index.html");
+                }
             }
         });
     }));
