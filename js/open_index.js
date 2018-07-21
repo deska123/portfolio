@@ -62,7 +62,7 @@ $(document).ready(function(){
               works_output += "<img src='" + works_details_pictures.text() + "'>";
               works_output += "</figure>";
               works_output += "</li>";
-              works_output += "</ul>"
+              works_output += "</ul>";
               works_output += "</section>";
               works_output += "<footer class=\"modal-card-foot\">";
               works_output += "</footer>";
@@ -132,7 +132,7 @@ $(document).ready(function(){
 
     $(document).on("click", ".view_works_detail", function(){
       var id = $(this).attr('id');
-      $("#detail-" + id).show();
+      $("#detail-" + id).fadeIn();
     });
 
     $(document).on("click", ".close_works_detail", function(){

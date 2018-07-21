@@ -11,7 +11,107 @@
         <script type="text/javascript" src="js/manage_index.js"></script>
     </head>
     <body>
-      
+        <div id="create_new_work_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Create New Work</p>
+                    <button class="delete close_create_new_work_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <form id="createNewWork" action="" method="post" enctype="multipart/form-data">
+                        <div class="field">
+                            <label class="label">Name</label>
+                            <div class="control">
+                                <input id="name" class="input" type="text" placeholder="e.g HR Information System">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Purpose</label>
+                            <div class="control">
+                                <input id="purpose" class="input" type="text" placeholder="e.g ABC Company">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Role</label>
+                            <div class="control">
+                                <input id="role" class="input" type="text" placeholder="e.g Tester">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Description</label>
+                            <div class="control">
+                                <input id="description" class="input" type="text" placeholder="e.g Loren Ipsum">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Type</label>
+                            <div class="control">
+                                <input id="type" class="input" type="text" placeholder="e.g Mobile-based Application">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Date</label>
+                            <div class="control">
+                                <input id="type" class="input" type="date">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Cover Picture</label>
+                            <div class="file has-name is-fullwidth">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" id="coverPicture" name="coverPicture">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                    <span id="cover_picture_file_name" class="file-name"></span>
+                                </label>
+                            </div>
+                            <p id="wrong_cover_picture_file_type" class="help is-danger is-size-6" style="display:none">Only .jpg and .png are allowed !</p>
+                        </div>
+                        <div class="field">
+                            <label class="label">Other Pictures (multiple uploads allowed)</label>
+                            <div class="control">
+                                <input id="otherPictures" name="otherPictures" class="file-input" type="file" multiple>
+                            </div>
+                            <div class="file has-name is-fullwidth">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" id="otherPictures" name="otherPictures" multiple>
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                    <span id="other_pictures_file_name" class="file-name"></span>
+                                </label>
+                            </div>
+                            <p id="wrong_other_pictures_file_type" class="help is-danger is-size-6" style="display:none">One or more other pictures have wrong file type !</p>
+                        </div>
+                        <br>
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <input class="button is-success" type="submit" value="Create New" name="submit">
+                            </p>
+                            <p class="control">
+                                <a class="button is-danger close_create_new_work_modal">
+                                    Cancel
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+                        <div id="images_modal_list"></div>
+
                         <div id="logout_warning_modal" class="modal">
                             <div class="modal-background"></div>
                             <div class="modal-content">
@@ -103,27 +203,29 @@
                 </div>
             </div>
             <div class="hero-body">
-                <div class="container">
-                    <!--
-                    <div class="columns">
-                        <div class="column"></div>
-                        <div class="column is-two-thirds">
-                            <p class="title is-3">Social Media</p>
-                            <table class="table is-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Icon</th>
-                                        <th>Link</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                        <div class="column"></div>
-                    </div>
-                    -->
+
+                <div class="container" style="overflow-x: scroll;">
+                    <a id="create_new_work_trigger" class="button is-dark">
+                        <span class="icon is-small">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                        <span>Create New Work</span>
+                    </a><br><br>
+                    <table class="table is-striped is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Purpose</th>
+                                <th>Role</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Pictures</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="home_content_manage"></tbody>
+                    </table>
                 </div>
             </div>
             <div class="hero-foot">
