@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    /*
+         Fill Content for Initial
+    */
     $.ajax({        
         type: "GET",
         url: "xml/about.xml", 
@@ -9,7 +12,10 @@ $(document).ready(function(){
             $(".manage_contact_initial").text(initial);
         }
     });
-    
+ 
+    /*
+        Fill Contents from contact.xml
+    */  
     $.ajax({
         type: "GET",
         url: "xml/contact.xml", 

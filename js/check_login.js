@@ -92,7 +92,7 @@ $(document).ready(function(){
     }
 
     $("#logout_warning").click(function(){
-        $("#logout_warning_modal").show();
+        $("#logout_warning_modal").fadeIn();
     });
 
     $(".close_logout_warning_modal").click(function(){
