@@ -75,6 +75,10 @@ $(document).ready(function(){
         $("#delete_education_modal").hide();
     });
 
+    $(".close_delete_job_experience_modal").click(function(){
+        $("#delete_job_experience_modal").hide();
+    });
+
     $('body').on('click', '.identity_edit', function (){
         var id = $(this).attr('id').split("_");
         var field = id[0];
@@ -105,6 +109,13 @@ $(document).ready(function(){
         $(".education_delete_id_confirm").attr("id", "education_delete_" + id);
         $("#delete_education_modal").show();
     });
+
+    $('body').on('click', '.job_experience_delete', function (){
+        var id = $(this).attr('id');
+        $(".job_experience_id_text").text("ID : " + id);
+        $(".job_experience_delete_id_confirm").attr("id", "job_experience_delete_" + id);
+        $("#delete_job_experience_modal").show();
+    });    
 
     /*
         Other Functions or Triggers
@@ -372,15 +383,15 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
-                var temp = parseInt(sessionStorage.worksSize);
+                var temp = parseInt(sessionStorage.jobsSize);
                 temp += 1;
-                sessionStorage.worksSize = temp;
+                sessionStorage.jobsSize = temp;
                 
                 var jobExperienceNode = xmlDoc.getElementsByTagName("job_experience")[0];
 
                 var jobNode = xmlDoc.createElement("job");
                 var idAttr = xmlDoc.createAttribute("id");
-                idAttr.nodeValue = sessionStorage.worksSize;
+                idAttr.nodeValue = sessionStorage.jobsSize;
                 jobNode.setAttributeNode(idAttr);
                 
                 var positionNode = xmlDoc.createElement("position");
@@ -622,6 +633,52 @@ $(document).ready(function(){
         };
     });
 
+    $('body').on('click', '.job_experience_delete_id_confirm', function (){
+        var temp = $(this).attr('id').split("_");
+        deletedId = temp[3];
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/job_experience.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+                var temp2 = parseInt(sessionStorage.jobsSize);
+                temp2 -= 1;
+                sessionStorage.jobsSize = temp2;
+                var workNode = xmlDoc.getElementsByTagName("job");
+                var lastIndex = 0;
+                for(var a = 0; a < workNode.length; a++) {
+                    if(workNode[a].getAttribute('id') == deletedId) {
+                        if(a == (workNode.length - 1)) {
+                            lastIndex = 1;
+                        }
+                        workNode[a].parentNode.removeChild(workNode[a]);
+                        break;
+                    }
+                }
+                //Decrement id of each node
+                var workNewNode = xmlDoc.getElementsByTagName("job");
+                if(lastIndex == 0) {
+                    for(var b = 0; b < workNewNode.length; b++) {
+                        var id = parseInt(workNewNode[b].getAttribute('id'));
+                        if(id != (b + 1)) {
+                            var newId = id - 1;
+                            workNewNode[b].setAttribute("id", newId + "");
+                        }
+                    }
+                }
+                deletedId = "";
+                var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                updateXML("job_experience", data, "#manage_working_experience_title");
+            }
+        };
+    });
+
     /*
         Fill Contents from about.xml
     */
@@ -728,6 +785,7 @@ $(document).ready(function(){
             var working_output = "";
             var job_experience_curr = job_experience_head_children.last();
             while(!(job_experience_curr.is(job_experience_head_children.first()))) {
+                var id = $(job_experience_curr).attr('id');
                 var position = $(job_experience_curr).find('position').text();
                 var company_name = $(job_experience_curr).find('company_name').text();
                 var company_link = $(job_experience_curr).find('company_link').text();
@@ -755,9 +813,11 @@ $(document).ready(function(){
                 working_output += "<td>" + city + "</td>";
                 working_output += "<td>" + province + "</td>";
                 working_output += "<td>" + country + "</td>";
+                working_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon job_experience_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
                 working_output += "</tr>";
                 job_experience_curr = job_experience_curr.prev();
             }
+            var id = $(job_experience_curr).attr('id');
             var position = $(job_experience_curr).find('position').text();
             var company_name = $(job_experience_curr).find('company_name').text();
             var company_link = $(job_experience_curr).find('company_link').text();
@@ -785,6 +845,7 @@ $(document).ready(function(){
             working_output += "<td>" + city + "</td>";
             working_output += "<td>" + province + "</td>";
             working_output += "<td>" + country + "</td>";
+            working_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon job_experience_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
             working_output += "</tr>";
 
             $("#working_experience_content_manage").html(working_output);

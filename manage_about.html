@@ -336,6 +336,35 @@
             </div>
             <button class="modal-close is-large close_delete_education_modal"></button>
         </div>
+        <div id="delete_job_experience_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box">
+                    <article class="media">
+                      <div class="media-content">
+                        <div class="content">
+                            <p class="title has-text-centered">
+                              Are you sure you want to delete this row (<b class="job_experience_id_text"></b>)?
+                            </p>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                  <a id="" class="button is-warning job_experience_delete_id_confirm">
+                                      Delete
+                                  </a>
+                                </p>
+                                <p class="control">
+                                    <a class="button is-danger close_delete_job_experience_modal">
+                                        Cancel
+                                    </a>
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <button class="modal-close is-large close_delete_job_experience_modal"></button>
+        </div>
       <section class="hero is-info is-fullheight">
             <div class="hero-head">
                 <nav class="navbar">
@@ -394,7 +423,7 @@
                 </div>
             </div>
             <div class="hero-body">
-                <div class="container" style="overflow-x: scroll;">
+                <div class="container">
                     <p id="manage_personal_identity_title" class="title is-3">Personal Identity</p>
                     <table class="table is-striped">
                         <thead>
@@ -444,25 +473,28 @@
                         </span>
                        <span>Create New Education</span>
                     </a><br><br>
-                    <table class="table is-striped">
-                        <thead>
-                            <tr>
-                                <th>School Name</th>
-                                <th>School Link</th>
-                                <th>Degree</th>
-                                <th>Major</th>
-                                <th>Start Month</th>
-                                <th>Start Year</th>
-                                <th>End Month</th>
-                                <th>End Year</th>
-                                <th>City</th>
-                                <th>Province</th>
-                                <th>Country</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="education_content_manage"></tbody>
-                    </table>
+                    <div class="container" style="overflow-x: auto;">
+                        <table class="table is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>School Name</th>
+                                    <th>School Link</th>
+                                    <th>Degree</th>
+                                    <th>Major</th>
+                                    <th>Start Month</th>
+                                    <th>Start Year</th>
+                                    <th>End Month</th>
+                                    <th>End Year</th>
+                                    <th>City</th>
+                                    <th>Province</th>
+                                    <th>Country</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="education_content_manage"></tbody>
+                        </table>
+                    </div>
+                    <br>
                     <p id="manage_working_experience_title" class="title is-3">Working Experience</p>
                     <a id="create_new_working_experience_trigger" class="button is-dark">
                         <span class="icon is-small">
@@ -470,38 +502,43 @@
                         </span>
                        <span>Create New Working Experience</span>
                     </a><br><br>
-                    <table class="table is-striped">
-                        <thead>
-                            <tr>
-                                <th>Position</th>
-                                <th>Description</th>
-                                <th>Company Name</th>
-                                <th>Company Link</th>
-                                <th>Start Date</th>
-                                <th>Start Month</th>
-                                <th>Start Year</th>
-                                <th>End Date</th>
-                                <th>End Month</th>
-                                <th>End Year</th>
-                                <th>City</th>
-                                <th>Province</th>
-                                <th>Country</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="working_experience_content_manage"></tbody>
-                    </table>
+                    <div class="container" style="overflow-x: auto;">
+                        <table class="table is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Description</th>
+                                    <th>Company Name</th>
+                                    <th>Company Link</th>
+                                    <th>Start Date</th>
+                                    <th>Start Month</th>
+                                    <th>Start Year</th>
+                                    <th>End Date</th>
+                                    <th>End Month</th>
+                                    <th>End Year</th>
+                                    <th>City</th>
+                                    <th>Province</th>
+                                    <th>Country</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="working_experience_content_manage"></tbody>
+                        </table>
+                    </div>
+                    <br>
                     <p class="title is-3">Skills</p>
-                    <table class="table is-bordered is-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Lists</th>
-                            </tr>
-                        </thead>
-                        <tbody id="skills_content_manage"></tbody>
-                    </table> 
+                    <div class="container" style="overflow-x: auto;">
+                        <table class="table is-bordered is-striped is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Lists</th>
+                                </tr>
+                            </thead>
+                            <tbody id="skills_content_manage"></tbody>
+                        </table> 
+                    </div>
                 </div>
             </div>
             <div class="hero-foot">
