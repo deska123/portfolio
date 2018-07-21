@@ -92,11 +92,11 @@ $(document).ready(function(){
     }
 
     $("#logout_warning").click(function(){
-        $("#logout_warning_modal").fadeIn();
+        $("#logout_warning_modal").addClass("is-active");
     });
 
     $(".close_logout_warning_modal").click(function(){
-      $("#logout_warning_modal").hide();
+        $("#logout_warning_modal").removeClass("is-active");
     });
 
     $("#logout_link").click(function(){
