@@ -72,10 +72,14 @@
                                     <span id="cover_picture_file_name" class="file-name"></span>
                                 </label>
                             </div>
+                            <br>
+                            <figure class="image is-480x480">
+                                <img id="coverPicturePreview" src="">
+                            </figure>
                             <p id="wrong_cover_picture_file_type" class="help is-danger is-size-6" style="display:none">Only .jpg and .png are allowed !</p>
                         </div>
                         <div class="field">
-                            <label class="label">Other Pictures (multiple uploads allowed)</label>
+                            <label class="label">Other Pictures (multiple uploads allowed -> Press Ctrl while choosing images)</label>
                             <div class="control">
                                 <input id="otherPictures" name="otherPictures" class="file-input" type="file" multiple>
                             </div>
@@ -90,9 +94,10 @@
                                             Choose a file…
                                         </span>
                                     </span>
-                                    <span id="other_pictures_file_name" class="file-name"></span>
+                                    <span id="other_pictures_count" class="file-name"></span>
                                 </label>
                             </div>
+                            <ul id="otherPicturesPreview"></ul>
                             <p id="wrong_other_pictures_file_type" class="help is-danger is-size-6" style="display:none">One or more other pictures have wrong file type !</p>
                         </div>
                         <br>
@@ -106,6 +111,7 @@
                                 </a>
                             </p>
                         </div>
+                        <br>
                     </form>
                 </section>
             </div>
@@ -136,10 +142,9 @@
                                             </div>
                                           </div>
                                         </div>
-
-                                </article>
+                                    </article>
+                                </div>
                             </div>
-                                    </div>
                             <button class="modal-close is-large close_logout_warning_modal"></button>
                         </div>
 

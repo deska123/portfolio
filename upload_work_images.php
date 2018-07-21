@@ -24,25 +24,30 @@
         }
     }
     */
-    $coverPicture = basename($_FILES['coverPicture']['name']);
-    $coverPictureFileType = strtolower(pathinfo($coverPicture, PATHINFO_EXTENSION));
     $uploadSuccess = 1;
-
-    if($coverPictureFileType != "jpg" && $coverPictureFileType != "png") {
-    	$uploadSuccess = 0;
-    	echo "wrong cover picture filetype";
+    if(isset($_FILES['coverPicture'])) {
+        $coverPicture = basename($_FILES['coverPicture']['name']);
+        $coverPictureFileType = strtolower(pathinfo($coverPicture, PATHINFO_EXTENSION));
+    
+        if($coverPictureFileType != "jpg" && $coverPictureFileType != "png") {
+            $uploadSuccess = 0;
+            echo "wrong cover picture filetype";
+        }
     }
-
+   
     if($uploadSuccess == 1) {
-    	$otherPicturesNum = count($_FILES['otherPictures']['name']);
-    	for($a = 0; $a < $otherPicturesNum; $a++) {
-    		$otherPicture = basename($_FILES['otherPictures']['name'][$a]);
-    		$otherPictureFileType = strtolower(pathinfo($otherPicture, PATHINFO_EXTENSION));
-    		if($otherPictureFileType != "jpg" && $otherPictureFileType != "png") {
-    			$uploadSuccess = 0;
-    			echo "wrong other pictures filetype";
-    			break;
-    		}
-    	}
+        if(isset($_FILES['otherPictures'])) {
+            $otherPicturesNum = count($_FILES['otherPictures']['name']);
+            for($a = 0; $a < $otherPicturesNum; $a++) {
+                $otherPicture = basename($_FILES['otherPictures']['name'][$a]);
+                echo $otherPicture . "---";
+                $otherPictureFileType = strtolower(pathinfo($otherPicture, PATHINFO_EXTENSION));
+                if($otherPictureFileType != "jpg" && $otherPictureFileType != "png") {
+                    $uploadSuccess = 0;
+                    echo "wrong other pictures filetype";
+                    break;
+                }
+            }
+        }
     }
 ?>

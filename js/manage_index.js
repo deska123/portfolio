@@ -194,12 +194,10 @@ $(document).ready(function(){
         Trigger function for show or hide create new work
     */
     $("#create_new_work_trigger").click(function(){
-        $("#create_new_work_modal").addClass("is-active");
-        $("#create_new_work_modal").show();
+        $("#create_new_work_modal").fadeIn();
     });
     
     $(".close_create_new_work_modal").click(function(){
-        $("#create_new_work_modal").removeClass("is-active");
         $("#create_new_work_modal").hide();
     });
 
@@ -238,26 +236,47 @@ $(document).ready(function(){
         $("#wrong_cover_picture_file_type").hide();
         var fileName = imageFile.target.files[0].name;
         $("#cover_picture_file_name").text(fileName);
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#coverPicturePreview').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(imageFile.target.files[0]);
     });
 
 
     $('#otherPictures[type="file"]').change(function(){
-        $("#wrong_other_pictures_file_type").hide();
-        alert(imagesFile.length);
-        var filesName = "";
-        for(var a = 0; a < imagesFile.length; a++) {
-            filesName += imagesFile.target.file[a].name + ", ";
-        }
-        $("#other_pictures_file_name").text(filesName);
+       
+       var otherContents = "";
+       var length = $(this).get(0).files.length;
+       var pictures = [];
+       for(var c = 0; c < length; c++) {
+            pictures.push($(this).get(0).files[c].name);
+       }
+       for(var a = 0; a < length; a++) {
+            var reader = new FileReader();  
+            reader.onload = function (e) {
+                otherContents += "<li>";
+                otherContents += "<br>";
+                otherContents += "<article class=\"message is-warning\">";
+                otherContents += "<div class=\"message-header\">";
+                otherContents += "<div class=\"otherPictureClass has-text-weight-bold\"></div>";
+                otherContents += "</div>";
+                otherContents += "<div class=\"message-body\">";
+                otherContents += "<figure class=\"image is-480x480\">";
+                otherContents += "<img src=\"" + e.target.result + "\">";
+                otherContents += "</figure>";
+                otherContents += "</div>";
+                otherContents += "</article>";
+                otherContents += "</li>";
+            }
+            reader.readAsDataURL($(this).get(0).files[a]);
+       }
+       setTimeout(function(){ 
+            $('#other_pictures_count').text(length + " files selected");
+            $('#otherPicturesPreview').html(otherContents);
+            for(var b = 0; b < length; b++) {
+                $(".otherPictureClass").eq(b).text((b + 1) + ". " + pictures[b]);
+            }
+        }, 300);
     });
-   
-    /*
-    $('#otherPictures[type="file"]').live('change', function(){
-        $("#wrong_other_pictures_file_type").hide();
-        var filesName = "";
-        for(var a = 0; a < this.files.length; a++) {
-            filesName += this.files[a].name + ", ";
-        }
-        $("#other_pictures_file_name").text(filesName);
-    }); */
 });
