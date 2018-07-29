@@ -38,13 +38,13 @@
                         </label>
                         <div class="field">
                             <div class="control">
-                                <input class="input" type="text" placeholder="Find a repository">
+                                <input id="fixedList" class="input" type="text" placeholder="e.g Java">
                             </div>
                         </div>
                         <div id="dynamicListContainer"></div>
                     </div>
                     <br>
-                    <button id="create_new_work_button" class="button is-success">Create New</button>
+                    <button id="create_new_skill_button" class="button is-success">Create New</button>
                     <button class="button is-danger close_create_new_skill_modal">Cancel</button>
                     <br><br>
                 </section>
@@ -568,7 +568,7 @@
                         </table>
                     </div>
                     <br>
-                    <p class="title is-3">Skills</p>
+                    <p id="manage_skills_title" class="title is-3">Skills</p>
                     <p class="subtitle is-5 skillsLastUpdated"></p>
                     <a id="create_new_skill_trigger" class="button is-dark">
                         <span class="icon is-small">

@@ -133,6 +133,42 @@ $(document).ready(function(){
     /*
         Other Functions or Triggers
     */
+    $("#addDynamicList").click(function() {
+      if($(".dynamicList").length > 0) {
+        var listCount = 0;
+        $(".dynamicList").each(function() {
+          listCount++;
+        });
+        $("#dynamicListContainer").append(
+          "<div id=\"dynamicList-" + (listCount + 1) + "\" class=\"field has-addons dynamicList\">" +
+            "<div class=\"control is-expanded\">" +
+              "<input class=\"input\" type=\"text\" placeholder=\"e.g Java\">" +
+            "</div>" +
+            "<div class=\"control\">" +
+                "<a id=\"deleteDynamicList-" + (listCount + 1) + "\" class=\"button is-danger deleteDynamicList\">X</a>" +
+            "</div>" +
+         "</div>"
+       );
+      } else {
+        $("#dynamicListContainer").append(
+          "<div id=\"dynamicList-1\" class=\"field has-addons dynamicList\">" +
+            "<div class=\"control is-expanded\">" +
+              "<input class=\"input\" type=\"text\" placeholder=\"e.g Java\">" +
+            "</div>" +
+            "<div class=\"control\">" +
+                "<a id=\"deleteDynamicList-1\" class=\"button is-danger deleteDynamicList\">X</a>" +
+            "</div>" +
+         "</div>"
+       );
+      }
+    });
+
+    $('body').on('click', '.deleteDynamicList', function(){
+        var temp = $(this).attr('id').split("-");
+        var id = temp[1];
+        decreaseEachId(id);
+    });
+
     function decreaseEachId(id) {
         $('.dynamicList').each(function() {
           var currTemp = $(this).attr('id').split("-");
@@ -145,42 +181,6 @@ $(document).ready(function(){
         });
         $("#dynamicList-" + id).remove();
     }
-
-    $("#addDynamicList").click(function() {
-      if($(".dynamicList").length > 0) {
-        var listCount = 0;
-        $(".dynamicList").each(function() {
-          listCount++;
-        });
-        $("#dynamicListContainer").append(
-          "<div id=\"dynamicList-" + (listCount + 1) + "\" class=\"field has-addons dynamicList\">" +
-            "<div class=\"control is-expanded\">" +
-              "<input class=\"input\" type=\"text\" placeholder=\"Find a repository\">" +
-            "</div>" +
-            "<div class=\"control\">" +
-                "<a id=\"deleteDynamicList-" + (listCount + 1) + "\" class=\"button is-danger deleteDynamicList\">X</a>" +
-            "</div>" +
-         "</div>"
-       );
-      } else {
-        $("#dynamicListContainer").append(
-          "<div id=\"dynamicList-1\" class=\"field has-addons dynamicList\">" +
-            "<div class=\"control is-expanded\">" +
-              "<input class=\"input\" type=\"text\" placeholder=\"Find a repository\">" +
-            "</div>" +
-            "<div class=\"control\">" +
-                "<a id=\"deleteDynamicList-1\" class=\"button is-danger deleteDynamicList\">X</a>" +
-            "</div>" +
-         "</div>"
-       );
-      }
-    });
-
-    $('body').on('click', '.deleteDynamicList', function (){
-        var temp = $(this).attr('id').split("-");
-        var id = temp[1];
-        decreaseEachId(id);
-    });
 
     $("#start_time").change(function(){
         var startTime = $("#start_time").val();
@@ -337,6 +337,71 @@ $(document).ready(function(){
     /*
         Create New Part
     */
+    $("#create_new_skill_button").click(function(){
+      var name = $("#skill_name").val();
+      var description = $("#skill_description").val();
+      var lists = [];
+      lists.push($("#fixedList").val());
+      $(".dynamicList").each(function() {
+        lists.push($(this).find("input").val());
+      });
+
+      var xmlhttp;
+      if(window.XMLHttpRequest) {
+          xmlhttp = new XMLHttpRequest();
+      } else {
+          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      xmlhttp.open("GET", "xml/skills.xml", true);
+      xmlhttp.send();
+      xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var xmlDoc = this.responseXML;
+
+            var skillsNode = xmlDoc.getElementsByTagName("skills")[0];
+            skillsNode.setAttribute("lastUpdate", generateTimeNow());
+
+            var temp = parseInt(sessionStorage.skillsSize);
+            temp += 1;
+            sessionStorage.skillsSize = temp;
+
+            var skillNode = xmlDoc.createElement("skill");
+
+            var idAttr = xmlDoc.createAttribute("id");
+            idAttr.nodeValue = sessionStorage.skillsSize;
+            skillNode.setAttributeNode(idAttr);
+
+            var nameNode = xmlDoc.createElement("name");
+            var nameText = xmlDoc.createTextNode(name);
+            nameNode.appendChild(nameText)
+            skillNode.appendChild(nameNode);
+
+            var descriptionNode = xmlDoc.createElement("description");
+            var descriptionText = xmlDoc.createTextNode(description);
+            descriptionNode.appendChild(descriptionText)
+            skillNode.appendChild(descriptionNode);
+
+            var listsNode = xmlDoc.createElement("lists");
+            for(var a = 0; a < lists.length; a++) {
+              var listNode = xmlDoc.createElement("list");
+              var idListAttr = xmlDoc.createAttribute("id");
+              idListAttr.nodeValue = (a + 1) + "";
+              listNode.setAttributeNode(idListAttr);
+
+              var listText = xmlDoc.createTextNode(lists[a]);
+              listNode.appendChild(listText);
+              listsNode.appendChild(listNode);
+            }
+            skillNode.appendChild(listsNode);
+
+            skillsNode.appendChild(skillNode);
+
+            var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+            updateXML("skills", data, "#manage_skills_title");
+          }
+      };
+    });
+
     $("#create_new_education_button").click(function(){
         var school_name = $("#school_name").val();
         var school_link = $("#school_link").val();
