@@ -1,19 +1,19 @@
 $(document).ready(function(){
     //Initial Variable
     var deletedId = "";
-    
+
     /*
         Retrieve Data of Identity Part
     */
     var initial = "";
-    var name = ""; 
+    var name = "";
     var quote = "";
     var motto = "";
     var occupation = "";
     var location = "";
-    $.ajax({        
+    $.ajax({
         type: "GET",
-        url: "xml/about.xml", 
+        url: "xml/about.xml",
         dataType: "xml",
         success: function(xmlDoc){
             var about = $(xmlDoc).find('about');
@@ -21,16 +21,16 @@ $(document).ready(function(){
             //Show Last Updated
             var lastUpdate = about.attr("lastUpdate");
             $(".lastUpdated").text("(Last Updated on : " + lastUpdate + ")");
-            
+
             initial = $(about).find('initial').text();
-            name = $(about).find('name').text(); 
+            name = $(about).find('name').text();
             quote = $(about).find('quote').text();
             motto = $(about).find('motto').text();
             occupation = $(about).find('occupation').text();
             location = $(about).find('location').text();
         }
     });
-    
+
     /*
         Open and Close Modal
     */
@@ -38,7 +38,7 @@ $(document).ready(function(){
         $("#create_new_education_modal").addClass("is-active");
         $("#create_new_education_modal").show();
     });
-    
+
     $(".close_create_new_education_modal").click(function(){
         $("#create_new_education_modal").removeClass("is-active");
         $("#create_new_education_modal").hide();
@@ -128,11 +128,60 @@ $(document).ready(function(){
         $(".job_experience_id_text").text("ID : " + id);
         $(".job_experience_delete_id_confirm").attr("id", "job_experience_delete_" + id);
         $("#delete_job_experience_modal").show();
-    });    
+    });
 
     /*
         Other Functions or Triggers
     */
+    function decreaseEachId(id) {
+        $('.dynamicList').each(function() {
+          var currTemp = $(this).attr('id').split("-");
+          var currId = currTemp[1];
+          if(parseInt(currId) > parseInt(id)) {
+            var newId = parseInt(currId) - 1;
+            $(this).attr('id', 'dynamicList-' + newId);
+            $(this).find('.deleteDynamicList').attr('id', 'deleteDynamicList-' + newId);
+          }
+        });
+        $("#dynamicList-" + id).remove();
+    }
+
+    $("#addDynamicList").click(function() {
+      if($(".dynamicList").length > 0) {
+        var listCount = 0;
+        $(".dynamicList").each(function() {
+          listCount++;
+        });
+        $("#dynamicListContainer").append(
+          "<div id=\"dynamicList-" + (listCount + 1) + "\" class=\"field has-addons dynamicList\">" +
+            "<div class=\"control is-expanded\">" +
+              "<input class=\"input\" type=\"text\" placeholder=\"Find a repository\">" +
+            "</div>" +
+            "<div class=\"control\">" +
+                "<a id=\"deleteDynamicList-" + (listCount + 1) + "\" class=\"button is-danger deleteDynamicList\">X</a>" +
+            "</div>" +
+         "</div>"
+       );
+      } else {
+        $("#dynamicListContainer").append(
+          "<div id=\"dynamicList-1\" class=\"field has-addons dynamicList\">" +
+            "<div class=\"control is-expanded\">" +
+              "<input class=\"input\" type=\"text\" placeholder=\"Find a repository\">" +
+            "</div>" +
+            "<div class=\"control\">" +
+                "<a id=\"deleteDynamicList-1\" class=\"button is-danger deleteDynamicList\">X</a>" +
+            "</div>" +
+         "</div>"
+       );
+      }
+    });
+
+    $('body').on('click', '.deleteDynamicList', function (){
+        var temp = $(this).attr('id').split("-");
+        var id = temp[1];
+        decreaseEachId(id);
+    });
+
     $("#start_time").change(function(){
         var startTime = $("#start_time").val();
         if(startTime != undefined && startTime != '') {
@@ -145,7 +194,7 @@ $(document).ready(function(){
         } else {
             $("#end_time").attr("min", "");
         }
-    }); 
+    });
 
     $("#end_time").change(function(){
         var endTime = $("#end_time").val();
@@ -187,7 +236,7 @@ $(document).ready(function(){
             month = "November";
         } else if(num == "12") {
             month = "December";
-        } 
+        }
         return month;
     }
 
@@ -217,7 +266,7 @@ $(document).ready(function(){
             month = "11";
         } else if(num == "Dec") {
             month = "12";
-        } 
+        }
         return month;
     }
 
@@ -233,7 +282,7 @@ $(document).ready(function(){
     $("#working_start_time").change(function(){
         var startTime = $("#working_start_time").val();
         $("#working_end_time").attr("min", startTime);
-    }); 
+    });
 
     $("#working_end_time").change(function(){
         var endTime = $("#working_end_time").val();
@@ -247,7 +296,7 @@ $(document).ready(function(){
             data: dataInput
         },
         function(data, status){
-            setTimeout(function(){ 
+            setTimeout(function(){
                 //window.location.href = hrefInput;
                 window.location.reload(true);
             }, 20);
@@ -304,7 +353,7 @@ $(document).ready(function(){
         var city = $("#city").val();
         var province = $("#province").val();
         var country = $("#country").val();
-        
+
         var xmlhttp;
         if(window.XMLHttpRequest) {
             xmlhttp = new XMLHttpRequest();
@@ -322,14 +371,14 @@ $(document).ready(function(){
                 var temp = parseInt(sessionStorage.educationsSize);
                 temp += 1;
                 sessionStorage.educationsSize = temp;
-                
+
                 var educationsNode = xmlDoc.getElementsByTagName("educations")[0];
 
                 var educationNode = xmlDoc.createElement("education");
                 var idAttr = xmlDoc.createAttribute("id");
                 idAttr.nodeValue = sessionStorage.educationsSize;
                 educationNode.setAttributeNode(idAttr);
-                
+
                 var schoolNameNode = xmlDoc.createElement("school_name");
                 var schoolNameText = xmlDoc.createTextNode(school_name);
                 schoolNameNode.appendChild(schoolNameText)
@@ -386,7 +435,7 @@ $(document).ready(function(){
                 educationNode.appendChild(countryNode);
 
                 educationsNode.appendChild(educationNode);
-                
+
                 var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
                 updateXML("about", data, "#manage_working_experience_title");
             }
@@ -399,7 +448,7 @@ $(document).ready(function(){
         var company_link = $("#company_link").val();
         var working_start_time = $("#working_start_time").val();
         var working_end_time = $("#working_end_time").val();
-        
+
         var working_start_temp = working_start_time.split("-");
         var working_start_date = working_start_temp[2];
         var working_start_month = numToStringMonth(working_start_temp[1]);
@@ -433,7 +482,7 @@ $(document).ready(function(){
                 var temp = parseInt(sessionStorage.jobsSize);
                 temp += 1;
                 sessionStorage.jobsSize = temp;
-                
+
                 var jobExperienceNode = xmlDoc.getElementsByTagName("job_experience")[0];
                 jobExperienceNode.setAttribute("lastUpdate", generateTimeNow());
 
@@ -441,12 +490,12 @@ $(document).ready(function(){
                 var idAttr = xmlDoc.createAttribute("id");
                 idAttr.nodeValue = sessionStorage.jobsSize;
                 jobNode.setAttributeNode(idAttr);
-                
+
                 var positionNode = xmlDoc.createElement("position");
                 var positionText = xmlDoc.createTextNode(position);
                 positionNode.appendChild(positionText)
                 jobNode.appendChild(positionNode);
-                
+
                 var companyNameNode = xmlDoc.createElement("company_name");
                 var companyNameText = xmlDoc.createTextNode(company_name);
                 companyNameNode.appendChild(companyNameText)
@@ -508,7 +557,7 @@ $(document).ready(function(){
                 jobNode.appendChild(descriptionNode);
 
                 jobExperienceNode.appendChild(jobNode);
-                
+
                 var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
                 updateXML("job_experience", data, "#manage_working_experience_title");
             }
@@ -720,7 +769,7 @@ $(document).ready(function(){
 
                 var jobExperienceNode = xmlDoc.getElementsByTagName("job_experience")[0];
                 jobExperienceNode.setAttribute("lastUpdate", generateTimeNow());
-                
+
                 var temp2 = parseInt(sessionStorage.jobsSize);
                 temp2 -= 1;
                 sessionStorage.jobsSize = temp2;
@@ -756,14 +805,14 @@ $(document).ready(function(){
     /*
         Fill Contents from about.xml
     */
-    $.ajax({        
+    $.ajax({
         type: "GET",
-        url: "xml/about.xml", 
+        url: "xml/about.xml",
         dataType: "xml",
         success: function(xmlDoc){
             var about = $(xmlDoc).find('about');
             var initial = $(about).find('initial').text();
-            var name = $(about).find('name').text(); 
+            var name = $(about).find('name').text();
             var quote = $(about).find('quote').text();
             var motto = $(about).find('motto').text();
             var occupation = $(about).find('occupation').text();
@@ -840,7 +889,7 @@ $(document).ready(function(){
             education_output += "<td>" + province + "</td>";
             education_output += "<td>" + country + "</td>";
             education_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon education_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
-            education_output += "</tr>"; 
+            education_output += "</tr>";
 
             $("#education_content_manage").html(education_output);
         }
@@ -849,9 +898,9 @@ $(document).ready(function(){
     /*
         Fill Contents from job_experience.xml
     */
-    $.ajax({        
+    $.ajax({
         type: "GET",
-        url: "xml/job_experience.xml", 
+        url: "xml/job_experience.xml",
         dataType: "xml",
         success: function(xmlDoc){
             var job_experience_head = $(xmlDoc).find('job_experience');
@@ -859,7 +908,7 @@ $(document).ready(function(){
             //update time
             var lastUpdate = job_experience_head.attr("lastUpdate");
             $(".workLastUpdated").text("(Last Updated on : " + lastUpdate + ")");
-            
+
             var job_experience_head_children = $(job_experience_head).children();
             var working_output = "";
             var job_experience_curr = job_experience_head_children.last();
@@ -934,9 +983,9 @@ $(document).ready(function(){
     /*
         Fill Contents from skills.xml
     */
-    $.ajax({ 
+    $.ajax({
         type: "GET",
-        url: "xml/skills.xml", 
+        url: "xml/skills.xml",
         dataType: "xml",
         success: function(xmlDoc){
             var skills_head = $(xmlDoc).find('skills');

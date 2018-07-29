@@ -19,10 +19,10 @@ $(document).ready(function(){
             $("#index_management").show();
             $("#about_management").show();
             $("#contact_management").show();
-            
+
             $.ajax({
                 type: "GET",
-                url: "xml/skills.xml", 
+                url: "xml/skills.xml",
                 dataType: "xml",
                 success: function(xmlDoc){
                     var skills_head = $(xmlDoc).find('skills');
@@ -33,7 +33,7 @@ $(document).ready(function(){
             });
             $.ajax({
                 type: "GET",
-                url: "xml/works.xml", 
+                url: "xml/works.xml",
                 dataType: "xml",
                 success: function(xmlDoc){
                     var works_head = $(xmlDoc).find('works');
@@ -44,7 +44,7 @@ $(document).ready(function(){
             });
             $.ajax({
                 type: "GET",
-                url: "xml/job_experience.xml", 
+                url: "xml/job_experience.xml",
                 dataType: "xml",
                 success: function(xmlDoc){
                     var job_experience_head = $(xmlDoc).find('job_experience');
@@ -55,7 +55,7 @@ $(document).ready(function(){
             });
             $.ajax({
                 type: "GET",
-                url: "xml/contact.xml", 
+                url: "xml/contact.xml",
                 dataType: "xml",
                 success: function(xmlDoc){
                     var contact_head = $(xmlDoc).find('contact');
@@ -67,7 +67,7 @@ $(document).ready(function(){
             });
             $.ajax({
                 type: "GET",
-                url: "xml/about.xml", 
+                url: "xml/about.xml",
                 dataType: "xml",
                 success: function(xmlDoc){
                     var about = $(xmlDoc).find('about');
@@ -77,7 +77,7 @@ $(document).ready(function(){
                     sessionStorage.educationsSize = $(education_last).attr("id");
                 }
             });
-            
+
         } else {
             var pagePath = window.location.pathname;
             var temp = pagePath.split("/");

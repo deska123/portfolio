@@ -33,19 +33,15 @@
                     </div>
                     <div class="field">
                         <label class="label">
-                            Lists 
-                            <span style="cursor: pointer;" class="icon addLists"><i class="fa fa-plus-square fa-lg"></i></span>
+                            Lists
+                            <span id="addDynamicList" style="cursor: pointer;" class="icon"><i class="fa fa-plus-square fa-lg"></i></span>
                         </label>
-                        <div class="field has-addons">
+                        <div class="field">
                             <div class="control">
                                 <input class="input" type="text" placeholder="Find a repository">
                             </div>
-                            <div class="control">
-                                <a class="button is-info">
-                                    Search
-                                </a>
-                            </div>
                         </div>
+                        <div id="dynamicListContainer"></div>
                     </div>
                     <br>
                     <button id="create_new_work_button" class="button is-success">Create New</button>
@@ -590,7 +586,7 @@
                                 </tr>
                             </thead>
                             <tbody id="skills_content_manage"></tbody>
-                        </table> 
+                        </table>
                     </div>
                 </div>
             </div>

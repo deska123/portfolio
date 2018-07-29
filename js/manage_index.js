@@ -5,9 +5,9 @@ $(document).ready(function(){
     /*
          Fill Content for Initial
     */
-    $.ajax({        
+    $.ajax({
         type: "GET",
-        url: "xml/about.xml", 
+        url: "xml/about.xml",
         dataType: "xml",
         success: function(xmlDoc){
             var about = $(xmlDoc).find('about');
@@ -19,13 +19,13 @@ $(document).ready(function(){
     /*
         Fill Contents from works.xml
     */
-    $.ajax({        
+    $.ajax({
         type: "GET",
-        url: "xml/works.xml", 
+        url: "xml/works.xml",
         dataType: "xml",
         success: function(xmlDoc){
             var work_head = $(xmlDoc).find('works');
-            
+
             //Show Last Updated
             var lastUpdate = work_head.attr("lastUpdate");
             $("#lastUpdated").text("(Last Updated on : " + lastUpdate + ")");
@@ -78,9 +78,9 @@ $(document).ready(function(){
         }
     });
 
-    $.ajax({        
+    $.ajax({
         type: "GET",
-        url: "xml/works.xml", 
+        url: "xml/works.xml",
         dataType: "xml",
         success: function(xmlDoc){
             //Show Data inside Table
@@ -136,7 +136,7 @@ $(document).ready(function(){
                 work_output += "</div></div>";
                 work_curr = work_curr.prev();
                 i++;
-            }    
+            }
             work_output += "<div id='images-" + i + "' class=\"modal\"><div class=\"modal-background\"></div>";
             work_output += "<div class=\"modal-card\">";
             work_output += "<header class=\"modal-card-head\">"
@@ -176,7 +176,7 @@ $(document).ready(function(){
             }
             work_output += "</li>";
             work_output += "</ul>";
-            
+
             work_output += "</section>";
             work_output += "<footer class=\"modal-card-foot\">";
             work_output += "</footer>";
@@ -184,7 +184,7 @@ $(document).ready(function(){
 
             $("#images_modal_list").html(work_output);
         }
-    });  
+    });
 
     /*
         Show images for each work
@@ -206,7 +206,7 @@ $(document).ready(function(){
     $("#create_new_work_trigger").click(function(){
         $("#create_new_work_modal").fadeIn();
     });
-    
+
     $(".close_create_new_work_modal").click(function(){
         $("#create_new_work_modal").hide();
     });
@@ -235,12 +235,12 @@ $(document).ready(function(){
         form_data.append('number', temp);
         e.preventDefault();
         $.ajax({
-            url: "upload_work_images.php", 
-            type: "POST",             
-            data: form_data, 
-            contentType: false,       
-            cache: false,            
-            processData: false,        
+            url: "upload_work_images.php",
+            type: "POST",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
             success: function(data) {
                 switch(data) {
                     case 'wrong cover picture filetype' :
@@ -273,7 +273,7 @@ $(document).ready(function(){
                         xmlhttp.onreadystatechange = function() {
                             if (this.readyState == 4 && this.status == 200) {
                                 var xmlDoc = this.responseXML;
-                            
+
                                 var temp = parseInt(sessionStorage.worksSize);
                                 temp += 1;
                                 sessionStorage.worksSize = temp;
@@ -347,7 +347,7 @@ $(document).ready(function(){
                                 },
                                 function(data, status){
                                     if(status == 'success') {
-                                        setTimeout(function(){ 
+                                        setTimeout(function(){
                                             window.location.reload(true);
                                         }, 30);
                                     }
@@ -390,7 +390,7 @@ $(document).ready(function(){
                         //Update time
                         var worksNode = xmlDoc.getElementsByTagName("works")[0];
                         worksNode.setAttribute("lastUpdate", generateTimeNow());
-                        
+
                         var lastIndex = 0;
                         for(var a = 0; a < workNode.length; a++) {
                             if(workNode[a].getAttribute('id') == deletedId) {
@@ -426,14 +426,14 @@ $(document).ready(function(){
                                     var currDetail = works_details_pictures.text();
                                     var arrDetail = currDetail.split("/");
                                     arrDetail[2] = id;
-                                    works_details_pictures.text(arrDetail.join("/")); 
+                                    works_details_pictures.text(arrDetail.join("/"));
                                     works_details_pictures = works_details_pictures.next();
                                 }
                                 works_details_pictures = $(works_pictures).last();
                                 var currDetail = works_details_pictures.text();
                                 var arrDetail = currDetail.split("/");
                                 arrDetail[2] = id;
-                                works_details_pictures.text(arrDetail.join("/")); 
+                                works_details_pictures.text(arrDetail.join("/"));
                             }
                             works_curr = works_curr.next();
                         }
@@ -446,16 +446,16 @@ $(document).ready(function(){
                                 var currDetail = works_details_pictures.text();
                                 var arrDetail = currDetail.split("/");
                                 arrDetail[2] = id;
-                                works_details_pictures.text(arrDetail.join("/")); 
+                                works_details_pictures.text(arrDetail.join("/"));
                                 works_details_pictures = works_details_pictures.next();
                             }
                             works_details_pictures = $(works_pictures).last();
                             var currDetail = works_details_pictures.text();
                             var arrDetail = currDetail.split("/");
                             arrDetail[2] = id;
-                            works_details_pictures.text(arrDetail.join("/")); 
+                            works_details_pictures.text(arrDetail.join("/"));
                         }
-                        
+
                         deletedId = "";
 
                         var dataInput = new XMLSerializer().serializeToString(xmlDoc.documentElement);
@@ -469,9 +469,9 @@ $(document).ready(function(){
                             window.location.reload(true);
                         });
                     }
-                };           
-            } 
-        });        
+                };
+            }
+        });
     });
 
     $('#coverPicture[type="file"]').change(function(imageFile){
@@ -494,7 +494,7 @@ $(document).ready(function(){
             pictures.push($(this).get(0).files[c].name);
        }
        for(var a = 0; a < length; a++) {
-            var reader = new FileReader();  
+            var reader = new FileReader();
             reader.onload = function (e) {
                 otherContents += "<li>";
                 otherContents += "<br>";
@@ -512,7 +512,7 @@ $(document).ready(function(){
             }
             reader.readAsDataURL($(this).get(0).files[a]);
        }
-       setTimeout(function(){ 
+       setTimeout(function(){
             $('#other_pictures_count').text(length + " files selected");
             $('#otherPicturesPreview').html(otherContents);
             for(var b = 0; b < length; b++) {
@@ -550,7 +550,7 @@ $(document).ready(function(){
             month = "November";
         } else if(num == "12") {
             month = "December";
-        } 
+        }
         return month;
     }
 
