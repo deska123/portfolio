@@ -346,6 +346,35 @@
             </div>
             <button class="modal-close is-large close_logout_warning_modal"></button>
         </div>
+        <div id="delete_skill_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box">
+                    <article class="media">
+                      <div class="media-content">
+                        <div class="content">
+                            <p class="title has-text-centered">
+                              Are you sure you want to delete this row (<b class="skill_id_text"></b>)?
+                            </p>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                  <a id="" class="button is-warning skill_delete_id_confirm">
+                                      Delete
+                                  </a>
+                                </p>
+                                <p class="control">
+                                    <a class="button is-danger close_delete_skill_modal">
+                                        Cancel
+                                    </a>
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <button class="modal-close is-large close_delete_skill_modal"></button>
+        </div>
         <div id="delete_education_modal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-content">
@@ -583,6 +612,7 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Lists</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="skills_content_manage"></tbody>

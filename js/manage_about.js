@@ -92,6 +92,10 @@ $(document).ready(function(){
         $("#delete_job_experience_modal").hide();
     });
 
+    $(".close_delete_skill_modal").click(function(){
+        $("#delete_skill_modal").hide();
+    });
+
     $('body').on('click', '.identity_edit', function (){
         var id = $(this).attr('id').split("_");
         var field = id[0];
@@ -128,6 +132,13 @@ $(document).ready(function(){
         $(".job_experience_id_text").text("ID : " + id);
         $(".job_experience_delete_id_confirm").attr("id", "job_experience_delete_" + id);
         $("#delete_job_experience_modal").show();
+    });
+
+    $('body').on('click', '.skill_delete', function (){
+        var id = $(this).attr('id');
+        $(".skill_id_text").text("ID : " + id);
+        $(".skill_delete_id_confirm").attr("id", "skill_delete_" + id);
+        $("#delete_skill_modal").show();
     });
 
     /*
@@ -768,6 +779,57 @@ $(document).ready(function(){
     /*
         Delete Part
     */
+    $('body').on('click', '.skill_delete_id_confirm', function (){
+        var temp = $(this).attr('id').split("_");
+        deletedId = temp[2];
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/skills.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                var skillsNode = xmlDoc.getElementsByTagName("skills")[0];
+                skillsNode.setAttribute("lastUpdate", generateTimeNow());
+
+                var temp2 = parseInt(sessionStorage.skillsSize);
+                temp2 -= 1;
+                sessionStorage.skillsSize = temp2;
+
+                var skillNode = xmlDoc.getElementsByTagName("skill");
+                var lastIndex = 0;
+                for(var a = 0; a < skillNode.length; a++) {
+                    if(skillNode[a].getAttribute('id') == deletedId) {
+                        if(a == (skillNode.length - 1)) {
+                            lastIndex = 1;
+                        }
+                        skillNode[a].parentNode.removeChild(skillNode[a]);
+                        break;
+                    }
+                }
+                //Decrement id of each node
+                var skillNewNode = xmlDoc.getElementsByTagName("skill");
+                if(lastIndex == 0) {
+                    for(var b = 0; b < skillNewNode.length; b++) {
+                        var id = parseInt(skillNewNode[b].getAttribute('id'));
+                        if(id != (b + 1)) {
+                            var newId = id - 1;
+                            skillNewNode[b].setAttribute("id", newId + "");
+                        }
+                    }
+                }
+                deletedId = "";
+                var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                updateXML("skills", data, "#manage_skill_title");
+            }
+        };
+    });
+
     $('body').on('click', '.education_delete_id_confirm', function (){
         var temp = $(this).attr('id').split("_");
         deletedId = temp[2];
@@ -1064,6 +1126,7 @@ $(document).ready(function(){
             var skills_curr = skills_head_children.first();
 
             while(!(skills_curr.is(skills_head_children.last()))) {
+                var id = skills_curr.attr('id');
                 var name = skills_curr.find('name').text();
                 var description = skills_curr.find('description').text();
                 var lists_head = $(skills_curr).find('lists');
@@ -1086,6 +1149,9 @@ $(document).ready(function(){
                         skills_output += "<td rowspan='" + span + "'>" + description + "</td>";
                     }
                     skills_output += "<td>" + lists_curr_2.text() + "</td>";
+                    if(i == 0) {
+                      skills_output += "<td rowspan='" + span + "'>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon skill_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
+                    }
                     skills_output += "</tr>";
                     i++;
                     lists_curr_2 = lists_curr_2.next();
@@ -1095,6 +1161,7 @@ $(document).ready(function(){
                 skills_output += "</tr>";
                 skills_curr = skills_curr.next();
             }
+            var id = skills_curr.attr('id');
             var name = skills_curr.find('name').text();
             var description = skills_curr.find('description').text();
             var lists_head = $(skills_curr).find('lists');
@@ -1117,6 +1184,9 @@ $(document).ready(function(){
                     skills_output += "<td rowspan='" + span + "'>" + description + "</td>";
                 }
                 skills_output += "<td>" + lists_curr_2.text() + "</td>";
+                if(i == 0) {
+                  skills_output += "<td rowspan='" + span + "'>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon skill_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
+                }
                 skills_output += "</tr>";
                 i++;
                 lists_curr_2 = lists_curr_2.next();
