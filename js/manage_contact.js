@@ -22,6 +22,11 @@ $(document).ready(function(){
         dataType: "xml",
         success: function(xmlDoc) {
             var contact = $(xmlDoc).find('contact');
+
+            //Show Last Updated
+            var lastUpdate = contact.attr("lastUpdate");
+            $("#lastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+
             var media_head = $(contact).find('social_media');
             var media_output = "";
             var media_head_children = $(media_head).children();

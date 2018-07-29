@@ -11,6 +11,49 @@
         <script type="text/javascript" src="js/manage_about.js"></script>
     </head>
     <body>
+        <div id="create_new_skill_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Create New Skill</p>
+                    <button class="delete close_create_new_skill_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                            <input id="skill_name" class="input" type="text" placeholder="e.g Programming">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <div class="control">
+                            <input id="skill_description" class="input" type="text" placeholder="e.g loren ipsum">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">
+                            Lists 
+                            <span style="cursor: pointer;" class="icon addLists"><i class="fa fa-plus-square fa-lg"></i></span>
+                        </label>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Find a repository">
+                            </div>
+                            <div class="control">
+                                <a class="button is-info">
+                                    Search
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button id="create_new_work_button" class="button is-success">Create New</button>
+                    <button class="button is-danger close_create_new_skill_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
         <div id="create_new_education_modal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -425,6 +468,7 @@
             <div class="hero-body">
                 <div class="container">
                     <p id="manage_personal_identity_title" class="title is-3">Personal Identity</p>
+                    <p class="subtitle is-5 lastUpdated"></p>
                     <table class="table is-striped">
                         <thead>
                             <tr>
@@ -467,6 +511,7 @@
                         </tbody>
                     </table>
                     <p id="manage_education_title" class="title is-3">Education</p>
+                    <p class="subtitle is-5 lastUpdated"></p>
                     <a id="create_new_education_trigger" class="button is-dark">
                         <span class="icon is-small">
                             <i class="fa fa-plus"></i>
@@ -496,6 +541,7 @@
                     </div>
                     <br>
                     <p id="manage_working_experience_title" class="title is-3">Working Experience</p>
+                    <p class="subtitle is-5 workLastUpdated"></p>
                     <a id="create_new_working_experience_trigger" class="button is-dark">
                         <span class="icon is-small">
                             <i class="fa fa-plus"></i>
@@ -527,6 +573,13 @@
                     </div>
                     <br>
                     <p class="title is-3">Skills</p>
+                    <p class="subtitle is-5 skillsLastUpdated"></p>
+                    <a id="create_new_skill_trigger" class="button is-dark">
+                        <span class="icon is-small">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                       <span>Create New Skill</span>
+                    </a><br><br>
                     <div class="container" style="overflow-x: auto;">
                         <table class="table is-bordered is-striped is-fullwidth">
                             <thead>

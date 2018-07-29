@@ -17,6 +17,11 @@ $(document).ready(function(){
         dataType: "xml",
         success: function(xmlDoc){
             var about = $(xmlDoc).find('about');
+
+            //Show Last Updated
+            var lastUpdate = about.attr("lastUpdate");
+            $(".lastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+            
             initial = $(about).find('initial').text();
             name = $(about).find('name').text(); 
             quote = $(about).find('quote').text();
@@ -45,6 +50,14 @@ $(document).ready(function(){
 
     $(".close_create_new_working_experience_modal").click(function(){
         $("#create_new_working_experience_modal").hide();
+    });
+
+    $("#create_new_skill_trigger").click(function(){
+        $("#create_new_skill_modal").show();
+    });
+
+    $(".close_create_new_skill_modal").click(function(){
+        $("#create_new_skill_modal").hide();
     });
 
     $(".close_edit_name_modal").click(function(){
@@ -241,6 +254,37 @@ $(document).ready(function(){
         });
     }
 
+    function generateTimeNow() {
+        var dates = new Date();
+        var minute = dates.getMinutes();
+        var hour = dates.getHours();
+        var year = dates.getFullYear();
+        var monthNum = dates.getMonth();
+        var date = dates.getDate();
+
+        var month = new Array();
+        month[0] = "January";
+        month[1] = "February";
+        month[2] = "March";
+        month[3] = "April";
+        month[4] = "May";
+        month[5] = "June";
+        month[6] = "July";
+        month[7] = "August";
+        month[8] = "September";
+        month[9] = "October";
+        month[10] = "November";
+        month[11] = "December";
+
+        var fullDates = date + " " + month[monthNum] + " " + year + " " + hour + "." + minute;
+        return fullDates;
+    }
+
+    function updateLastUpdateAbout(xmlDoc) {
+        var aboutNode = xmlDoc.getElementsByTagName("about")[0];
+        aboutNode.setAttribute("lastUpdate", generateTimeNow());
+    }
+
     /*
         Create New Part
     */
@@ -272,6 +316,9 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
+
+                updateLastUpdateAbout(xmlDoc);
+
                 var temp = parseInt(sessionStorage.educationsSize);
                 temp += 1;
                 sessionStorage.educationsSize = temp;
@@ -388,6 +435,7 @@ $(document).ready(function(){
                 sessionStorage.jobsSize = temp;
                 
                 var jobExperienceNode = xmlDoc.getElementsByTagName("job_experience")[0];
+                jobExperienceNode.setAttribute("lastUpdate", generateTimeNow());
 
                 var jobNode = xmlDoc.createElement("job");
                 var idAttr = xmlDoc.createAttribute("id");
@@ -485,6 +533,9 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var xmlDoc = this.responseXML;
+
+                    updateLastUpdateAbout(xmlDoc);
+
                     var nameNode = xmlDoc.getElementsByTagName("name")[0].childNodes[0];
                     nameNode.nodeValue = $("#name").val();
                     var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
@@ -503,6 +554,9 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var xmlDoc = this.responseXML;
+
+                    updateLastUpdateAbout(xmlDoc);
+
                     var initialNode = xmlDoc.getElementsByTagName("initial")[0].childNodes[0];
                     initialNode.nodeValue = $("#initial").val();
                     var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
@@ -521,6 +575,9 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var xmlDoc = this.responseXML;
+
+                    updateLastUpdateAbout(xmlDoc);
+
                     var occupationNode = xmlDoc.getElementsByTagName("occupation")[0].childNodes[0];
                     occupationNode.nodeValue = $("#occupation").val();
                     var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
@@ -539,6 +596,9 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var xmlDoc = this.responseXML;
+
+                    updateLastUpdateAbout(xmlDoc);
+
                     var quoteNode = xmlDoc.getElementsByTagName("quote")[0].childNodes[0];
                     quoteNode.nodeValue = $("#quote").val();
                     var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
@@ -557,6 +617,10 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var xmlDoc = this.responseXML;
+
+                    updateLastUpdateAbout(xmlDoc);
+
+
                     var mottoNode = xmlDoc.getElementsByTagName("motto")[0].childNodes[0];
                     mottoNode.nodeValue = $("#motto").val();
                     var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
@@ -575,6 +639,9 @@ $(document).ready(function(){
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var xmlDoc = this.responseXML;
+
+                    updateLastUpdateAbout(xmlDoc);
+
                     var locationNode = xmlDoc.getElementsByTagName("location")[0].childNodes[0];
                     locationNode.nodeValue = $("#location").val();
                     var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
@@ -601,6 +668,9 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
+
+                updateLastUpdateAbout(xmlDoc);
+
                 var temp2 = parseInt(sessionStorage.educationsSize);
                 temp2 -= 1;
                 sessionStorage.educationsSize = temp2;
@@ -647,6 +717,10 @@ $(document).ready(function(){
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
+
+                var jobExperienceNode = xmlDoc.getElementsByTagName("job_experience")[0];
+                jobExperienceNode.setAttribute("lastUpdate", generateTimeNow());
+                
                 var temp2 = parseInt(sessionStorage.jobsSize);
                 temp2 -= 1;
                 sessionStorage.jobsSize = temp2;
@@ -781,6 +855,11 @@ $(document).ready(function(){
         dataType: "xml",
         success: function(xmlDoc){
             var job_experience_head = $(xmlDoc).find('job_experience');
+
+            //update time
+            var lastUpdate = job_experience_head.attr("lastUpdate");
+            $(".workLastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+            
             var job_experience_head_children = $(job_experience_head).children();
             var working_output = "";
             var job_experience_curr = job_experience_head_children.last();
@@ -861,6 +940,11 @@ $(document).ready(function(){
         dataType: "xml",
         success: function(xmlDoc){
             var skills_head = $(xmlDoc).find('skills');
+
+            //update time
+            var lastUpdate = skills_head.attr("lastUpdate");
+            $(".skillsLastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+
             var skills_head_children = $(skills_head).children();
             var skills_output = "";
             var skills_curr = skills_head_children.first();
