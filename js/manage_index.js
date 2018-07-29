@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    //Initial Variable
+    var deletedId = "";
+
     /*
          Fill Content for Initial
     */
@@ -21,8 +24,13 @@ $(document).ready(function(){
         url: "xml/works.xml", 
         dataType: "xml",
         success: function(xmlDoc){
-            //Show Data inside Table
             var work_head = $(xmlDoc).find('works');
+            
+            //Show Last Updated
+            var lastUpdate = work_head.attr("lastUpdate");
+            $("#lastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+
+            //Show Data inside Table
             var work_head_children = $(work_head).children();
             var work_output = "";
             var work_curr = work_head_children.last();
@@ -43,6 +51,7 @@ $(document).ready(function(){
                 work_output += "<td>" + type + "</td>";
                 work_output += "<td>" + date + "</td>";
                 work_output += "<td>" + "<a id=\"" + i + "\" class=\"view_works_images button is-dark\"><i class=\"fa fa-image\"></i></a>" + "</td>";
+                work_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon work_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
                 work_output += "</tr>";
                 work_curr = work_curr.prev();
                 i++;
@@ -62,6 +71,7 @@ $(document).ready(function(){
             work_output += "<td>" + type + "</td>";
             work_output += "<td>" + date + "</td>";
             work_output += "<td>" + "<a id=\"" + i + "\" class=\"view_works_images button is-dark\"><i class=\"fa fa-image\"></i></a>" + "</td>";
+            work_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon work_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
             work_output += "</tr>";
 
             $("#home_content_manage").html(work_output);
@@ -98,7 +108,7 @@ $(document).ready(function(){
                     work_output += "<img src='" + work_details_pictures.text() + "'>";
                     work_output += "</figure>";
                     if($(work_details_pictures).attr("status") == "main") {
-                        work_output += "<article class=\"message is-primary\">";
+                        work_output += "<article class=\"message is-dark\">";
                         work_output += "<div class=\"message-header\">";
                         work_output += "<div class=\"has-text-weight-bold\">Cover Picture</div>";
                         work_output += "</div></article>";
@@ -112,7 +122,7 @@ $(document).ready(function(){
                 work_output += "<img src='" + work_details_pictures.text() + "'>";
                 work_output += "</figure>";
                 if($(work_details_pictures).attr("status") == "main") {
-                    work_output += "<article class=\"message is-primary\">";
+                    work_output += "<article class=\"message is-dark\">";
                     work_output += "<div class=\"message-header\">";
                     work_output += "<div class=\"has-text-weight-bold\">Cover Picture</div>";
                     work_output += "</div></article>";
@@ -145,7 +155,7 @@ $(document).ready(function(){
                 work_output += "<img src='" + work_details_pictures.text() + "'>";
                 work_output += "</figure>";
                 if($(work_details_pictures).attr("status") == "main") {
-                    work_output += "<article class=\"message is-primary\">";
+                    work_output += "<article class=\"message is-dark\">";
                     work_output += "<div class=\"message-header\">";
                     work_output += "<div class=\"has-text-weight-bold\">Cover Picture</div>";
                     work_output += "</div></article>";
@@ -159,7 +169,7 @@ $(document).ready(function(){
             work_output += "<img src='" + work_details_pictures.text() + "'>";
             work_output += "</figure>";
             if($(work_details_pictures).attr("status") == "main") {
-                work_output += "<article class=\"message is-primary\">";
+                work_output += "<article class=\"message is-dark\">";
                 work_output += "<div class=\"message-header\">";
                 work_output += "<div class=\"has-text-weight-bold\">Cover Picture</div>";
                 work_output += "</div></article>";
@@ -201,15 +211,33 @@ $(document).ready(function(){
         $("#create_new_work_modal").hide();
     });
 
+    $(".close_delete_work_modal").click(function(){
+        $("#delete_work_modal").removeClass("is-active");
+        $("#delete_work_modal").hide();
+    });
+
+    $('body').on('click', '.work_delete', function (){
+        var id = $(this).attr('id');
+        $(".work_id_text").text("ID : " + id);
+        $(".work_delete_id_confirm").attr("id", "work_delete_" + id);
+        $("#delete_work_modal").addClass("is-active");
+        $("#delete_work_modal").show();
+    });
+
     /*
         Create New Work
     */
     $("#createNewWork").on('submit',(function(e) {
         e.preventDefault();
+        var temp = parseInt(sessionStorage.worksSize);
+        temp += 1;
+        var form_data = new FormData(this);
+        form_data.append('number', temp);
+        e.preventDefault();
         $.ajax({
             url: "upload_work_images.php", 
             type: "POST",             
-            data: new FormData(this), 
+            data: form_data, 
             contentType: false,       
             cache: false,            
             processData: false,        
@@ -222,15 +250,229 @@ $(document).ready(function(){
                         $("#wrong_other_pictures_file_type").show();
                         break;
                     default :
-                        /*
-                        sessionStorage.loggedUser = data;
-                        window.location.replace("index.html");
-                        */
-                        alert("sukses");
+                        var name = $("#name").val();
+                        var purpose = $("#purpose").val();
+                        var role = $("#role").val();
+                        var description = $("#description").val();
+                        var type = $("#type").val();
+                        var date = $("#workingDate").val();
+                        var date_temp = date.split("-");
+                        var month = numToStringMonth(date_temp[1]);
+                        var year = date_temp[0];
+                        var pictures = data.split("|");
+                        var picturesLength = pictures.length;
+
+                        var xmlhttp;
+                        if(window.XMLHttpRequest) {
+                            xmlhttp = new XMLHttpRequest();
+                        } else {
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.open("GET", "xml/works.xml", true);
+                        xmlhttp.send();
+                        xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                var xmlDoc = this.responseXML;
+                            
+                                var temp = parseInt(sessionStorage.worksSize);
+                                temp += 1;
+                                sessionStorage.worksSize = temp;
+
+                                var worksNode = xmlDoc.getElementsByTagName("works")[0];
+
+                                //Update time
+                                worksNode.setAttribute("lastUpdate", generateTimeNow());
+
+                                var workNode = xmlDoc.createElement("work");
+                                var idAttr = xmlDoc.createAttribute("id");
+                                idAttr.nodeValue = sessionStorage.worksSize;
+                                workNode.setAttributeNode(idAttr);
+
+                                var nameNode = xmlDoc.createElement("name");
+                                var nameText = xmlDoc.createTextNode(name);
+                                nameNode.appendChild(nameText)
+                                workNode.appendChild(nameNode);
+
+                                var purposeNode = xmlDoc.createElement("purpose");
+                                var purposeText = xmlDoc.createTextNode(purpose);
+                                purposeNode.appendChild(purposeText)
+                                workNode.appendChild(purposeNode);
+
+                                var roleNode = xmlDoc.createElement("role");
+                                var roleText = xmlDoc.createTextNode(role);
+                                roleNode.appendChild(roleText)
+                                workNode.appendChild(roleNode);
+
+                                var descriptionNode = xmlDoc.createElement("description");
+                                var descriptionText = xmlDoc.createTextNode(description);
+                                descriptionNode.appendChild(descriptionText)
+                                workNode.appendChild(descriptionNode);
+
+                                var picturesNode = xmlDoc.createElement("pictures");
+
+                                for(var a = 0; a < picturesLength - 1; a++) {
+                                    var pictureNode = xmlDoc.createElement("picture");
+                                    var id = xmlDoc.createAttribute("id");
+                                    id.nodeValue = a + 1;
+                                    pictureNode.setAttributeNode(id);
+                                    if(a == 0) {
+                                        var status = xmlDoc.createAttribute("status");
+                                        status.nodeValue = "main";
+                                        pictureNode.setAttributeNode(status);
+                                    }
+                                    var pictureText = xmlDoc.createTextNode(pictures[a]);
+                                    $(pictureNode).append(pictureText);
+                                    picturesNode.appendChild(pictureNode);
+                                }
+                                workNode.appendChild(picturesNode);
+
+                                var typeNode = xmlDoc.createElement("type");
+                                var typeText = xmlDoc.createTextNode(type);
+                                typeNode.appendChild(typeText)
+                                workNode.appendChild(typeNode);
+
+                                var dateNode = xmlDoc.createElement("date");
+                                var dateText = xmlDoc.createTextNode(month + " " + year);
+                                dateNode.appendChild(dateText)
+                                workNode.appendChild(dateNode);
+
+                                worksNode.appendChild(workNode);
+
+                                var dataInput = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                                var typeInput = "works";
+                                $.post("data_management.php",
+                                {
+                                    type: typeInput,
+                                    data: dataInput
+                                },
+                                function(data, status){
+                                    if(status == 'success') {
+                                        setTimeout(function(){ 
+                                            window.location.reload(true);
+                                        }, 30);
+                                    }
+                                });
+                            }
+                        };
                 }
             }
         });
     }));
+
+    /*
+        Delete Work
+    */
+    $('body').on('click', '.work_delete_id_confirm', function (){
+        var temp = $(this).attr('id').split("_");
+        deletedId = temp[2];
+        $.post("delete_work_images.php",
+        {
+            id: deletedId
+        },
+        function(data, status){
+            if(status == 'success') {
+                var xmlhttp;
+                if(window.XMLHttpRequest) {
+                    xmlhttp = new XMLHttpRequest();
+                } else {
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.open("GET", "xml/works.xml", true);
+                xmlhttp.send();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var xmlDoc = this.responseXML;
+                        var temp2 = parseInt(sessionStorage.worksSize);
+                        temp2 -= 1;
+                        sessionStorage.worksSize = temp2;
+                        var workNode = xmlDoc.getElementsByTagName("work");
+
+                        //Update time
+                        var worksNode = xmlDoc.getElementsByTagName("works")[0];
+                        worksNode.setAttribute("lastUpdate", generateTimeNow());
+                        
+                        var lastIndex = 0;
+                        for(var a = 0; a < workNode.length; a++) {
+                            if(workNode[a].getAttribute('id') == deletedId) {
+                                if(a == (workNode.length - 1)) {
+                                    lastIndex = 1;
+                                }
+                                workNode[a].parentNode.removeChild(workNode[a]);
+                                break;
+                            }
+                        }
+                        //Decrement id of each node
+                        var workNewNode = xmlDoc.getElementsByTagName("work");
+                        if(lastIndex == 0) {
+                            for(var b = 0; b < workNewNode.length; b++) {
+                                var id = parseInt(workNewNode[b].getAttribute('id'));
+                                if(id != (b + 1)) {
+                                    var newId = id - 1;
+                                    workNewNode[b].setAttribute("id", newId + "");
+                                }
+                            }
+                        }
+
+                        //Decrement name of each images
+                        var works = $(xmlDoc).find("works");
+                        var works_children = $(works).children();
+                        var works_curr = works_children.first();
+                        while(!(works_curr.is(works_children.last()))) {
+                            var id = works_curr.attr("id");
+                            if(parseInt(id) >= parseInt(deletedId)) {
+                                var works_pictures = $(works_curr).find("pictures").children();
+                                var works_details_pictures = $(works_pictures).first();
+                                while(!(works_details_pictures.is(works_pictures.last()))) {
+                                    var currDetail = works_details_pictures.text();
+                                    var arrDetail = currDetail.split("/");
+                                    arrDetail[2] = id;
+                                    works_details_pictures.text(arrDetail.join("/")); 
+                                    works_details_pictures = works_details_pictures.next();
+                                }
+                                works_details_pictures = $(works_pictures).last();
+                                var currDetail = works_details_pictures.text();
+                                var arrDetail = currDetail.split("/");
+                                arrDetail[2] = id;
+                                works_details_pictures.text(arrDetail.join("/")); 
+                            }
+                            works_curr = works_curr.next();
+                        }
+                        works_curr = works_children.last();
+                        var id = works_curr.attr("id");
+                        if(parseInt(id) >= parseInt(deletedId)) {
+                            var works_pictures = $(works_curr).find("pictures").children();
+                            var works_details_pictures = $(works_pictures).first();
+                            while(!(works_details_pictures.is(works_pictures.last()))) {
+                                var currDetail = works_details_pictures.text();
+                                var arrDetail = currDetail.split("/");
+                                arrDetail[2] = id;
+                                works_details_pictures.text(arrDetail.join("/")); 
+                                works_details_pictures = works_details_pictures.next();
+                            }
+                            works_details_pictures = $(works_pictures).last();
+                            var currDetail = works_details_pictures.text();
+                            var arrDetail = currDetail.split("/");
+                            arrDetail[2] = id;
+                            works_details_pictures.text(arrDetail.join("/")); 
+                        }
+                        
+                        deletedId = "";
+
+                        var dataInput = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                        var typeInput = "works";
+                        $.post("data_management.php",
+                        {
+                            type: typeInput,
+                            data: dataInput
+                        },
+                        function(data, status){
+                            window.location.reload(true);
+                        });
+                    }
+                };           
+            } 
+        });        
+    });
 
     $('#coverPicture[type="file"]').change(function(imageFile){
         $("#wrong_cover_picture_file_type").hide();
@@ -245,7 +487,6 @@ $(document).ready(function(){
 
 
     $('#otherPictures[type="file"]').change(function(){
-       
        var otherContents = "";
        var length = $(this).get(0).files.length;
        var pictures = [];
@@ -279,4 +520,63 @@ $(document).ready(function(){
             }
         }, 300);
     });
+
+    /*
+        Other Functions or Triggers
+    */
+    function numToStringMonth(num) {
+        var month = "";
+        if(num == "01") {
+            month = "January";
+        } else if(num == "02") {
+            month = "February";
+        } else if(num == "03") {
+            month = "March";
+        } else if(num == "04") {
+            month = "April";
+        } else if(num == "05") {
+            month = "May";
+        } else if(num == "06") {
+            month = "June";
+        } else if(num == "07") {
+            month = "July";
+        } else if(num == "08") {
+            month = "August";
+        } else if(num == "09") {
+            month = "September";
+        } else if(num == "10") {
+            month = "October";
+        } else if(num == "11") {
+            month = "November";
+        } else if(num == "12") {
+            month = "December";
+        } 
+        return month;
+    }
+
+    function generateTimeNow() {
+        var dates = new Date();
+        var minute = dates.getMinutes();
+        var hour = dates.getHours();
+        var year = dates.getFullYear();
+        var monthNum = dates.getMonth();
+        var date = dates.getDate();
+
+        var month = new Array();
+        month[0] = "January";
+        month[1] = "February";
+        month[2] = "March";
+        month[3] = "April";
+        month[4] = "May";
+        month[5] = "June";
+        month[6] = "July";
+        month[7] = "August";
+        month[8] = "September";
+        month[9] = "October";
+        month[10] = "November";
+        month[11] = "December";
+
+        var fullDates = date + " " + month[monthNum] + " " + year + " " + hour + "." + minute;
+        return fullDates;
+    }
 });

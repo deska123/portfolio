@@ -13,6 +13,12 @@
                 fwrite($myfile, $data);
                 fclose($myfile);
             }
-        } 
+        } else if($_POST['type'] == 'works') {
+            if(file_exists("xml/works.xml")) {
+                $myfile = fopen("xml/works.xml", "w") or die("Unable to open file!");
+                fwrite($myfile, $data);
+                fclose($myfile);
+            }
+        }
     }
 ?>

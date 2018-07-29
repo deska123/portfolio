@@ -1,53 +1,85 @@
 <?php
-/*
-    $target_file = basename($_FILES['key_file']['name']);
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    $uploadSuccess = 1;
+    $newIndex = $_POST['number'];
 
-    if($imageFileType != "txt" && $imageFileType != "key") {
-        $uploadSuccess = 0;
-        echo "wrong file type";
-    }
-
-    if($uploadSuccess == 1) {
-        if(move_uploaded_file($_FILES['key_file']['tmp_name'], $target_file)) {
-            $md5_value = md5_file($target_file);
-            $actual_key = '0bc56bffb2b9e8ef8e4b8284b9f59054';
-
-            if(unlink($target_file)) {
-                if($md5_value == $actual_key) {
-                    echo $md5_value;
-                } else {
-                    echo "not matched";
-                }
-            } 
-        }
-    }
-    */
     $uploadSuccess = 1;
     if(isset($_FILES['coverPicture'])) {
         $coverPicture = basename($_FILES['coverPicture']['name']);
         $coverPictureFileType = strtolower(pathinfo($coverPicture, PATHINFO_EXTENSION));
     
-        if($coverPictureFileType != "jpg" && $coverPictureFileType != "png") {
-            $uploadSuccess = 0;
-            echo "wrong cover picture filetype";
+        if($coverPictureFileType != "jpg") {
+            if($coverPictureFileType != "png") {
+                $uploadSuccess = 0;
+                echo "wrong cover picture filetype";
+            }
         }
     }
    
     if($uploadSuccess == 1) {
         if(isset($_FILES['otherPictures'])) {
             $otherPicturesNum = count($_FILES['otherPictures']['name']);
+            
             for($a = 0; $a < $otherPicturesNum; $a++) {
                 $otherPicture = basename($_FILES['otherPictures']['name'][$a]);
-                echo $otherPicture . "---";
                 $otherPictureFileType = strtolower(pathinfo($otherPicture, PATHINFO_EXTENSION));
-                if($otherPictureFileType != "jpg" && $otherPictureFileType != "png") {
-                    $uploadSuccess = 0;
-                    echo "wrong other pictures filetype";
-                    break;
+                if($otherPictureFileType != "jpg") {
+                    if($otherPictureFileType != "png") {
+                        $uploadSuccess = 0;
+                        echo "wrong other pictures filetype";
+                        break;  
+                    }
                 }
             }
         }
+    }
+    
+    $output = "";
+
+    if($uploadSuccess == 1) {
+        $dir = "assets/works/" . $newIndex;
+        mkdir($dir);
+        if(file_exists($dir)) {
+            $coverPicture = basename($_FILES['coverPicture']['name']);
+            $coverPictureFileType = strtolower(pathinfo($coverPicture, PATHINFO_EXTENSION));
+            $cover_target_file = $dir . "/1." . $coverPictureFileType;
+            if(!move_uploaded_file($_FILES['coverPicture']['tmp_name'], $cover_target_file)) {
+                $uploadSuccess = 0;
+            } else {
+                $output = $cover_target_file . "|";
+            }
+
+            if($uploadSuccess == 1) {
+                $otherPicturesNum = count($_FILES['otherPictures']['name']);
+                for($a = 0; $a < $otherPicturesNum; $a++) {
+                    $otherPicture = basename($_FILES['otherPictures']['name'][$a]);
+                    $otherPictureFileType = strtolower(pathinfo($otherPicture, PATHINFO_EXTENSION));
+                    $other_target_file = $dir . "/" . ($a + 2) . "." . $otherPictureFileType;
+                    if(!move_uploaded_file($_FILES['otherPictures']['tmp_name'][$a], $other_target_file)) {
+                        $uploadSuccess = 0;
+                        break;
+                    } else {
+                        $output .= $other_target_file . "|";
+                    }
+                }
+            }
+        } else {
+            $uploadSuccess = 0;
+        }
+    }
+
+    if($uploadSuccess == 0) {
+        $num = count($_FILES['otherPictures']['name']) + 1;
+        for($b = 1; $b <= $num; $b++) {
+            $dir = "assets/works/" . $newIndex;
+            if(file_exists("/" . $dir . $b . ".jpg")) {
+                unlink("/" . $dir . $b . ".jpg");
+            }
+            if(file_exists("/" . $dir . $b . ".png")) {
+                unlink("/" . $dir . $b . ".png");
+            }
+        }
+        rmdir($dir);
+        echo "failed upload pictures";
+    } else {
+        echo $output;
     }
 ?>
