@@ -16,9 +16,6 @@
         }
     }
 
-    $user_hash = '$2y$10$/4a3rAXWP6QJxoKTc3Lcj.cjIJoaAx5C6GByK/hUfhV2.CxoTGfRq';
-    $pass_hash = '$2y$10$spfkvEIGHa/W6TD/EVcJ2O817l1xAthBbGMQV3DzbtuFmywsfXqKa';
-
     if(password_verify($username, $user_hash)) {
         if(password_verify($password, $pass_hash)) {
             echo "login success";

@@ -9,7 +9,7 @@
         $message = $_POST['message'];
     }
 
-    $to = "dkamah913@gmail.com";
+    $to = "";
     $subject = "New Contact Message";
     $content = "Name : " . $name . "\r\n";
     $content += "Email : " . $email . "\r\n";
