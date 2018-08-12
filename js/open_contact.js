@@ -44,15 +44,35 @@ $(document).ready(function(){
         //TODO temporary situation because of no SMTP installed
         if($("#sender_submit").prop('disabled') == false) {
             var name = $("#sender_name").val();
-        var email = $("#sender_email").val();
-        var message = $("#sender_message").val();
-        if(email != undefined && email != '') {
-            //Taken from https://www.w3schools.com/js/tryit.asp?filename=tryjs_form_validate_email
-            var atpos = email.indexOf("@");
-            var dotpos = email.lastIndexOf(".");
-            if (atpos < 1 || dotpos < (atpos + 2) || dotpos + 2 >= email.length) {
-                $("#sender_email").addClass("is-danger");
-                $("#wrong_email_format").show();
+            var email = $("#sender_email").val();
+            var message = $("#sender_message").val();
+            if(email != undefined && email != '') {
+                //Taken from https://www.w3schools.com/js/tryit.asp?filename=tryjs_form_validate_email
+                var atpos = email.indexOf("@");
+                var dotpos = email.lastIndexOf(".");
+                if (atpos < 1 || dotpos < (atpos + 2) || dotpos + 2 >= email.length) {
+                    $("#sender_email").addClass("is-danger");
+                    $("#wrong_email_format").show();
+                } else {
+                    if(message == undefined || message == '') {
+                        $("#sender_message").addClass("is-danger");
+                        $("#empty_message").show();
+                    } else {
+                        $.post("message_process.php",
+                        {
+                            name: name,
+                            email: email,
+                            message: message
+                        },
+                        function(data, status){
+                            if(data == "success") {
+                                alert("Successful Delivery");
+                            } else {
+                                alert("Failed Delivery");
+                            }
+                        });
+                    }
+                }
             } else {
                 if(message == undefined || message == '') {
                     $("#sender_message").addClass("is-danger");
@@ -73,26 +93,6 @@ $(document).ready(function(){
                     });
                 }
             }
-        } else {
-            if(message == undefined || message == '') {
-                $("#sender_message").addClass("is-danger");
-                $("#empty_message").show();
-            } else {
-                $.post("message_process.php",
-                {
-                    name: name,
-                    email: email,
-                    message: message
-                },
-                function(data, status){
-                    if(data == "success") {
-                        alert("Successful Delivery");
-                    } else {
-                        alert("Failed Delivery");
-                    }
-                });
-            }
-        }
         }
     });
 

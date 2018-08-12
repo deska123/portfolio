@@ -2,6 +2,12 @@ $(document).ready(function(){
     //Initial Variable
     var deletedId = "";
 
+    //Fill country select input
+    //Originally taken from https://github.com/IshanDemon/List_Country_State
+    populateCountries("country");
+    populateCountries("location");
+    populateCountries("working_country");
+
     /*
         Retrieve Data of Identity Part
     */
@@ -84,6 +90,10 @@ $(document).ready(function(){
         $("#edit_location_modal").hide();
     });
 
+    $(".close_edit_skill_modal").click(function(){
+        $("#edit_skill_modal").hide();
+    });
+
     $(".close_delete_education_modal").click(function(){
         $("#delete_education_modal").hide();
     });
@@ -118,6 +128,62 @@ $(document).ready(function(){
             $("#edit_location_modal").show();
             $("#location").val(location);
         }
+    });
+
+    $('body').on('click', '.skill_edit', function(){
+        var temp = $(this).attr('id').split("_");
+        var editedId = temp[2];
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/skills.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                var temp2 = parseInt(sessionStorage.skillsSize);
+                temp2 -= 1;
+                sessionStorage.skillsSize = temp2;
+
+                var skillNode = xmlDoc.getElementsByTagName("skill");
+
+                for(var a = 0; a < skillNode.length; a++) {
+                    if(skillNode[a].getAttribute('id') == editedId) {
+                        $("#edit_skill_name").val(skillNode[a].getElementsByTagName("name")[0].innerHTML);
+                        $("#edit_skill_description").val(skillNode[a].getElementsByTagName("description")[0].innerHTML);
+                        var lists = skillNode[a].getElementsByTagName("lists")[0];
+                        var list = lists.getElementsByTagName("list");
+
+                        $("#edit_dynamicListContainer").empty();
+                        if(list.length > 0) {
+                            $("#edit_fixedList").val(list[0].innerHTML);
+                            if(list.length > 1) {
+                                for(var a = 1; a < list.length; a++) {
+                                    $("#edit_dynamicListContainer").append(
+                                        "<div id=\"edit_dynamicList-" + a + "\" class=\"field has-addons edit_dynamicList\">" +
+                                            "<div class=\"control is-expanded\">" +
+                                                "<input class=\"input\" type=\"text\" placeholder=\"e.g Java\" value=\"" + list[a].innerHTML + "\">" +
+                                            "</div>" +
+                                            "<div class=\"control\">" +
+                                                "<a id=\"edit_deleteDynamicList-" + a + "\" class=\"button is-danger edit_deleteDynamicList\">X</a>" +
+                                            "</div>" +
+                                        "</div>"
+                                    );
+                                }
+                            }
+                        }
+
+                        $(".edit_skill_button").attr("id", "edit_skill_confirm_" + editedId);
+                        break;
+                    }
+                }
+            }
+        };
+        $("#edit_skill_modal").show();
     });
 
     $('body').on('click', '.education_delete', function (){
@@ -174,6 +240,36 @@ $(document).ready(function(){
       }
     });
 
+    $("#edit_addDynamicList").click(function() {
+      if($(".edit_dynamicList").length > 0) {
+        var listCount = 0;
+        $(".edit_dynamicList").each(function() {
+          listCount++;
+        });
+        $("#edit_dynamicListContainer").append(
+          "<div id=\"edit_dynamicList-" + (listCount + 1) + "\" class=\"field has-addons edit_dynamicList\">" +
+            "<div class=\"control is-expanded\">" +
+              "<input class=\"input\" type=\"text\" placeholder=\"e.g Java\">" +
+            "</div>" +
+            "<div class=\"control\">" +
+                "<a id=\"edit_deleteDynamicList-" + (listCount + 1) + "\" class=\"button is-danger edit_deleteDynamicList\">X</a>" +
+            "</div>" +
+         "</div>"
+       );
+      } else {
+        $("#edit_dynamicListContainer").append(
+          "<div id=\"edit_dynamicList-1\" class=\"field has-addons edit_dynamicList\">" +
+            "<div class=\"control is-expanded\">" +
+              "<input class=\"input\" type=\"text\" placeholder=\"e.g Java\">" +
+            "</div>" +
+            "<div class=\"control\">" +
+                "<a id=\"edit_deleteDynamicList-1\" class=\"button is-danger edit_deleteDynamicList\">X</a>" +
+            "</div>" +
+         "</div>"
+       );
+      }
+    });
+
     $('body').on('click', '.deleteDynamicList', function(){
         var temp = $(this).attr('id').split("-");
         var id = temp[1];
@@ -191,6 +287,25 @@ $(document).ready(function(){
           }
         });
         $("#dynamicList-" + id).remove();
+    }
+
+    $('body').on('click', '.edit_deleteDynamicList', function(){
+        var temp = $(this).attr('id').split("-");
+        var id = temp[1];
+        edit_decreaseEachId(id);
+    });
+
+    function edit_decreaseEachId(id) {
+        $('.dynamicList').each(function() {
+          var currTemp = $(this).attr('id').split("-");
+          var currId = currTemp[1];
+          if(parseInt(currId) > parseInt(id)) {
+            var newId = parseInt(currId) - 1;
+            $(this).attr('id', 'dynamicList-' + newId);
+            $(this).find('.edit_deleteDynamicList').attr('id', 'edit_deleteDynamicList-' + newId);
+          }
+        });
+        $("#edit_dynamicList-" + id).remove();
     }
 
     $("#start_time").change(function(){
@@ -643,6 +758,68 @@ $(document).ready(function(){
     /*
         Edit Part
     */
+    $('body').on('click', '.edit_skill_button', function (){
+        var temp = $(this).attr('id').split("_");
+        var id = temp[3];
+        var edited_name = $("#edit_skill_name").val();
+        var edited_description = $("#edit_skill_description").val();
+        var edited_dynamicList = [];
+        var edited_fixedList = $("#edit_fixedList").val(); 
+        edited_dynamicList.push(edited_fixedList);
+        $(".edit_dynamicList").each(function() {
+            edited_dynamicList.push($(this).find("input").val());
+        });
+
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/skills.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                var skillsNode = xmlDoc.getElementsByTagName("skills")[0];
+                skillsNode.setAttribute("lastUpdate", generateTimeNow());
+
+                var skillNode = xmlDoc.getElementsByTagName("skill");
+
+                for(var a = 0; a < skillNode.length; a++) {
+                    if(skillNode[a].getAttribute('id') == id) {
+                        var nameNode = skillNode[a].getElementsByTagName("name")[0].childNodes[0];
+                        nameNode.nodeValue = edited_name;
+
+                        var descriptionNode = skillNode[a].getElementsByTagName("description")[0].childNodes[0];
+                        descriptionNode.nodeValue = edited_description;
+
+                        var listsNode = skillNode[a].getElementsByTagName("lists")[0];
+                        while(listsNode.hasChildNodes()) {
+                            listsNode.removeChild(listsNode.firstChild);
+                        }
+                        for(var a = 0; a < edited_dynamicList.length; a++) {
+                            var listNode = xmlDoc.createElement("list");
+                            var idListAttr = xmlDoc.createAttribute("id");
+                            idListAttr.nodeValue = (a + 1) + "";
+                            listNode.setAttributeNode(idListAttr);
+
+                            var listText = xmlDoc.createTextNode(edited_dynamicList[a]);
+                            listNode.appendChild(listText);
+                            listsNode.appendChild(listNode);
+                        }
+
+                        break;
+                    }
+                }
+
+                var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                updateXML("skills", data, "#manage_skill_title");
+            }
+        };
+    });
+
     $('body').on('click', '.edit_submit', function (){
         var id = $(this).attr('id').split("_");
         var field = id[1];
@@ -977,7 +1154,7 @@ $(document).ready(function(){
                 var country = $(education_curr).find('country').text();
                 education_output += "<tr>";
                 education_output += "<td>" + school_name + "</td>";
-                education_output += "<td>" + school_link + "</td>";
+                education_output += "<td><a target=\"_blank\" href=\"" + school_link + "\">" + school_link + "</a></td>";
                 education_output += "<td>" + degree + "</td>";
                 education_output += "<td>" + major + "</td>";
                 education_output += "<td>" + start_month + "</td>";
@@ -1005,7 +1182,7 @@ $(document).ready(function(){
             var country = $(education_curr).find('country').text();
             education_output += "<tr>";
             education_output += "<td>" + school_name + "</td>";
-            education_output += "<td>" + school_link + "</td>";
+            education_output += "<td><a target=\"_blank\" href=\"" + school_link + "\">" + school_link + "</a></td>";
             education_output += "<td>" + degree + "</td>";
             education_output += "<td>" + major + "</td>";
             education_output += "<td>" + start_month + "</td>";
@@ -1058,7 +1235,7 @@ $(document).ready(function(){
                 working_output += "<td>" + position + "</td>";
                 working_output += "<td>" + description + "</td>";
                 working_output += "<td>" + company_name + "</td>";
-                working_output += "<td>" + company_link + "</td>";
+                working_output += "<td><a target=\"_blank\" href=\"" + company_link + "\">" + company_link + "</a></td>";
                 working_output += "<td>" + start_date + "</td>";
                 working_output += "<td>" + start_month + "</td>";
                 working_output += "<td>" + start_year + "</td>";
@@ -1090,7 +1267,7 @@ $(document).ready(function(){
             working_output += "<td>" + position + "</td>";
             working_output += "<td>" + description + "</td>";
             working_output += "<td>" + company_name + "</td>";
-            working_output += "<td>" + company_link + "</td>";
+            working_output += "<td><a target=\"_blank\" href=\"" + company_link + "\">" + company_link + "</a></td>";
             working_output += "<td>" + start_date + "</td>";
             working_output += "<td>" + start_month + "</td>";
             working_output += "<td>" + start_year + "</td>";
@@ -1150,7 +1327,10 @@ $(document).ready(function(){
                     }
                     skills_output += "<td>" + lists_curr_2.text() + "</td>";
                     if(i == 0) {
-                      skills_output += "<td rowspan='" + span + "'>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon skill_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
+                      skills_output += "<td rowspan='" + span + "'>";
+                      skills_output += "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon skill_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>&nbsp;&nbsp;";
+                      skills_output += "<span id=\"edit_skill_" + id + "\" style=\"cursor: pointer;\" class=\"icon skill_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>";
+                      skills_output += "</td>";
                     }
                     skills_output += "</tr>";
                     i++;
@@ -1185,7 +1365,10 @@ $(document).ready(function(){
                 }
                 skills_output += "<td>" + lists_curr_2.text() + "</td>";
                 if(i == 0) {
-                  skills_output += "<td rowspan='" + span + "'>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon skill_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
+                    skills_output += "<td rowspan='" + span + "'>";
+                    skills_output += "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon skill_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>&nbsp;&nbsp;";
+                    skills_output += "<span id=\"edit_skill_" + id + "\" style=\"cursor: pointer;\" class=\"icon skill_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>";
+                    skills_output += "</td>";
                 }
                 skills_output += "</tr>";
                 i++;

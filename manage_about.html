@@ -9,8 +9,48 @@
         <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="js/check_login.js"></script>
         <script type="text/javascript" src="js/manage_about.js"></script>
+        <script type="text/javascript" src="js/countries.js"></script>
     </head>
     <body>
+        <div id="edit_skill_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Skill</p>
+                    <button class="delete close_edit_skill_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                            <input id="edit_skill_name" class="input" type="text" placeholder="e.g Programming">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <div class="control">
+                            <input id="edit_skill_description" class="input" type="text" placeholder="e.g loren ipsum">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">
+                            Lists
+                            <span id="edit_addDynamicList" style="cursor: pointer;" class="icon"><i class="fa fa-plus-square fa-lg"></i></span>
+                        </label>
+                        <div class="field">
+                            <div class="control">
+                                <input id="edit_fixedList" class="input" type="text" placeholder="e.g Java">
+                            </div>
+                        </div>
+                        <div id="edit_dynamicListContainer"></div>
+                    </div>
+                    <br>
+                    <button id="" class="button is-success edit_skill_button">Edit</button>
+                    <button class="button is-danger close_edit_skill_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
         <div id="create_new_skill_modal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -109,7 +149,9 @@
                     <div class="field">
                         <label class="label">Country</label>
                         <div class="control">
-                            <input id="country" class="input" type="text" placeholder="e.g Candy Bekasi">
+                            <div class="select">
+                                <select id="country"></select>
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -175,7 +217,9 @@
                     <div class="field">
                         <label class="label">Country</label>
                         <div class="control">
-                            <input id="working_country" class="input" type="text" placeholder="e.g nowhere">
+                            <div class="select">
+                                <select id="working_country"></select>
+                            </div>
                         </div>
                     </div>
                     <div class="field">
@@ -307,7 +351,9 @@
                     <div class="field">
                         <label class="label">Location</label>
                         <div class="control">
-                            <input id="location" class="input" type="text">
+                            <div class="select">
+                                <select id="location"></select>
+                            </div>
                         </div>
                     </div>
                     <br>
