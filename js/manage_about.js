@@ -74,6 +74,8 @@ $(document).ready(function(){
     });
 
     $(".close_create_new_skill_modal").click(function(){
+        $("#create_new_skill_modal").find("input").val("");
+        $("#create_new_skill_modal").find("#dynamicListContainer").empty();
         $("#create_new_skill_modal").hide();
     });
 
