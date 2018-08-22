@@ -12,9 +12,9 @@
     $to = "";
     $subject = "New Contact Message";
     $content = "Name : " . $name . "\r\n";
-    $content += "Email : " . $email . "\r\n";
-    $content += "Message : " . "\r\n";
-    $content += $message;
+    $content .= "Email : " . $email . "\r\n";
+    $content .= "Message : " . "\r\n";
+    $content .= $message;
     $headers = "From : " . $email . "\r\n";
 
     if(mail($to, $subject, $content, $headers)) {
