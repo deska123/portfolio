@@ -158,10 +158,6 @@ $(document).ready(function(){
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
 
-                var temp2 = parseInt(sessionStorage.skillsSize);
-                temp2 -= 1;
-                sessionStorage.skillsSize = temp2;
-
                 var skillNode = xmlDoc.getElementsByTagName("skill");
 
                 for(var a = 0; a < skillNode.length; a++) {
@@ -349,6 +345,44 @@ $(document).ready(function(){
         }
     });
 
+    $("#still_working").change(function() {
+        if($("#still_working").prop("checked")) {
+            $('#working_end_time').val('');
+            $("#working_end_time").prop("disabled", true);
+            $("#start_time").attr("max", "");
+        } else {
+            $("#working_end_time").prop("disabled", false);
+        }
+    });
+
+    $("#working_start_time").change(function(){
+        var startTime = $("#working_start_time").val();
+        if (startTime == "" || startTime == undefined) {
+            $("#working_end_time").attr("min", "");
+        } else {
+            var startDate = new Date(startTime);
+            startDate = startDate.setDate(startDate.getDate() + 1);
+            var newDate = String(new Date(startDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#working_end_time").attr("min", modifiedDate);
+        }
+    });
+
+    $("#working_end_time").change(function(){
+        var endTime = $("#working_end_time").val();
+        if (endTime == "" || endTime == undefined) {
+            $("#working_start_time").attr("max", "");
+        } else {
+            var endDate = new Date(endTime);
+            endDate = endDate.setDate(endDate.getDate() - 1);
+            var newDate = String(new Date(endDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#working_start_time").attr("max", modifiedDate);
+        }
+    });
+
     function numToStringMonth(num) {
         var month = "";
         if(num == "01") {
@@ -383,50 +417,31 @@ $(document).ready(function(){
         var month = "";
         if(string == "Jan") {
             month = "01";
-        } else if(num == "Feb") {
+        } else if(string == "Feb") {
             month = "02";
-        } else if(num == "Mar") {
+        } else if(string == "Mar") {
             month = "03";
-        } else if(num == "Apr") {
+        } else if(string == "Apr") {
             month = "04";
-        } else if(num == "May") {
+        } else if(string == "May") {
             month = "05";
-        } else if(num == "Jun") {
+        } else if(string == "Jun") {
             month = "06";
-        } else if(num == "Jul") {
+        } else if(string == "Jul") {
             month = "07";
-        } else if(num == "Aug") {
+        } else if(string == "Aug") {
             month = "08";
-        } else if(num == "Sep") {
+        } else if(string == "Sep") {
             month = "09";
-        } else if(num == "Oct") {
+        } else if(string == "Oct") {
             month = "10";
-        } else if(num == "Nov") {
+        } else if(string == "Nov") {
             month = "11";
-        } else if(num == "Dec") {
+        } else if(string == "Dec") {
             month = "12";
         }
         return month;
     }
-
-    $("#still_working").change(function() {
-        if($("#still_working").prop("checked")) {
-            $('#working_end_time').val('');
-            $("#working_end_time").prop("disabled", true);
-        } else {
-            $("#working_end_time").prop("disabled", false);
-        }
-    });
-
-    $("#working_start_time").change(function(){
-        var startTime = $("#working_start_time").val();
-        $("#working_end_time").attr("min", startTime);
-    });
-
-    $("#working_end_time").change(function(){
-        var endTime = $("#working_end_time").val();
-        $("#working_start_time").attr("max", endTime);
-    });
 
     function updateXML(typeInput, dataInput, hrefInput) {
         $.post("data_management.php",
@@ -777,7 +792,7 @@ $(document).ready(function(){
         var edited_name = $("#edit_skill_name").val();
         var edited_description = $("#edit_skill_description").val();
         var edited_dynamicList = [];
-        var edited_fixedList = $("#edit_fixedList").val(); 
+        var edited_fixedList = $("#edit_fixedList").val();
         edited_dynamicList.push(edited_fixedList);
         $(".edit_dynamicList").each(function() {
             edited_dynamicList.push($(this).find("input").val());
