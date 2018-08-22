@@ -40,9 +40,9 @@ $(document).ready(function(){
         }
     });
 
+    /*
     $("#sender_submit").click(function(){
         //TODO temporary situation because of no SMTP installed
-        if($("#sender_submit").prop('disabled') == false) {
             var name = $("#sender_name").val();
             var email = $("#sender_email").val();
             var message = $("#sender_message").val();
@@ -92,9 +92,9 @@ $(document).ready(function(){
                         }
                     });
                 }
-            }
-        }
+            }  
     });
+    */
 
     $("#sender_message").keypress(function(){
         $("#sender_message").removeClass("is-danger");
