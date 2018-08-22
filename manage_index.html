@@ -40,6 +40,66 @@
             </div>
             <button class="modal-close is-large close_delete_work_modal"></button>
         </div>
+        <div id="edit_work_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Work</p>
+                    <button class="delete close_edit_work_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <form id="editWork" action="" method="post" enctype="multipart/form-data">
+                        <div class="field">
+                            <label class="label">Name</label>
+                            <div class="control">
+                                <input id="edit_name" class="input" type="text" placeholder="e.g HR Information System">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Purpose</label>
+                            <div class="control">
+                                <input id="edit_purpose" class="input" type="text" placeholder="e.g ABC Company">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Role</label>
+                            <div class="control">
+                                <input id="edit_role" class="input" type="text" placeholder="e.g Tester">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Description</label>
+                            <div class="control">
+                                <textarea class="textarea" id="edit_description" placeholder="e.g Loren Ipsum"></textarea>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Type</label>
+                            <div class="control">
+                                <input id="edit_type" class="input" type="text" placeholder="e.g Mobile-based Application">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Date</label>
+                            <div class="control">
+                                <input id="edit_workingDate" class="input" type="date">
+                            </div>
+                        </div>
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <input id="" class="button is-success edit_work_button" type="submit" value="Edit">
+                            </p>
+                            <p class="control">
+                                <a class="button is-danger close_edit_work_modal">
+                                    Cancel
+                                </a>
+                            </p>
+                        </div>
+                        <br>
+                    </form>
+                </section>
+            </div>
+        </div>
         <div id="create_new_work_modal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
