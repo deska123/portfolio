@@ -59,6 +59,13 @@ $(document).ready(function(){
     });
 
     $(".close_create_new_working_experience_modal").click(function(){
+        $("#create_new_working_experience_modal").find("input").val("");
+        $("#create_new_working_experience_modal").find("textarea").val("");
+        $("#create_new_working_experience_modal").find("input").prop("min", "");
+        $("#create_new_working_experience_modal").find("input").prop("max", "");
+        $("#create_new_working_experience_modal").find("select").val("-1");
+        $("#create_new_working_experience_modal").find("#still_working").prop("checked", false);
+        $("#create_new_working_experience_modal").find("#working_end_time").prop("disabled", false);
         $("#create_new_working_experience_modal").hide();
     });
 
