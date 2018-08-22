@@ -2,6 +2,8 @@
     $newIndex = $_POST['number'];
 
     $uploadSuccess = 1;
+
+    //Checking cover picture file type
     if(isset($_FILES['coverPicture'])) {
         $coverPicture = basename($_FILES['coverPicture']['name']);
         $coverPictureFileType = strtolower(pathinfo($coverPicture, PATHINFO_EXTENSION));
@@ -14,6 +16,7 @@
         }
     }
    
+    //Checking other pictures file type
     if($uploadSuccess == 1) {
         if(isset($_FILES['otherPictures'])) {
             $otherPicturesNum = count($_FILES['otherPictures']['name']);
@@ -34,6 +37,7 @@
     
     $output = "";
 
+    //Create new directory and upload files
     if($uploadSuccess == 1) {
         $dir = "assets/works/" . $newIndex;
         mkdir($dir);
@@ -66,6 +70,7 @@
         }
     }
 
+    //Cancel any uploads if there are any errors
     if($uploadSuccess == 0) {
         $num = count($_FILES['otherPictures']['name']) + 1;
         for($b = 1; $b <= $num; $b++) {
