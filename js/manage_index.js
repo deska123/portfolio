@@ -51,7 +51,10 @@ $(document).ready(function(){
                 work_output += "<td>" + type + "</td>";
                 work_output += "<td>" + date + "</td>";
                 work_output += "<td>" + "<a id=\"" + i + "\" class=\"view_works_images button is-dark\"><i class=\"fa fa-image\"></i></a>" + "</td>";
-                work_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon work_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
+                work_output += "<td>";
+                work_output += "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon work_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>&nbsp;&nbsp;";
+                work_output += "<span id=\"edit_" + id + "\" style=\"cursor: pointer;\" class=\"icon work_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>";
+                work_output += "</td>";
                 work_output += "</tr>";
                 work_curr = work_curr.prev();
                 i++;
@@ -71,8 +74,10 @@ $(document).ready(function(){
             work_output += "<td>" + type + "</td>";
             work_output += "<td>" + date + "</td>";
             work_output += "<td>" + "<a id=\"" + i + "\" class=\"view_works_images button is-dark\"><i class=\"fa fa-image\"></i></a>" + "</td>";
-            work_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon work_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
-            work_output += "</tr>";
+            work_output += "<td>";
+            work_output += "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon work_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>&nbsp;&nbsp;";
+            work_output += "<span id=\"edit_" + id + "\" style=\"cursor: pointer;\" class=\"icon work_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>";
+            work_output += "</td>";            work_output += "</tr>";
 
             $("#home_content_manage").html(work_output);
         }
@@ -213,7 +218,11 @@ $(document).ready(function(){
 
     $(".close_delete_work_modal").click(function(){
         $("#delete_work_modal").removeClass("is-active");
-        $("#delete_work_modal").hide();
+    });
+
+    $(".close_edit_work_modal").click(function(){
+        $("#edit_work_modal").removeClass("is-active");
+        $("#edit_work_modal").hide();
     });
 
     $('body').on('click', '.work_delete', function (){
@@ -221,7 +230,120 @@ $(document).ready(function(){
         $(".work_id_text").text("ID : " + id);
         $(".work_delete_id_confirm").attr("id", "work_delete_" + id);
         $("#delete_work_modal").addClass("is-active");
-        $("#delete_work_modal").show();
+    });
+
+    $('body').on('click', '.work_edit', function (){
+        var temp = $(this).attr('id').split("_");
+        var editedId = temp[1];
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/works.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                var workNode = xmlDoc.getElementsByTagName("work");
+
+                for(var a = 0; a < workNode.length; a++) {
+                    if(workNode[a].getAttribute('id') == editedId) {
+                        $("#edit_name").val(workNode[a].getElementsByTagName("name")[0].innerHTML);
+                        $("#edit_purpose").val(workNode[a].getElementsByTagName("purpose")[0].innerHTML);
+                        $("#edit_role").val(workNode[a].getElementsByTagName("role")[0].innerHTML);
+                        $("#edit_description").val(workNode[a].getElementsByTagName("description")[0].innerHTML);
+                        $("#edit_type").val(workNode[a].getElementsByTagName("type")[0].innerHTML);
+
+                        var monthYear = workNode[a].getElementsByTagName("date")[0].innerHTML.split(" ");
+                        var dummyFullDate = monthYear[1] + "-" + stringToNumMonth(monthYear[0]) + "-10";
+                        $("#edit_workingDate").val(dummyFullDate);
+
+                        $(".edit_work_button").attr("id", "edit_work_confirm_" + editedId);
+                        break;
+                    }
+                }
+            }
+        };
+        $("#edit_work_modal").show();
+    });
+
+    /*
+        Edit Work
+    */
+    $('body').on('click', '.edit_work_button', function (){
+        var temp = $(this).attr('id').split("_");
+
+        var id = temp[3];
+        var edited_name = $("#edit_name").val();
+        var edited_purpose = $("#edit_purpose").val();
+        var edited_role = $("#edit_role").val();
+        var edited_description = $("#edit_description").val();
+        var edited_type = $("#edit_type").val();
+        var date = $("#edit_workingDate").val();
+        var date_temp = date.split("-");
+        var edited_month = numToStringMonth(date_temp[1]);
+        var edited_year = date_temp[0];
+
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/works.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                var worksNode = xmlDoc.getElementsByTagName("works")[0];
+                worksNode.setAttribute("lastUpdate", generateTimeNow());
+
+                var workNode = xmlDoc.getElementsByTagName("work");
+
+                for(var a = 0; a < workNode.length; a++) {
+                    if(workNode[a].getAttribute('id') == id) {
+                        var nameNode = workNode[a].getElementsByTagName("name")[0].childNodes[0];
+                        nameNode.nodeValue = edited_name;
+
+                        var purposeNode = workNode[a].getElementsByTagName("purpose")[0].childNodes[0];
+                        purposeNode.nodeValue = edited_purpose;
+
+                        var roleNode = workNode[a].getElementsByTagName("role")[0].childNodes[0];
+                        roleNode.nodeValue = edited_role;
+
+                        var descriptionNode = workNode[a].getElementsByTagName("description")[0].childNodes[0];
+                        descriptionNode.nodeValue = edited_description;
+
+                        var typeNode = workNode[a].getElementsByTagName("type")[0].childNodes[0];
+                        typeNode.nodeValue = edited_type;
+
+                        var dateNode = workNode[a].getElementsByTagName("date")[0].childNodes[0];
+                        dateNode.nodeValue = edited_month + " " + edited_year;
+
+                        break;
+                    }
+                }
+
+                var dataInput = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                var typeInput = "works";
+                $.post("data_management.php",
+                {
+                    type: typeInput,
+                    data: dataInput
+                },
+                function(data, status){
+                    if(status == 'success') {
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        }, 30);
+                    }
+                });
+            }
+        };
     });
 
     /*
@@ -550,6 +672,36 @@ $(document).ready(function(){
             month = "November";
         } else if(num == "12") {
             month = "December";
+        }
+        return month;
+    }
+
+    function stringToNumMonth(string) {
+        var month = "";
+        if(string == "January") {
+            month = "01";
+        } else if(string == "February") {
+            month = "02";
+        } else if(string == "March") {
+            month = "03";
+        } else if(string == "April") {
+            month = "04";
+        } else if(string == "May") {
+            month = "05";
+        } else if(string == "June") {
+            month = "06";
+        } else if(string == "July") {
+            month = "07";
+        } else if(string == "August") {
+            month = "08";
+        } else if(string == "September") {
+            month = "09";
+        } else if(string == "October") {
+            month = "10";
+        } else if(string == "November") {
+            month = "11";
+        } else if(string == "December") {
+            month = "12";
         }
         return month;
     }
