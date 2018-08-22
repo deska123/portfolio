@@ -46,6 +46,10 @@ $(document).ready(function(){
     });
 
     $(".close_create_new_education_modal").click(function(){
+        $("#create_new_education_modal").find("input").val("");
+        $("#create_new_education_modal").find("input").prop("min", "");
+        $("#create_new_education_modal").find("input").prop("max", "");
+        $("#create_new_education_modal").find("select").val("-1");
         $("#create_new_education_modal").removeClass("is-active");
         $("#create_new_education_modal").hide();
     });
