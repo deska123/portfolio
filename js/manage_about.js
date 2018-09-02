@@ -453,7 +453,7 @@ $(document).ready(function(){
             setTimeout(function(){
                 //window.location.href = hrefInput;
                 window.location.reload(true);
-            }, 20);
+            }, 50);
         });
     }
 
