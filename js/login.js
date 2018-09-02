@@ -11,48 +11,13 @@ $(document).ready(function(){
     });
 
     $("#login_submit").click(function(){
-        var username = $("#username").val();
-        var password = $("#password").val();
-        $("#username").removeClass("is-danger");
-        $("#password").removeClass("is-danger");
-        $("#username_not_existed").hide();
-        $("#wrong_password").hide();
-        if(username == undefined || username == '') {
-            $("#username").addClass("is-danger");
-            $("#username_empty").show();
-            if(password == undefined || password == '') {
-                $("#password").addClass("is-danger");
-                $("#password_empty").show();
-            } 
-        } else if(password == undefined || password == '') {
-            $("#password").addClass("is-danger");
-            $("#password_empty").show();
-        } else {
-            $.post("login.php",
-            {
-                username: username,
-                password: password
-            },
-            function(data, status){
-                $("#password").val('');
-                if(data == "error username") {
-                    $("#username").addClass("is-danger");
-                    $("#username_not_existed").show();
-                } else if(data == "error password") {
-                    $("#password").addClass("is-danger");
-                    $("#wrong_password").show();
-                } else {
-                    $("#username").val('');
-                    $("#login_modal").addClass("is-active");
-                    $("#login_modal").show();
-                }
-            });
-        }
+        processUsernamePassword();
     });
 
     $('#key_file[type="file"]').change(function(keyFile){
         $("#file_not_matched").hide();
         $("#wrong_file_type").hide();
+        $("#empty_keyfile").hide();
         var fileName = keyFile.target.files[0].name;
         $("#key_file_name").text(fileName);
     });
@@ -68,6 +33,9 @@ $(document).ready(function(){
             processData: false,        
             success: function(data) {
                 switch(data) {
+                    case 'empty' :
+                        $("#empty_keyfile").show();
+                        break;
                     case 'wrong file type' :
                         $("#wrong_file_type").show();
                         break;
@@ -95,8 +63,62 @@ $(document).ready(function(){
     });
 
     $(".close_login_modal").click(function(){
+        $("#empty_keyfile").hide();
+        $("#wrong_file_type").hide();
+        $("#file_not_matched").hide();
+        $("#key_file").val("");
+        $("#key_file_name").text("");
         $("#login_modal").hide();
         $("#login_modal").removeClass("is-active");
     });
+
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+            if(!$("#login_modal").hasClass("is-active")) {
+                processUsernamePassword();
+            } 
+        }
+    });
 });
+
+function processUsernamePassword()
+{
+    var username = $("#username").val();
+    var password = $("#password").val();
+    $("#username").removeClass("is-danger");
+    $("#password").removeClass("is-danger");
+    $("#username_not_existed").hide();
+    $("#wrong_password").hide();
+    if(username == undefined || username == '') {
+        $("#username").addClass("is-danger");
+        $("#username_empty").show();
+        if(password == undefined || password == '') {
+            $("#password").addClass("is-danger");
+            $("#password_empty").show();
+        } 
+    } else if(password == undefined || password == '') {
+        $("#password").addClass("is-danger");
+        $("#password_empty").show();
+    } else {
+        $.post("login.php",
+        {
+            username: username,
+            password: password
+        },
+        function(data, status){
+            $("#password").val('');
+            if(data == "error username") {
+                $("#username").addClass("is-danger");
+                $("#username_not_existed").show();
+            } else if(data == "error password") {
+                $("#password").addClass("is-danger");
+                $("#wrong_password").show();
+            } else {
+                $("#username").val('');
+                $("#login_modal").addClass("is-active");
+                $("#login_modal").show();
+            }
+        });
+    }    
+}
 
