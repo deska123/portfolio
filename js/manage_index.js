@@ -213,7 +213,14 @@ $(document).ready(function(){
     });
 
     $(".close_create_new_work_modal").click(function(){
-        $("#create_new_work_modal").hide();
+        $("#create_new_work_modal").find("input[id!='submit_create_new_work']").val("");
+        $("#create_new_work_modal").find("textarea").val("");
+        $("#create_new_work_modal").find("#cover_picture_file_name").text("");
+        $("#create_new_work_modal").find("#coverPicturePreview").prop("src", "");
+        $("#create_new_work_modal").find("#wrong_cover_picture_file_type").hide();
+        $("#create_new_work_modal").find("#other_pictures_count").text("");
+        $("#create_new_work_modal").find("#otherPicturesPreview").html("");
+        $("#create_new_work_modal").fadeOut();
     });
 
     $(".close_delete_work_modal").click(function(){
