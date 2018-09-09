@@ -1,6 +1,7 @@
 $(document).ready(function(){
     //Initial Variable
     var deletedId = "";
+    var editId = "";
 
     /*
          Fill Content for Initial
@@ -217,7 +218,9 @@ $(document).ready(function(){
         $("#create_new_work_modal").find("textarea").val("");
         $("#create_new_work_modal").find("#cover_picture_file_name").text("");
         $("#create_new_work_modal").find("#coverPicturePreview").prop("src", "");
+        $("#create_new_work_modal").find("#failed_upload_pictures").hide();
         $("#create_new_work_modal").find("#wrong_cover_picture_file_type").hide();
+        $("#create_new_work_modal").find("#wrong_other_pictures_file_type").hide();
         $("#create_new_work_modal").find("#other_pictures_count").text("");
         $("#create_new_work_modal").find("#otherPicturesPreview").html("");
         $("#create_new_work_modal").fadeOut();
@@ -228,6 +231,10 @@ $(document).ready(function(){
     });
 
     $(".close_edit_work_modal").click(function(){
+        $("#edit_work_modal").find("#edit_failed_upload_pictures").hide();
+        $("#edit_work_modal").find("#edit_wrong_cover_picture_file_type").hide();
+        $("#edit_work_modal").find("#edit_wrong_other_pictures_file_type").hide();
+        $("#edit_work_modal").find("#edit_other_pictures_count").text("");
         $("#edit_work_modal").removeClass("is-active");
         $("#edit_work_modal").hide();
     });
@@ -268,6 +275,42 @@ $(document).ready(function(){
                         var dummyFullDate = monthYear[1] + "-" + stringToNumMonth(monthYear[0]) + "-10";
                         $("#edit_workingDate").val(dummyFullDate);
 
+                        var pictures = workNode[a].getElementsByTagName("pictures")[0];
+                        var picture = pictures.getElementsByTagName("picture");
+                        for(var b = 0; b < picture.length; b++) {
+                          if(picture[b].getAttribute('status') == "main") {
+                            $("#edit_coverPicturePreview").attr("src", picture[b].childNodes[0].nodeValue);
+                            break;
+                          }
+                        }
+
+                        var edit_otherContents = "";
+                        for(var b = 0; b < picture.length; b++) {
+                          if(picture[b].getAttribute('status') != "main") {
+                            edit_otherContents += "<li>";
+                            edit_otherContents += "<br>";
+                            edit_otherContents += "<article class=\"message is-warning\">";
+                            edit_otherContents += "<div class=\"message-header\">";
+                            edit_otherContents += "<div class=\"edit_otherPictureClass has-text-weight-bold\"></div>";
+                            edit_otherContents += "</div>";
+                            edit_otherContents += "<div class=\"message-body\">";
+                            edit_otherContents += "<figure class=\"image is-480x480\">";
+                            edit_otherContents += "<img src=\"" + picture[b].childNodes[0].nodeValue + "\">";
+                            edit_otherContents += "</figure>";
+                            edit_otherContents += "</div>";
+                            edit_otherContents += "</article>";
+                            edit_otherContents += "</li>";
+                          }
+                        }
+                        setTimeout(function(){
+                            $('#edit_otherPicturesPreview').html(edit_otherContents);
+                            for(var b = 1; b < picture.length; b++) {
+                                var pictureName = picture[b].childNodes[0].nodeValue;
+                                var pictureName_split = pictureName.split("/");
+                                $(".edit_otherPictureClass").eq(b - 1).text(pictureName_split[pictureName_split.length - 1]);
+                            }
+                        }, 300);
+
                         $(".edit_work_button").attr("id", "edit_work_confirm_" + editedId);
                         break;
                     }
@@ -280,10 +323,11 @@ $(document).ready(function(){
     /*
         Edit Work
     */
-    $('body').on('click', '.edit_work_button', function (){
-        var temp = $(this).attr('id').split("_");
-
-        var id = temp[3];
+    $("#editWork").on('submit',(function(e) {
+        e.preventDefault();
+        
+        var temp = $('.edit_work_button').attr('id').split("_");
+        editId = temp[3];
         var edited_name = $("#edit_name").val();
         var edited_purpose = $("#edit_purpose").val();
         var edited_role = $("#edit_role").val();
@@ -293,65 +337,123 @@ $(document).ready(function(){
         var date_temp = date.split("-");
         var edited_month = numToStringMonth(date_temp[1]);
         var edited_year = date_temp[0];
-
-        var xmlhttp;
-        if(window.XMLHttpRequest) {
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.open("GET", "xml/works.xml", true);
-        xmlhttp.send();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var xmlDoc = this.responseXML;
-
-                var worksNode = xmlDoc.getElementsByTagName("works")[0];
-                worksNode.setAttribute("lastUpdate", generateTimeNow());
-
-                var workNode = xmlDoc.getElementsByTagName("work");
-
-                for(var a = 0; a < workNode.length; a++) {
-                    if(workNode[a].getAttribute('id') == id) {
-                        var nameNode = workNode[a].getElementsByTagName("name")[0].childNodes[0];
-                        nameNode.nodeValue = edited_name;
-
-                        var purposeNode = workNode[a].getElementsByTagName("purpose")[0].childNodes[0];
-                        purposeNode.nodeValue = edited_purpose;
-
-                        var roleNode = workNode[a].getElementsByTagName("role")[0].childNodes[0];
-                        roleNode.nodeValue = edited_role;
-
-                        var descriptionNode = workNode[a].getElementsByTagName("description")[0].childNodes[0];
-                        descriptionNode.nodeValue = edited_description;
-
-                        var typeNode = workNode[a].getElementsByTagName("type")[0].childNodes[0];
-                        typeNode.nodeValue = edited_type;
-
-                        var dateNode = workNode[a].getElementsByTagName("date")[0].childNodes[0];
-                        dateNode.nodeValue = edited_month + " " + edited_year;
-
+        
+        var form_data = new FormData(this);
+        form_data.append('type', 'edit');
+        form_data.append('number', editId);
+        $.ajax({
+            url: "upload_work_images.php",
+            type: "POST",
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                switch(data) {
+                    case 'wrong cover picture filetype' :
+                        $("#edit_wrong_cover_picture_file_type").show();
                         break;
-                    }
-                }
+                    case 'wrong other pictures filetype' :
+                        $("#edit_wrong_other_pictures_file_type").show();
+                        break;
+                    case 'failed upload pictures' :
+                        $("#edit_failed_upload_pictures").show();
+                        break;
+                    default :
+                        var picturesLength = 0;
+                        var pictures;
+                        if(data != "") {
+                            pictures = data.split("|");
+                            picturesLength = pictures.length;
+                        }
+                        
+                        var xmlhttp;
+                        if(window.XMLHttpRequest) {
+                            xmlhttp = new XMLHttpRequest();
+                        } else {
+                            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.open("GET", "xml/works.xml", true);
+                        xmlhttp.send();
+                        xmlhttp.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                var xmlDoc = this.responseXML;
 
-                var dataInput = new XMLSerializer().serializeToString(xmlDoc.documentElement);
-                var typeInput = "works";
-                $.post("data_management.php",
-                {
-                    type: typeInput,
-                    data: dataInput
-                },
-                function(data, status){
-                    if(status == 'success') {
-                        setTimeout(function(){
-                            window.location.reload(true);
-                        }, 30);
-                    }
-                });
+                                var worksNode = xmlDoc.getElementsByTagName("works")[0];
+                                worksNode.setAttribute("lastUpdate", generateTimeNow());
+
+                                var workNode = xmlDoc.getElementsByTagName("work");
+
+                                for(var a = 0; a < workNode.length; a++) {
+                                    if(workNode[a].getAttribute('id') == editId) {
+                                        var nameNode = workNode[a].getElementsByTagName("name")[0].childNodes[0];
+                                        nameNode.nodeValue = edited_name;
+
+                                        var purposeNode = workNode[a].getElementsByTagName("purpose")[0].childNodes[0];
+                                        purposeNode.nodeValue = edited_purpose;
+
+                                        var roleNode = workNode[a].getElementsByTagName("role")[0].childNodes[0];
+                                        roleNode.nodeValue = edited_role;
+
+                                        var descriptionNode = workNode[a].getElementsByTagName("description")[0].childNodes[0];
+                                        descriptionNode.nodeValue = edited_description;
+
+                                        var typeNode = workNode[a].getElementsByTagName("type")[0].childNodes[0];
+                                        typeNode.nodeValue = edited_type;
+
+                                        var dateNode = workNode[a].getElementsByTagName("date")[0].childNodes[0];
+                                        dateNode.nodeValue = edited_month + " " + edited_year;
+                                        
+                                        if(picturesLength > 0) {
+                                            var picturesNode = workNode[a].getElementsByTagName("pictures")[0];
+                                            var pictureNode = picturesNode.getElementsByTagName("picture");
+                                            
+                                            while(pictureNode.length >= 2) {
+                                                if(pictureNode[pictureNode.length - 1].getAttribute("id") != "1") {
+                                                    pictureNode[pictureNode.length - 1].parentNode.removeChild(pictureNode[pictureNode.length - 1]);
+                                                }
+                                            }
+                                            
+                                            var id = 2;
+                                            for(var b = 0; b < picturesLength - 1; b++) {
+                                                if(pictures[b] != "") {
+                                                    var pictureNode = xmlDoc.createElement("picture");
+                                                    var idAttr = xmlDoc.createAttribute("id");
+                                                    idAttr.nodeValue = id;
+                                                    pictureNode.setAttributeNode(idAttr);
+                                                    var pictureText = xmlDoc.createTextNode(pictures[b]);
+                                                    $(pictureNode).append(pictureText);
+                                                    picturesNode.appendChild(pictureNode);
+                                                    id++;
+                                                }
+                                            } 
+                                        }
+                                        
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            var dataInput = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                            var typeInput = "works";
+                            $.post("data_management.php",
+                            {
+                                type: typeInput,
+                                data: dataInput
+                            },
+                            function(data, status){
+                                if(status == 'success') {
+                                    setTimeout(function(){
+                                        window.location.reload(true);
+                                    }, 30);
+                                }
+                            });
+                        }
+                        break;
+                }
             }
-        };
-    });
+        })
+    }));
 
     /*
         Create New Work
@@ -362,7 +464,7 @@ $(document).ready(function(){
         temp += 1;
         var form_data = new FormData(this);
         form_data.append('number', temp);
-        e.preventDefault();
+        form_data.append('type', 'new');
         $.ajax({
             url: "upload_work_images.php",
             type: "POST",
@@ -377,6 +479,9 @@ $(document).ready(function(){
                         break;
                     case 'wrong other pictures filetype' :
                         $("#wrong_other_pictures_file_type").show();
+                        break;
+                    case 'failed upload pictures' :
+                        $("#failed_upload_pictures").show();
                         break;
                     default :
                         var name = $("#name").val();
@@ -605,49 +710,142 @@ $(document).ready(function(){
 
     $('#coverPicture[type="file"]').change(function(imageFile){
         $("#wrong_cover_picture_file_type").hide();
+        $("#failed_upload_pictures").hide();
         var fileName = imageFile.target.files[0].name;
         $("#cover_picture_file_name").text(fileName);
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#coverPicturePreview').attr('src', e.target.result);
+        var fileName_arr = fileName.split(".");
+        if(fileName_arr[fileName_arr.length - 1] != 'jpg' && fileName_arr[fileName_arr.length - 1] != 'png') {
+            $('#coverPicturePreview').attr('src', '');
+            $("#wrong_cover_picture_file_type").show();
+        } else {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#coverPicturePreview').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(imageFile.target.files[0]);
         }
-        reader.readAsDataURL(imageFile.target.files[0]);
     });
 
 
     $('#otherPictures[type="file"]').change(function(){
+       $("#wrong_other_pictures_file_type").hide();
+       $("#failed_upload_pictures").hide();
        var otherContents = "";
+       var valid = true;
        var length = $(this).get(0).files.length;
-       var pictures = [];
-       for(var c = 0; c < length; c++) {
-            pictures.push($(this).get(0).files[c].name);
+       for(var d = 0; d < length; d++) {
+            var name = $(this).get(0).files[d].name;
+            var name_arr = name.split(".");
+            if(name_arr[name_arr.length - 1] != "jpg" && name_arr[name_arr.length - 1] != "png") {
+                valid = false;
+                break;
+            }
        }
-       for(var a = 0; a < length; a++) {
+       $('#other_pictures_count').text(length + " files selected");
+       if(valid) {
+            var pictures = [];
+            for(var c = 0; c < length; c++) {
+                pictures.push($(this).get(0).files[c].name);
+            }
+            for(var a = 0; a < length; a++) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    otherContents += "<li>";
+                    otherContents += "<br>";
+                    otherContents += "<article class=\"message is-warning\">";
+                    otherContents += "<div class=\"message-header\">";
+                    otherContents += "<div class=\"otherPictureClass has-text-weight-bold\"></div>";
+                    otherContents += "</div>";
+                    otherContents += "<div class=\"message-body\">";
+                    otherContents += "<figure class=\"image is-480x480\">";
+                    otherContents += "<img src=\"" + e.target.result + "\">";
+                    otherContents += "</figure>";
+                    otherContents += "</div>";
+                    otherContents += "</article>";
+                    otherContents += "</li>";
+                }
+                reader.readAsDataURL($(this).get(0).files[a]);
+            }
+            setTimeout(function(){
+                $('#otherPicturesPreview').html(otherContents);
+                for(var b = 0; b < length; b++) {
+                    $(".otherPictureClass").eq(b).text((b + 1) + ". " + pictures[b]);
+                }
+            }, 300);
+       } else {
+            $('#otherPicturesPreview').html("");
+            $("#wrong_other_pictures_file_type").show();
+       }
+    });
+
+    $('#edit_coverPicture[type="file"]').change(function(imageFile){
+        $("#edit_wrong_cover_picture_file_type").hide();
+        $("#edit_failed_upload_pictures").hide();
+        var fileName = imageFile.target.files[0].name;
+        $("#edit_cover_picture_file_name").text(fileName);
+        var fileName_arr = fileName.split(".");
+        if(fileName_arr[fileName_arr.length - 1] != 'jpg' && fileName_arr[fileName_arr.length - 1] != 'png') {
+            $('#edit_coverPicturePreview').attr('src', '');
+            $("#edit_wrong_cover_picture_file_type").show();
+        } else {
             var reader = new FileReader();
             reader.onload = function (e) {
-                otherContents += "<li>";
-                otherContents += "<br>";
-                otherContents += "<article class=\"message is-warning\">";
-                otherContents += "<div class=\"message-header\">";
-                otherContents += "<div class=\"otherPictureClass has-text-weight-bold\"></div>";
-                otherContents += "</div>";
-                otherContents += "<div class=\"message-body\">";
-                otherContents += "<figure class=\"image is-480x480\">";
-                otherContents += "<img src=\"" + e.target.result + "\">";
-                otherContents += "</figure>";
-                otherContents += "</div>";
-                otherContents += "</article>";
-                otherContents += "</li>";
+                $('#edit_coverPicturePreview').attr('src', e.target.result);
             }
-            reader.readAsDataURL($(this).get(0).files[a]);
+            reader.readAsDataURL(imageFile.target.files[0]);
+        }
+    });
+
+
+    $('#edit_otherPictures[type="file"]').change(function(){
+       $("#edit_wrong_other_pictures_file_type").hide();
+       $("#edit_failed_upload_pictures").hide();
+       var otherContents = "";
+       var valid = true;
+       var length = $(this).get(0).files.length;
+       for(var d = 0; d < length; d++) {
+            var name = $(this).get(0).files[d].name;
+            var name_arr = name.split(".");
+            if(name_arr[name_arr.length - 1] != "jpg" && name_arr[name_arr.length - 1] != "png") {
+                valid = false;
+                break;
+            }
        }
-       setTimeout(function(){
-            $('#other_pictures_count').text(length + " files selected");
-            $('#otherPicturesPreview').html(otherContents);
-            for(var b = 0; b < length; b++) {
-                $(".otherPictureClass").eq(b).text((b + 1) + ". " + pictures[b]);
+       $('#edit_other_pictures_count').text(length + " files selected");
+       if(valid) {
+            var pictures = [];
+            for(var c = 0; c < length; c++) {
+                pictures.push($(this).get(0).files[c].name);
             }
-        }, 300);
+            for(var a = 0; a < length; a++) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    otherContents += "<li>";
+                    otherContents += "<br>";
+                    otherContents += "<article class=\"message is-warning\">";
+                    otherContents += "<div class=\"message-header\">";
+                    otherContents += "<div class=\"edit_otherPictureClass has-text-weight-bold\"></div>";
+                    otherContents += "</div>";
+                    otherContents += "<div class=\"message-body\">";
+                    otherContents += "<figure class=\"image is-480x480\">";
+                    otherContents += "<img src=\"" + e.target.result + "\">";
+                    otherContents += "</figure>";
+                    otherContents += "</div>";
+                    otherContents += "</article>";
+                    otherContents += "</li>";
+                }
+                reader.readAsDataURL($(this).get(0).files[a]);
+            }
+            setTimeout(function(){
+                $('#edit_otherPicturesPreview').html(otherContents);
+                for(var b = 0; b < length; b++) {
+                    $(".edit_otherPictureClass").eq(b).text((b + 1) + ". " + pictures[b]);
+                }
+            }, 300);
+       } else {
+            $('#edit_otherPicturesPreview').html("");
+            $("#edit_wrong_other_pictures_file_type").show();
+       }
     });
 
     /*
@@ -737,5 +935,13 @@ $(document).ready(function(){
 
         var fullDates = date + " " + month[monthNum] + " " + year + " " + hour + "." + minute;
         return fullDates;
+    }
+
+    function get_lastChild(n) {
+        var y = n.lastChild;
+        while (y.nodeType!=1) {
+            y = y.previousSibling;
+        }
+        return y;
     }
 });

@@ -85,6 +85,50 @@
                                 <input id="edit_workingDate" class="input" type="date">
                             </div>
                         </div>
+                        <div class="field">
+                            <label class="label">Cover Picture</label>
+                            <div class="file has-name is-fullwidth">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" id="edit_coverPicture" name="edit_coverPicture">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                    <span id="edit_cover_picture_file_name" class="file-name"></span>
+                                </label>
+                            </div>
+                            <br>
+                            <figure class="image is-480x480">
+                                <img id="edit_coverPicturePreview" src="">
+                            </figure>
+                            <p id="edit_wrong_cover_picture_file_type" class="help is-danger is-size-6" style="display:none">Only .jpg and .png are allowed !</p>
+                        </div>
+                        <div class="field">
+                            <label class="label">Other Pictures (multiple uploads allowed -> Press Ctrl while choosing images)</label>
+                            <div class="control">
+                                <input id="edit_otherPictures" name="edit_otherPictures" class="file-input" type="file" multiple>
+                            </div>
+                            <div class="file has-name is-fullwidth">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" id="edit_otherPictures" name="edit_otherPictures[]" multiple>
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                    <span id="edit_other_pictures_count" class="file-name"></span>
+                                </label>
+                            </div>
+                            <ul id="edit_otherPicturesPreview"></ul>
+                            <p id="edit_wrong_other_pictures_file_type" class="help is-danger is-size-6" style="display:none">One or more other pictures have wrong file type !</p vb>
+                        </div>
                         <div class="field is-grouped">
                             <p class="control">
                                 <input id="" class="button is-success edit_work_button" type="submit" value="Edit">
@@ -95,6 +139,7 @@
                                 </a>
                             </p>
                         </div>
+                        <p id="edit_failed_upload_pictures" class="help is-danger is-size-6" style="display:none">Failed Upload Pictures</p>
                         <br>
                     </form>
                 </section>
@@ -200,6 +245,7 @@
                                 </a>
                             </p>
                         </div>
+                        <p id="failed_upload_pictures" class="help is-danger is-size-6" style="display:none">Failed Upload Pictures</p>
                         <br>
                     </form>
                 </section>
