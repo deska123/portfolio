@@ -5,6 +5,7 @@ $(document).ready(function(){
     //Fill country select input
     //Originally taken from https://github.com/IshanDemon/List_Country_State
     populateCountries("country");
+    populateCountries("edit_country");
     populateCountries("location");
     populateCountries("working_country");
 
@@ -107,6 +108,10 @@ $(document).ready(function(){
         $("#edit_skill_modal").hide();
     });
 
+    $(".close_edit_education_modal").click(function(){
+        $("#edit_education_modal").hide();
+    });
+
     $(".close_delete_education_modal").click(function(){
         $("#delete_education_modal").hide();
     });
@@ -193,6 +198,56 @@ $(document).ready(function(){
             }
         };
         $("#edit_skill_modal").show();
+    });
+
+    $('body').on('click', '.education_edit', function(){
+        var temp = $(this).attr('id').split("_");
+        var editedId = temp[2];
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/about.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                var educationNode = xmlDoc.getElementsByTagName("education");
+
+                for(var a = 0; a < educationNode.length; a++) {
+                    if(educationNode[a].getAttribute('id') == editedId) {
+                        $("#edit_school_name").val(educationNode[a].getElementsByTagName("school_name")[0].innerHTML);
+                        $("#edit_school_link").val(educationNode[a].getElementsByTagName("school_link")[0].innerHTML);
+                        $("#edit_degree").val(educationNode[a].getElementsByTagName("degree")[0].innerHTML);
+                        $("#edit_major").val(educationNode[a].getElementsByTagName("major")[0].innerHTML);
+
+                        var startMonth = educationNode[a].getElementsByTagName("start_month")[0].innerHTML;
+                        var startYear = educationNode[a].getElementsByTagName("start_year")[0].innerHTML;
+                        var dummyFullStartDate = startYear + "-" + completeStringToNumMonth(startMonth) + "-01";
+                        $("#edit_start_time").val(dummyFullStartDate);
+                        
+                        var endMonth = educationNode[a].getElementsByTagName("end_month")[0].innerHTML;
+                        var endYear = educationNode[a].getElementsByTagName("end_year")[0].innerHTML;
+                        var dummyFullEndDate = endYear + "-" + completeStringToNumMonth(endMonth) + "-01";
+                        $("#edit_end_time").val(dummyFullEndDate);
+                        
+                        $("#edit_start_time").attr("max", dummyFullEndDate);
+                        $("#edit_end_time").attr("min", dummyFullStartDate);
+
+                        $("#edit_city").val(educationNode[a].getElementsByTagName("city")[0].innerHTML);
+                        $("#edit_province").val(educationNode[a].getElementsByTagName("province")[0].innerHTML);
+                        $("#edit_country").val(educationNode[a].getElementsByTagName("country")[0].innerHTML);
+
+                        $(".edit_education_button").attr("id", "edit_education_confirm_" + editedId);
+                        break;
+                    }
+                }
+            }
+        };
+        $("#edit_education_modal").show();
     });
 
     $('body').on('click', '.education_delete', function (){
@@ -345,6 +400,34 @@ $(document).ready(function(){
         }
     });
 
+    $("#edit_start_time").change(function(){
+        var startTime = $("#edit_start_time").val();
+        if(startTime != undefined && startTime != '') {
+            var startDate = new Date(startTime);
+            startDate = startDate.setDate(startDate.getDate() + 1);
+            var newDate = String(new Date(startDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#edit_end_time").attr("min", modifiedDate);
+        } else {
+            $("#edit_end_time").attr("min", "");
+        }
+    });
+
+    $("#edit_end_time").change(function(){
+        var endTime = $("#edit_end_time").val();
+        if(endTime != undefined && endTime != '') {
+            var endDate = new Date(endTime);
+            endDate = endDate.setDate(endDate.getDate() - 1);
+            var newDate = String(new Date(endDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#edit_start_time").attr("max", modifiedDate);
+        } else {
+            $("#edit_start_time").attr("max", "");
+        }
+    });
+
     $("#still_working").change(function() {
         if($("#still_working").prop("checked")) {
             $('#working_end_time').val('');
@@ -438,6 +521,36 @@ $(document).ready(function(){
         } else if(string == "Nov") {
             month = "11";
         } else if(string == "Dec") {
+            month = "12";
+        }
+        return month;
+    }
+
+    function completeStringToNumMonth(string) {
+        var month = "";
+        if(string == "January") {
+            month = "01";
+        } else if(string == "February") {
+            month = "02";
+        } else if(string == "March") {
+            month = "03";
+        } else if(string == "April") {
+            month = "04";
+        } else if(string == "May") {
+            month = "05";
+        } else if(string == "June") {
+            month = "06";
+        } else if(string == "July") {
+            month = "07";
+        } else if(string == "August") {
+            month = "08";
+        } else if(string == "September") {
+            month = "09";
+        } else if(string == "October") {
+            month = "10";
+        } else if(string == "November") {
+            month = "11";
+        } else if(string == "December") {
             month = "12";
         }
         return month;
@@ -656,7 +769,7 @@ $(document).ready(function(){
                 educationsNode.appendChild(educationNode);
 
                 var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
-                updateXML("about", data, "#manage_working_experience_title");
+                updateXML("about", data, "#manage_education_title");
             }
         };
     });
@@ -786,6 +899,89 @@ $(document).ready(function(){
     /*
         Edit Part
     */
+    $('body').on('click', '.edit_education_button', function (){
+        var temp = $(this).attr('id').split("_");
+        var id = temp[3];
+        var edited_school_name = $("#edit_school_name").val();
+        var edited_school_link = $("#edit_school_link").val();
+        var edited_degree = $("#edit_degree").val();
+        var edited_major = $("#edit_major").val();
+
+        var start_date = $("#edit_start_time").val();
+        var start_date_temp = start_date.split("-");
+        var edited_start_month = numToStringMonth(start_date_temp[1]);
+        var edited_start_year = start_date_temp[0];
+
+        var end_date = $("#edit_end_time").val();
+        var end_date_temp = end_date.split("-");
+        var edited_end_month = numToStringMonth(end_date_temp[1]);
+        var edited_end_year = end_date_temp[0];
+
+        var edited_city = $("#edit_city").val();
+        var edited_province = $("#edit_province").val();
+        var edited_country = $("#edit_country").val();
+
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/about.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                updateLastUpdateAbout(xmlDoc);
+
+                var educationNode = xmlDoc.getElementsByTagName("education");
+
+                for(var a = 0; a < educationNode.length; a++) {
+                    if(educationNode[a].getAttribute('id') == id) {
+                        var schoolNameNode = educationNode[a].getElementsByTagName("school_name")[0].childNodes[0];
+                        schoolNameNode.nodeValue = edited_school_name;
+
+                        var schoolLinkNode = educationNode[a].getElementsByTagName("school_link")[0].childNodes[0];
+                        schoolLinkNode.nodeValue = edited_school_link;
+
+                        var degreeNode = educationNode[a].getElementsByTagName("degree")[0].childNodes[0];
+                        degreeNode.nodeValue = edited_degree;
+
+                        var majorNode = educationNode[a].getElementsByTagName("major")[0].childNodes[0];
+                        majorNode.nodeValue = edited_major;
+
+                        var startMonthNode = educationNode[a].getElementsByTagName("start_month")[0].childNodes[0];
+                        startMonthNode.nodeValue = edited_start_month;
+
+                        var endMonthNode = educationNode[a].getElementsByTagName("end_month")[0].childNodes[0];
+                        endMonthNode.nodeValue = edited_end_month;
+
+                        var startYearNode = educationNode[a].getElementsByTagName("start_year")[0].childNodes[0];
+                        startYearNode.nodeValue = edited_start_year;
+
+                        var endYearNode = educationNode[a].getElementsByTagName("end_year")[0].childNodes[0];
+                        endYearNode.nodeValue = edited_end_year;
+
+                        var cityNode = educationNode[a].getElementsByTagName("city")[0].childNodes[0];
+                        cityNode.nodeValue = edited_city;
+
+                        var provinceNode = educationNode[a].getElementsByTagName("province")[0].childNodes[0];
+                        provinceNode.nodeValue = edited_province;
+
+                        var countryNode = educationNode[a].getElementsByTagName("country")[0].childNodes[0];
+                        countryNode.nodeValue = edited_country;
+
+                        break;
+                    }
+                }
+
+                var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                updateXML("about", data, "#manage_education_title");
+            }
+        };
+    });
+
     $('body').on('click', '.edit_skill_button', function (){
         var temp = $(this).attr('id').split("_");
         var id = temp[3];
@@ -1192,7 +1388,10 @@ $(document).ready(function(){
                 education_output += "<td>" + city + "</td>";
                 education_output += "<td>" + province + "</td>";
                 education_output += "<td>" + country + "</td>";
-                education_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon education_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
+                education_output += "<td>";
+                education_output += "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon education_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>&nbsp;";
+                education_output += "<span id=\"edit_education_" + id + "\" style=\"cursor: pointer;\" class=\"icon education_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>";
+                education_output += "</td>";
                 education_output += "</tr>";
                 education_curr = education_curr.prev();
             }
@@ -1220,7 +1419,10 @@ $(document).ready(function(){
             education_output += "<td>" + city + "</td>";
             education_output += "<td>" + province + "</td>";
             education_output += "<td>" + country + "</td>";
-            education_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon education_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
+            education_output += "<td>";
+            education_output += "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon education_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>&nbsp;";
+            education_output += "<span id=\"edit_education_" + id + "\" style=\"cursor: pointer;\" class=\"icon education_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>";
+            education_output += "</td>";            
             education_output += "</tr>";
 
             $("#education_content_manage").html(education_output);

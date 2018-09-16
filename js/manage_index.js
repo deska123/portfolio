@@ -272,7 +272,7 @@ $(document).ready(function(){
                         $("#edit_type").val(workNode[a].getElementsByTagName("type")[0].innerHTML);
 
                         var monthYear = workNode[a].getElementsByTagName("date")[0].innerHTML.split(" ");
-                        var dummyFullDate = monthYear[1] + "-" + stringToNumMonth(monthYear[0]) + "-10";
+                        var dummyFullDate = monthYear[1] + "-" + stringToNumMonth(monthYear[0]) + "-01";
                         $("#edit_workingDate").val(dummyFullDate);
 
                         var pictures = workNode[a].getElementsByTagName("pictures")[0];
