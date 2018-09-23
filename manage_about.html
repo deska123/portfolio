@@ -232,6 +232,80 @@
                 </section>
             </div>
         </div>
+        <div id="edit_working_experience_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Edit Working Experience</p>
+                    <button class="delete close_edit_working_experience_modal" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div class="field">
+                        <label class="label">Position</label>
+                        <div class="control">
+                            <input id="edit_position" class="input" type="text" placeholder="e.g Staff">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Company Name</label>
+                        <div class="control">
+                            <input id="edit_company_name" class="input" type="text" placeholder="e.g PT. Makmur Sejahtera">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Company Link</label>
+                        <div class="control">
+                            <input id="edit_company_link" class="input" type="text" placeholder="e.g www.makmur.com">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Working Start Date at Company</label>
+                        <div class="control">
+                            <input id="edit_working_start_time" class="input" type="date">
+                        </div>
+                    </div>
+                    <label class="checkbox">
+                        <input id="edit_still_working" type="checkbox">  Still Working ?
+                    </label><br><br>
+                    <div class="field">
+                        <label class="label">Working End Date at Company</label>
+                        <div class="control">
+                            <input id="edit_working_end_time" class="input" type="date">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">City</label>
+                        <div class="control">
+                            <input id="edit_working_city" class="input" type="text" placeholder="e.g Jakarta">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Province</label>
+                        <div class="control">
+                            <input id="edit_working_province" class="input" type="text" placeholder="e.g San Andreas">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Country</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id="edit_working_country"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Description</label>
+                        <div class="control">
+                            <textarea id="edit_working_description" class="textarea" placeholder="e.g Loren Ipsum"></textarea>
+                        </div>
+                    </div>
+                    <br>
+                    <button id="" class="button is-success edit_working_experience_button">Edit</button>
+                    <button class="button is-danger close_edit_working_experience_modal">Cancel</button>
+                    <br><br>
+                </section>
+            </div>
+        </div>
         <div id="create_new_working_experience_modal" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -611,7 +685,7 @@
                 <div class="container">
                     <p id="manage_personal_identity_title" class="title is-3">Personal Identity</p>
                     <p class="subtitle is-5 lastUpdated"></p>
-                    <table class="table is-striped">
+                    <table class="table is-bordered is-striped">
                         <thead>
                             <tr>
                                 <th>Field</th>
@@ -661,7 +735,7 @@
                        <span>Create New Education</span>
                     </a><br><br>
                     <div class="container" style="overflow-x: auto;">
-                        <table class="table is-striped is-fullwidth">
+                        <table class="table is-bordered is-striped is-fullwidth">
                             <thead>
                                 <tr>
                                     <th>School Name</th>
@@ -691,9 +765,10 @@
                        <span>Create New Working Experience</span>
                     </a><br><br>
                     <div class="container" style="overflow-x: auto;">
-                        <table class="table is-striped is-fullwidth">
+                        <table class="table is-bordered is-striped is-fullwidth">
                             <thead>
                                 <tr>
+                                    <th>Action</th>
                                     <th>Position</th>
                                     <th>Description</th>
                                     <th>Company Name</th>
@@ -707,7 +782,6 @@
                                     <th>City</th>
                                     <th>Province</th>
                                     <th>Country</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="working_experience_content_manage"></tbody>

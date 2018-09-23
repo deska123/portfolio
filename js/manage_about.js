@@ -8,6 +8,7 @@ $(document).ready(function(){
     populateCountries("edit_country");
     populateCountries("location");
     populateCountries("working_country");
+    populateCountries("edit_working_country");
 
     /*
         Retrieve Data of Identity Part
@@ -110,6 +111,10 @@ $(document).ready(function(){
 
     $(".close_edit_education_modal").click(function(){
         $("#edit_education_modal").hide();
+    });
+
+    $(".close_edit_working_experience_modal").click(function(){
+        $("#edit_working_experience_modal").hide();
     });
 
     $(".close_delete_education_modal").click(function(){
@@ -248,6 +253,67 @@ $(document).ready(function(){
             }
         };
         $("#edit_education_modal").show();
+    });
+
+    $('body').on('click', '.job_experience_edit', function(){
+        var temp = $(this).attr('id').split("_");
+        var editedId = temp[3];
+
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/job_experience.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                var jobNode = xmlDoc.getElementsByTagName("job");
+
+                for(var a = 0; a < jobNode.length; a++) {
+                    if(jobNode[a].getAttribute('id') == editedId) {
+                        $("#edit_position").val(jobNode[a].getElementsByTagName("position")[0].innerHTML);
+                        $("#edit_company_name").val(jobNode[a].getElementsByTagName("company_name")[0].innerHTML);
+                        $("#edit_company_link").val(jobNode[a].getElementsByTagName("company_link")[0].innerHTML);
+
+                        var startMonth = jobNode[a].getElementsByTagName("start_month")[0].innerHTML;
+                        var startYear = jobNode[a].getElementsByTagName("start_year")[0].innerHTML;
+                        var startDate = jobNode[a].getElementsByTagName("start_date")[0].innerHTML;
+                        var dummyFullStartDate = startYear + "-" + completeStringToNumMonth(startMonth) + "-" + startDate;
+                        $("#edit_working_start_time").val(dummyFullStartDate);
+
+                        var endMonth = jobNode[a].getElementsByTagName("end_month")[0].innerHTML;
+                        var endYear = jobNode[a].getElementsByTagName("end_year")[0].innerHTML;
+                        var endDate = jobNode[a].getElementsByTagName("end_date")[0].innerHTML;
+                        if(endMonth == "-" && endYear == "-" && endDate == "-") {
+                            $("#edit_still_working").prop("checked", true)
+                            $("#edit_working_end_time").val("");
+                            $("#edit_working_end_time").prop("disabled", true);
+                            $("#edit_working_start_time").attr("max", "");
+                        } else {
+                            var dummyFullEndDate = endYear + "-" + completeStringToNumMonth(endMonth) + "-" + endDate;
+                            $("#edit_still_working").prop("checked", false)
+                            $("#edit_working_end_time").val(dummyFullEndDate);
+                            $("#edit_working_end_time").prop("disabled", false);
+                            $("#edit_working_start_time").attr("max", dummyFullEndDate);
+                        }
+
+                        $("#edit_working_city").val(jobNode[a].getElementsByTagName("city")[0].innerHTML);
+                        $("#edit_working_province").val(jobNode[a].getElementsByTagName("province")[0].innerHTML);
+                        $("#edit_working_country").val(jobNode[a].getElementsByTagName("country")[0].innerHTML);
+                        $("#edit_working_description").val(jobNode[a].getElementsByTagName("description")[0].innerHTML);
+
+                        $(".edit_working_experience_button").attr("id", "edit_job_experience_confirm_" + editedId);
+                        break;
+                    }
+                }
+            }
+        }
+
+        $("#edit_working_experience_modal").show();
     });
 
     $('body').on('click', '.education_delete', function (){
@@ -432,9 +498,19 @@ $(document).ready(function(){
         if($("#still_working").prop("checked")) {
             $('#working_end_time').val('');
             $("#working_end_time").prop("disabled", true);
-            $("#start_time").attr("max", "");
+            $("#working_start_time").attr("max", "");
         } else {
             $("#working_end_time").prop("disabled", false);
+        }
+    });
+
+    $("#edit_still_working").change(function() {
+        if($("#edit_still_working").prop("checked")) {
+            $('#edit_working_end_time').val('');
+            $("#edit_working_end_time").prop("disabled", true);
+            $("#edit_working_start_time").attr("max", "");
+        } else {
+            $("#edit_working_end_time").prop("disabled", false);
         }
     });
 
@@ -463,6 +539,34 @@ $(document).ready(function(){
             var tempDate = newDate.split(" ");
             var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
             $("#working_start_time").attr("max", modifiedDate);
+        }
+    });
+
+    $("#edit_working_start_time").change(function(){
+        var startTime = $("#edit_working_start_time").val();
+        if (startTime == "" || startTime == undefined) {
+            $("#edit_working_end_time").attr("min", "");
+        } else {
+            var startDate = new Date(startTime);
+            startDate = startDate.setDate(startDate.getDate() + 1);
+            var newDate = String(new Date(startDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#edit_working_end_time").attr("min", modifiedDate);
+        }
+    });
+
+    $("#edit_working_end_time").change(function(){
+        var endTime = $("#edit_working_end_time").val();
+        if (endTime == "" || endTime == undefined) {
+            $("#edit_working_start_time").attr("max", "");
+        } else {
+            var endDate = new Date(endTime);
+            endDate = endDate.setDate(endDate.getDate() - 1);
+            var newDate = String(new Date(endDate));
+            var tempDate = newDate.split(" ");
+            var modifiedDate = tempDate[3] + "-" + stringToNumMonth(tempDate[1]) + "-" + tempDate[2];
+            $("#edit_working_start_time").attr("max", modifiedDate);
         }
     });
 
@@ -899,9 +1003,109 @@ $(document).ready(function(){
     /*
         Edit Part
     */
+    $('body').on('click', '.edit_working_experience_button', function (){
+        var temp = $(this).attr('id').split("_");
+        var id = temp[4];
+
+        var edited_position = $("#edit_position").val();
+        var edited_company_name = $("#edit_company_name").val();
+        var edited_company_link = $("#edit_company_link").val();
+
+        var working_start_time = $("#edit_working_start_time").val();
+        var start_time_temp = working_start_time.split("-");
+        var edited_start_date = start_time_temp[2];
+        var edited_start_month = numToStringMonth(start_time_temp[1]);
+        var edited_start_year = start_time_temp[0];
+
+        var working_end_time = $("#edit_working_end_time").val();
+        if(working_end_time != "" && working_end_time != undefined) {
+            var end_time_temp = working_end_time.split("-");
+            var edited_end_date = end_time_temp[2];
+            var edited_end_month = numToStringMonth(end_time_temp[1]);
+            var edited_end_year = end_time_temp[0];
+        } else {
+            var edited_end_date = "-";
+            var edited_end_month = "-";
+            var edited_end_year = "-";
+        }
+
+        var edited_working_city = $("#edit_working_city").val();
+        var edited_working_province = $("#edit_working_province").val();
+        var edited_working_country = $("#edit_working_country").val();
+        var edited_working_description = $("#edit_working_description").val();
+
+        var xmlhttp;
+        if(window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.open("GET", "xml/job_experience.xml", true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var xmlDoc = this.responseXML;
+
+                var jobExperienceNode = xmlDoc.getElementsByTagName("job_experience")[0];
+                jobExperienceNode.setAttribute("lastUpdate", generateTimeNow());
+
+                var jobNode = xmlDoc.getElementsByTagName("job");
+
+                for(var a = 0; a < jobNode.length; a++) {
+                    if(jobNode[a].getAttribute('id') == id) {
+                        var positionNode = jobNode[a].getElementsByTagName("position")[0].childNodes[0];
+                        positionNode.nodeValue = edited_position;
+
+                        var companyNameNode = jobNode[a].getElementsByTagName("company_name")[0].childNodes[0];
+                        companyNameNode.nodeValue = edited_company_name;
+
+                        var companyLinkNode = jobNode[a].getElementsByTagName("company_link")[0].childNodes[0];
+                        companyLinkNode.nodeValue = edited_company_link;
+
+                        var startDateNode = jobNode[a].getElementsByTagName("start_date")[0].childNodes[0];
+                        startDateNode.nodeValue = edited_start_date;
+
+                        var startMonthNode = jobNode[a].getElementsByTagName("start_month")[0].childNodes[0];
+                        startMonthNode.nodeValue = edited_start_month;
+
+                        var startYearNode = jobNode[a].getElementsByTagName("start_year")[0].childNodes[0];
+                        startYearNode.nodeValue = edited_start_year;
+
+                        var endDateNode = jobNode[a].getElementsByTagName("end_date")[0].childNodes[0];
+                        endDateNode.nodeValue = edited_end_date;
+
+                        var endMonthNode = jobNode[a].getElementsByTagName("end_month")[0].childNodes[0];
+                        endMonthNode.nodeValue = edited_end_month;
+
+                        var endYearNode = jobNode[a].getElementsByTagName("end_year")[0].childNodes[0];
+                        endYearNode.nodeValue = edited_end_year;
+
+                        var cityNode = jobNode[a].getElementsByTagName("city")[0].childNodes[0];
+                        cityNode.nodeValue = edited_working_city;
+
+                        var provinceNode = jobNode[a].getElementsByTagName("province")[0].childNodes[0];
+                        provinceNode.nodeValue = edited_working_province;
+
+                        var countryNode = jobNode[a].getElementsByTagName("country")[0].childNodes[0];
+                        countryNode.nodeValue = edited_working_country;
+
+                        var descriptionNode = jobNode[a].getElementsByTagName("description")[0].childNodes[0];
+                        descriptionNode.nodeValue = edited_working_description;
+
+                        break;
+                    }
+                }
+
+                var data = new XMLSerializer().serializeToString(xmlDoc.documentElement);
+                updateXML("job_experience", data, "#manage_working_experience_title");
+            }
+        };
+    });
+
     $('body').on('click', '.edit_education_button', function (){
         var temp = $(this).attr('id').split("_");
         var id = temp[3];
+
         var edited_school_name = $("#edit_school_name").val();
         var edited_school_link = $("#edit_school_link").val();
         var edited_degree = $("#edit_degree").val();
@@ -1462,6 +1666,10 @@ $(document).ready(function(){
                 var country = $(job_experience_curr).find('country').text();
                 var description = $(job_experience_curr).find('description').text();
                 working_output += "<tr>";
+                working_output += "<td>";
+                working_output += "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon job_experience_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>&nbsp;";
+                working_output += "<span id=\"edit_job_experience_" + id + "\" style=\"cursor: pointer;\" class=\"icon job_experience_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>";
+                working_output += "</td>";
                 working_output += "<td>" + position + "</td>";
                 working_output += "<td>" + description + "</td>";
                 working_output += "<td>" + company_name + "</td>";
@@ -1475,7 +1683,6 @@ $(document).ready(function(){
                 working_output += "<td>" + city + "</td>";
                 working_output += "<td>" + province + "</td>";
                 working_output += "<td>" + country + "</td>";
-                working_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon job_experience_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
                 working_output += "</tr>";
                 job_experience_curr = job_experience_curr.prev();
             }
@@ -1494,6 +1701,10 @@ $(document).ready(function(){
             var country = $(job_experience_curr).find('country').text();
             var description = $(job_experience_curr).find('description').text();
             working_output += "<tr>";
+            working_output += "<td>";
+            working_output += "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon job_experience_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>&nbsp;";
+            working_output += "<span id=\"edit_job_experience_" + id + "\" style=\"cursor: pointer;\" class=\"icon job_experience_edit\"><i class=\"fa fa-pencil fa-2x\"></i></span>";
+            working_output += "</td>"; 
             working_output += "<td>" + position + "</td>";
             working_output += "<td>" + description + "</td>";
             working_output += "<td>" + company_name + "</td>";
@@ -1507,9 +1718,7 @@ $(document).ready(function(){
             working_output += "<td>" + city + "</td>";
             working_output += "<td>" + province + "</td>";
             working_output += "<td>" + country + "</td>";
-            working_output += "<td>" + "<span id=\"" + id + "\" style=\"cursor: pointer;\" class=\"icon job_experience_delete\"><i class=\"fa fa-trash fa-2x\"></i></span>" + "</td>";
             working_output += "</tr>";
-
             $("#working_experience_content_manage").html(working_output);
         }
     });
