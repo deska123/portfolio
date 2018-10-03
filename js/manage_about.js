@@ -282,22 +282,30 @@ $(document).ready(function(){
                         var startMonth = jobNode[a].getElementsByTagName("start_month")[0].innerHTML;
                         var startYear = jobNode[a].getElementsByTagName("start_year")[0].innerHTML;
                         var startDate = jobNode[a].getElementsByTagName("start_date")[0].innerHTML;
+                        if(startDate.length == 1) {
+                            startDate = "0" + startDate; 
+                        }
                         var dummyFullStartDate = startYear + "-" + completeStringToNumMonth(startMonth) + "-" + startDate;
                         $("#edit_working_start_time").val(dummyFullStartDate);
 
                         var endMonth = jobNode[a].getElementsByTagName("end_month")[0].innerHTML;
                         var endYear = jobNode[a].getElementsByTagName("end_year")[0].innerHTML;
                         var endDate = jobNode[a].getElementsByTagName("end_date")[0].innerHTML;
+                        if(endDate.length == 1 && endDate != "-") {
+                            endDate = "0" + endDate; 
+                        }
                         if(endMonth == "-" && endYear == "-" && endDate == "-") {
                             $("#edit_still_working").prop("checked", true)
                             $("#edit_working_end_time").val("");
                             $("#edit_working_end_time").prop("disabled", true);
+                            $("#edit_still_working").prop("checked", true);
                             $("#edit_working_start_time").attr("max", "");
                         } else {
                             var dummyFullEndDate = endYear + "-" + completeStringToNumMonth(endMonth) + "-" + endDate;
                             $("#edit_still_working").prop("checked", false)
                             $("#edit_working_end_time").val(dummyFullEndDate);
                             $("#edit_working_end_time").prop("disabled", false);
+                            $("#edit_still_working").prop("checked", false);
                             $("#edit_working_start_time").attr("max", dummyFullEndDate);
                         }
 
