@@ -28,7 +28,7 @@ $(document).ready(function(){
 
             //Show Last Updated
             var lastUpdate = about.attr("lastUpdate");
-            $(".lastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+            $(".lastUpdated").text("Last Updated on " + lastUpdate);
 
             initial = $(about).find('initial').text();
             name = $(about).find('name').text();
@@ -676,12 +676,15 @@ $(document).ready(function(){
 
     function generateTimeNow() {
         var dates = new Date();
-        var minute = dates.getMinutes();
-        var hour = dates.getHours();
+        var datesString = dates.toString();
+        var tempDates = datesString.split(" ");
+        var time = tempDates[4];
+        var tempTimeZone = tempDates.slice(5);
+        var timeZone = tempTimeZone.join(" ");
+
         var year = dates.getFullYear();
         var monthNum = dates.getMonth();
         var date = dates.getDate();
-
         var month = new Array();
         month[0] = "January";
         month[1] = "February";
@@ -695,8 +698,8 @@ $(document).ready(function(){
         month[9] = "October";
         month[10] = "November";
         month[11] = "December";
-
-        var fullDates = date + " " + month[monthNum] + " " + year + " " + hour + "." + minute;
+        
+        var fullDates = date + " " + month[monthNum] + " " + year + " " + time + " " + timeZone;
         return fullDates;
     }
 
@@ -802,13 +805,12 @@ $(document).ready(function(){
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
 
-                updateLastUpdateAbout(xmlDoc);
-
                 var temp = parseInt(sessionStorage.educationsSize);
                 temp += 1;
                 sessionStorage.educationsSize = temp;
 
                 var educationsNode = xmlDoc.getElementsByTagName("educations")[0];
+                educationsNode.setAttribute("lastUpdate", generateTimeNow());
 
                 var educationNode = xmlDoc.createElement("education");
                 var idAttr = xmlDoc.createAttribute("id");
@@ -1137,7 +1139,8 @@ $(document).ready(function(){
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
 
-                updateLastUpdateAbout(xmlDoc);
+                var educationsNode = xmlDoc.getElementsByTagName("educations")[0];
+                educationsNode.setAttribute("lastUpdate", generateTimeNow());
 
                 var educationNode = xmlDoc.getElementsByTagName("education");
 
@@ -1450,7 +1453,8 @@ $(document).ready(function(){
             if (this.readyState == 4 && this.status == 200) {
                 var xmlDoc = this.responseXML;
 
-                updateLastUpdateAbout(xmlDoc);
+                var educationsNode = xmlDoc.getElementsByTagName("educations")[0];
+                educationsNode.setAttribute("lastUpdate", generateTimeNow());
 
                 var temp2 = parseInt(sessionStorage.educationsSize);
                 temp2 -= 1;
@@ -1564,6 +1568,8 @@ $(document).ready(function(){
             $("#occupation_manage").text(occupation);
             $("#location_manage").text(location);
             var education_head = $(about).find('educations');
+            var lastUpdate = education_head.attr('lastUpdate');
+            $(".educationLastUpdated").text("Last Updated on " + lastUpdate);
             var education_head_children = $(education_head).children();
             var education_output = "";
             var education_curr = education_head_children.last();
@@ -1645,7 +1651,7 @@ $(document).ready(function(){
 
             //update time
             var lastUpdate = job_experience_head.attr("lastUpdate");
-            $(".workLastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+            $(".workLastUpdated").text("Last Updated on " + lastUpdate);
 
             var job_experience_head_children = $(job_experience_head).children();
             var working_output = "";
@@ -1735,7 +1741,7 @@ $(document).ready(function(){
 
             //update time
             var lastUpdate = skills_head.attr("lastUpdate");
-            $(".skillsLastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+            $(".skillsLastUpdated").text("Last Updated on " + lastUpdate);
 
             var skills_head_children = $(skills_head).children();
             var skills_output = "";

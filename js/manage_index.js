@@ -29,7 +29,7 @@ $(document).ready(function(){
 
             //Show Last Updated
             var lastUpdate = work_head.attr("lastUpdate");
-            $("#lastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+            $("#lastUpdated").text("Last Updated on " + lastUpdate);
 
             //Show Data inside Table
             var work_head_children = $(work_head).children();
@@ -913,12 +913,15 @@ $(document).ready(function(){
 
     function generateTimeNow() {
         var dates = new Date();
-        var minute = dates.getMinutes();
-        var hour = dates.getHours();
+        var datesString = dates.toString();
+        var tempDates = datesString.split(" ");
+        var time = tempDates[4];
+        var tempTimeZone = tempDates.slice(5);
+        var timeZone = tempTimeZone.join(" ");
+
         var year = dates.getFullYear();
         var monthNum = dates.getMonth();
         var date = dates.getDate();
-
         var month = new Array();
         month[0] = "January";
         month[1] = "February";
@@ -932,8 +935,8 @@ $(document).ready(function(){
         month[9] = "October";
         month[10] = "November";
         month[11] = "December";
-
-        var fullDates = date + " " + month[monthNum] + " " + year + " " + hour + "." + minute;
+        
+        var fullDates = date + " " + month[monthNum] + " " + year + " " + time + " " + timeZone;
         return fullDates;
     }
 
