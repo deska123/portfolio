@@ -40,12 +40,12 @@ $(document).ready(function(){
         }
     });
 
-    /*
     $("#sender_submit").click(function(){
         //TODO temporary situation because of no SMTP installed
             var name = $("#sender_name").val();
             var email = $("#sender_email").val();
             var message = $("#sender_message").val();
+            var timeLog = generateTimeNow();
             if(email != undefined && email != '') {
                 //Taken from https://www.w3schools.com/js/tryit.asp?filename=tryjs_form_validate_email
                 var atpos = email.indexOf("@");
@@ -62,18 +62,20 @@ $(document).ready(function(){
                         {
                             name: name,
                             email: email,
-                            message: message
+                            message: message,
+                            timeLog: timeLog
                         },
                         function(data, status){
                             if(data == "success") {
-                                alert("Successful Delivery");
+                                
                             } else {
-                                alert("Failed Delivery");
+                                
                             }
                         });
                     }
                 }
             } else {
+                email = '-';
                 if(message == undefined || message == '') {
                     $("#sender_message").addClass("is-danger");
                     $("#empty_message").show();
@@ -82,19 +84,19 @@ $(document).ready(function(){
                     {
                         name: name,
                         email: email,
-                        message: message
+                        message: message,
+                        timeLog: timeLog
                     },
                     function(data, status){
                         if(data == "success") {
-                            alert("Successful Delivery");
+                           
                         } else {
-                            alert("Failed Delivery");
+                            
                         }
                     });
                 }
             }  
     });
-    */
 
     $("#sender_message").keypress(function(){
         $("#sender_message").removeClass("is-danger");
@@ -105,4 +107,33 @@ $(document).ready(function(){
         $("#sender_email").removeClass("is-danger");
         $("#wrong_email_format").hide();
     });
+
+    function generateTimeNow() {
+        var dates = new Date();
+        var datesString = dates.toString();
+        var tempDates = datesString.split(" ");
+        var time = tempDates[4];
+        var tempTimeZone = tempDates.slice(5);
+        var timeZone = tempTimeZone.join(" ");
+
+        var year = dates.getFullYear();
+        var monthNum = dates.getMonth();
+        var date = dates.getDate();
+        var month = new Array();
+        month[0] = "January";
+        month[1] = "February";
+        month[2] = "March";
+        month[3] = "April";
+        month[4] = "May";
+        month[5] = "June";
+        month[6] = "July";
+        month[7] = "August";
+        month[8] = "September";
+        month[9] = "October";
+        month[10] = "November";
+        month[11] = "December";
+        
+        var fullDates = date + " " + month[monthNum] + " " + year + " " + time + " " + timeZone;
+        return fullDates;
+    }
 });
