@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 $(document).ready(function(){
     //Initial Variable
     var deletedId = "";
@@ -1827,7 +1826,7 @@ $(document).ready(function(){
         }
     });
 });
-=======
+
 $(document).ready(function(){
     //Initial Variable
     var deletedId = "";
@@ -3658,4 +3657,3 @@ $(document).ready(function(){
         }
     });
 });
->>>>>>> 4fbeacd686411144e34204157fb4223bdcbb8074
