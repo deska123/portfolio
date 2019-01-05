@@ -11,39 +11,37 @@
         <script type="text/javascript" src="js/manage_contact.js"></script>
     </head>
     <body>
-      
-                        <div id="logout_warning_modal" class="modal">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                                <div class="box">
-                                    <article class="media">
-                                      <div class="media-content">
-                                        <div class="content">
-                                            <p class="title has-text-centered">
-                                              Are you sure you want to logout ?
-                                            </p>
-                                            <div class="field is-grouped is-grouped-centered">
-                                                <p class="control">
-                                                  <a id="logout_link" class="button is-warning">
-                                                      Logout
-                                                  </a>
-                                                </p>
-                                                <p class="control">
-                                                    <a class="button is-danger close_logout_warning_modal">
-                                                        Cancel
-                                                    </a>
-                                                </p>
-                                            </div>
-                                          </div>
-                                        </div>
-
-                                </article>
+        <div id="logout_warning_modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+                <div class="box">
+                    <article class="media">
+                      <div class="media-content">
+                        <div class="content">
+                            <p class="title has-text-centered">
+                              Are you sure you want to logout ?
+                            </p>
+                            <div class="field is-grouped is-grouped-centered">
+                                <p class="control">
+                                  <a id="logout_link" class="button is-warning">
+                                      Logout
+                                  </a>
+                                </p>
+                                <p class="control">
+                                    <a class="button is-danger close_logout_warning_modal">
+                                        Cancel
+                                    </a>
+                                </p>
                             </div>
-                                    </div>
-                            <button class="modal-close is-large close_logout_warning_modal"></button>
+                          </div>
                         </div>
+                    </article>
+                </div>
+            </div>
+            <button class="modal-close is-large close_logout_warning_modal"></button>
+        </div>
 
-      <section class="hero is-info is-fullheight">
+        <section class="hero is-info is-fullheight">
             <div class="hero-head">
                 <nav class="navbar">
                     <div class="container">
@@ -103,28 +101,40 @@
             </div>
             <div class="hero-body">
                 <div class="container">
-                   
-                            <p class="title is-3">Social Media</p>
-                            <a class="button is-dark" disabled>
-                                <span class="icon is-small">
-                                  <i class="fa fa-plus"></i>
-                                </span>
-                                <span>Create New</span>
-                            </a><br><br>
-                            <table class="table is-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Icon</th>
-                                        <th>Link</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="social_media_content_manage"></tbody>
-                            </table>
-                       
+                    <p class="title is-3">Messages</p>
+                    <table class="table is-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Time Log</th>
+                                <th>IP Address</th>
+                            </tr>
+                        </thead>
+                        <tbody id="message_content_manage"></tbody>
+                    </table>
+                    <p class="title is-3">Social Media</p>
+                    <a class="button is-dark" disabled>
+                        <span class="icon is-small">
+                          <i class="fa fa-plus"></i>
+                        </span>
+                        <span>Create New</span>
+                    </a><br><br>
+                    <table class="table is-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Icon</th>
+                                <th>Link</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="social_media_content_manage"></tbody>
+                    </table>
                 </div>
             </div>
+
             <div class="hero-foot">
                 <div class="content has-text-centered">
                     <p>

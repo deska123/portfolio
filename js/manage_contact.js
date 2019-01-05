@@ -1,5 +1,16 @@
 $(document).ready(function(){
     /*
+        Show Messages List
+    */
+    $.post("message_process.php",
+    {
+        goal: "show"
+    },
+    function(data, status){
+        $("#message_content_manage").html(data);
+    });
+    
+    /*
          Fill Content for Initial
     */
     $.ajax({        

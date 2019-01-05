@@ -42,46 +42,25 @@ $(document).ready(function(){
 
     $("#sender_submit").click(function(){
         //TODO temporary situation because of no SMTP installed
-            var name = $("#sender_name").val();
-            var email = $("#sender_email").val();
-            var message = $("#sender_message").val();
-            var timeLog = generateTimeNow();
-            if(email != undefined && email != '') {
-                //Taken from https://www.w3schools.com/js/tryit.asp?filename=tryjs_form_validate_email
-                var atpos = email.indexOf("@");
-                var dotpos = email.lastIndexOf(".");
-                if (atpos < 1 || dotpos < (atpos + 2) || dotpos + 2 >= email.length) {
-                    $("#sender_email").addClass("is-danger");
-                    $("#wrong_email_format").show();
-                } else {
-                    if(message == undefined || message == '') {
-                        $("#sender_message").addClass("is-danger");
-                        $("#empty_message").show();
-                    } else {
-                        $.post("message_process.php",
-                        {
-                            name: name,
-                            email: email,
-                            message: message,
-                            timeLog: timeLog
-                        },
-                        function(data, status){
-                            if(data == "success") {
-                                
-                            } else {
-                                
-                            }
-                        });
-                    }
-                }
+        var name = $("#sender_name").val();
+        var email = $("#sender_email").val();
+        var message = $("#sender_message").val();
+        var timeLog = generateTimeNow();
+        if(email != undefined && email != '') {
+            //Taken from https://www.w3schools.com/js/tryit.asp?filename=tryjs_form_validate_email
+            var atpos = email.indexOf("@");
+            var dotpos = email.lastIndexOf(".");
+            if (atpos < 1 || dotpos < (atpos + 2) || dotpos + 2 >= email.length) {
+                $("#sender_email").addClass("is-danger");
+                $("#wrong_email_format").show();
             } else {
-                email = '-';
                 if(message == undefined || message == '') {
                     $("#sender_message").addClass("is-danger");
                     $("#empty_message").show();
                 } else {
                     $.post("message_process.php",
                     {
+                        goal: "addNew",
                         name: name,
                         email: email,
                         message: message,
@@ -89,13 +68,38 @@ $(document).ready(function(){
                     },
                     function(data, status){
                         if(data == "success") {
-                           
+                            alert("Success sending message");
                         } else {
-                            
+                            alert("Failed sending message")
                         }
+                        location.reload();
                     });
                 }
-            }  
+            }
+        } else {
+            email = '-';
+            if(message == undefined || message == '') {
+                $("#sender_message").addClass("is-danger");
+                $("#empty_message").show();
+            } else {
+                $.post("message_process.php",
+                {
+                    goal: "addNew",
+                    name: name,
+                    email: email,
+                    message: message,
+                    timeLog: timeLog
+                },
+                function(data, status){
+                    if(data == "success") {
+                        alert("Success sending message");
+                    } else {
+                        alert("Failed sending message")
+                    }
+                    location.reload();
+                });
+            }
+        }  
     });
 
     $("#sender_message").keypress(function(){
