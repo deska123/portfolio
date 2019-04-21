@@ -1857,7 +1857,7 @@ $(document).ready(function(){
 
             //Show Last Updated
             var lastUpdate = about.attr("lastUpdate");
-            $(".lastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+            $(".lastUpdated").text("Last Updated on " + lastUpdate);
 
             initial = $(about).find('initial').text();
             name = $(about).find('name').text();
@@ -3482,7 +3482,7 @@ $(document).ready(function(){
 
             //update time
             var lastUpdate = job_experience_head.attr("lastUpdate");
-            $(".workLastUpdated").text("(Last Updated on : " + lastUpdate + ")");
+            $(".workLastUpdated").text("Last Updated on " + lastUpdate);
 
             var job_experience_head_children = $(job_experience_head).children();
             var working_output = "";
