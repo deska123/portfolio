@@ -78,7 +78,7 @@ $(document).ready(function(){
                 var country = $(education_curr).find('country').text();
                 education_output += "<strong>" + degree + " in ";
                 education_output += major + "</strong> at ";
-                education_output += "<i><a href='" + school_link + "'>"; 
+                education_output += "<i><a href='" + school_link + "' target='_blank'>"; 
                 education_output += school_name + "</a></i><br>";    
                 education_output += "<i>" + start_month + ", ";       
                 education_output += start_year + " - ";   
@@ -103,7 +103,7 @@ $(document).ready(function(){
             var country = $(education_curr).find('country').text();
             education_output += "<strong>" + degree + " in ";
             education_output += major + "</strong> at ";
-            education_output += "<i><a href='" + school_link + "'>"; 
+            education_output += "<i><a href='" + school_link + "' target='_blank'>"; 
             education_output += school_name + "</a></i><br>";    
             education_output += "<i>" + start_month + ", ";       
             education_output += start_year + " - ";   
@@ -141,7 +141,7 @@ $(document).ready(function(){
                 var country = $(job_experience_curr).find('country').text();
                 var description = $(job_experience_curr).find('description').text();
                 working_output += "<strong>" + position + "</strong> at ";
-                working_output += "<i><a href='" + company_link + "'>"; 
+                working_output += "<i><a href='" + company_link + "' target='_blank'>"; 
                 working_output += company_name + "</a></i><br>";   
                 working_output += "<i>" + start_month + " ";   
                 working_output += start_date  + ", ";
@@ -174,7 +174,7 @@ $(document).ready(function(){
             var country = $(job_experience_curr).find('country').text();
             var description = $(job_experience_curr).find('description').text();
             working_output += "<strong>" + position + "</strong> at ";
-            working_output += "<i><a href='" + company_link + "'>"; 
+            working_output += "<i><a href='" + company_link + "' target='_blank'>"; 
             working_output += company_name + "</a></i><br>";   
             working_output += "<i>" + start_month + " ";   
             working_output += start_date  + ", ";
