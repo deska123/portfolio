@@ -1,4 +1,8 @@
 <?php
+	if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || !$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+		header("Location: index.html");
+	}
+	
 	if(isset($_POST['id'])) {
 		$id = $_POST['id'];
 	}

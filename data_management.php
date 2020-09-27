@@ -1,4 +1,8 @@
 <?php
+    if(!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || !$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+        header("Location: index.html");
+    }
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data = $_POST['data'];
         if($_POST['type'] == "about") {
