@@ -34,7 +34,7 @@ $(document).ready(function(){
               works_output += "<div class=\"column is-one-third\">";
               works_output += "<div id='detail-" + i + "' class=\"modal works_detail_modal\"><div class=\"modal-background\"></div><div class=\"modal-card\">";
               // works_output += "<header class=\"modal-card-head\"><p class=\"modal-card-title\">" + works_curr.find('name').text() + "</p><button id='close-" + i + "' class=\"delete close_works_detail\" aria-label=\"close\"></button></header>";
-			  works_output += "<header class=\"modal-card-head\"><button id='close-" + i + "' class=\"delete close_works_detail\" aria-label=\"close\">&nbsp;&nbsp;</button><p class=\"modal-card-title\">" + works_curr.find('name').text() + "</p></header>";
+			        works_output += "<header class=\"modal-card-head\"><button id='close-" + i + "' class=\"delete close_works_detail\" aria-label=\"close\"></button>&nbsp;&nbsp;<p class=\"modal-card-title\">" + works_curr.find('name').text() + "</p></header>";
               works_output += "<section class=\"modal-card-body\">";
               works_output += "<p class=\"subtitle is-6 has-text-justified\" style=\"color:black\">" + works_curr.find('description').text() + "</p>";
               works_output += "<aside class=\"menu\">";
@@ -53,16 +53,16 @@ $(document).ready(function(){
               var works_details_pictures = $(works_pictures).first();
               while(!(works_details_pictures.is(works_pictures.last()))) {
                 works_output += "<li>";
-                works_output += "<figure class=\"image is-480x480\">";
-                works_output += "<img src='" + works_details_pictures.text() + "'>";
+                works_output += "<figure style=\"border: 3px #000000 solid; padding: 4px; margin: auto;\" class=\"image is-480x480\">";
+                works_output += "<img style='cursor: pointer;' src='" + works_details_pictures.text() + "' onclick='window.open(\"" + works_details_pictures.text() + "\", \"_blank\");'>";
                 works_output += "</figure>";
                 works_output += "</li><br>";
                 works_details_pictures = works_details_pictures.next();
               }
               works_details_pictures = $(works_pictures).last();
               works_output += "<li>";
-              works_output += "<figure class=\"image is-480x480\">";
-              works_output += "<img src='" + works_details_pictures.text() + "'>";
+              works_output += "<figure style=\"border: 3px #000000 solid; padding: 4px; margin: auto;\" class=\"image is-480x480\">";
+              works_output += "<img style='cursor: pointer;' src='" + works_details_pictures.text() + "' onclick='window.open(\"" + works_details_pictures.text() + "\", \"_blank\");'>";
               works_output += "</figure>";
               works_output += "</li>";
               works_output += "</ul>";
@@ -90,7 +90,7 @@ $(document).ready(function(){
             works_output += "<div id='detail-" + i + "' class=\"modal\"><div class=\"modal-background\"></div><div class=\"modal-card\">";
             //works_output += "<header class=\"modal-card-head\"><p class=\"modal-card-title\">" + works_curr.find('name').text() + "</p><button id='close-" + i + "' class=\"delete close_works_detail\" aria-label=\"close\"></button></header>";
             works_output += "<header class=\"modal-card-head\"><button id='close-" + i + "' class=\"delete close_works_detail\" aria-label=\"close\"></button>&nbsp;&nbsp;<p class=\"modal-card-title\">" + works_curr.find('name').text() + "</p></header>";
-			works_output += "<section class=\"modal-card-body\">";
+			      works_output += "<section class=\"modal-card-body\">";
             works_output += "<p class=\"subtitle is-6 has-text-justified\" style=\"color:black\">" + works_curr.find('description').text() + "</p>";
             works_output += "<aside class=\"menu\">";
             works_output += "<p class=\"menu-label\">Role</p>";
@@ -108,16 +108,16 @@ $(document).ready(function(){
             var works_details_pictures = $(works_pictures).first();
             while(!(works_details_pictures.is(works_pictures.last()))) {
               works_output += "<li>";
-              works_output += "<figure class=\"image is-480x480\">";
-              works_output += "<img src='" + works_details_pictures.text() + "'>";
+              works_output += "<figure style=\"border: 3px #000000 solid; padding: 4px; margin: auto;\" class=\"image is-480x480\">";
+              works_output += "<img style='cursor: pointer;' src='" + works_details_pictures.text() + "' onclick='window.open(\"" + works_details_pictures.text() + "\", \"_blank\");'>";
               works_output += "</figure>";
               works_output += "</li><br>";
               works_details_pictures = works_details_pictures.next();
             }
             works_details_pictures = $(works_pictures).last();
             works_output += "<li>";
-            works_output += "<figure class=\"image is-480x480\">";
-            works_output += "<img src='" + works_details_pictures.text() + "'>";
+            works_output += "<figure style=\"border: 3px #000000 solid; padding: 4px; margin: auto;\" class=\"image is-480x480\" >";
+            works_output += "<img style='cursor: pointer;' src='" + works_details_pictures.text() + "' onclick='window.open(\"" + works_details_pictures.text() + "\", \"_blank\");'>";
             works_output += "</figure>";
             works_output += "</li>";
             works_output += "</ul>"
