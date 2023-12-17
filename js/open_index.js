@@ -75,7 +75,7 @@ $(document).ready(function(){
               works_output += "</figure></div>";
               works_output += "<div class=\"card-content has-text-centered\"><div class=\"content\">"
               works_output += "<p class=\"title is-4\" style=\"color:black\">" + works_curr.find('name').text() + "</p>";
-              works_output += "<a id='" + i + "' class=\"view_works_detail\">View Detail</a>";
+              works_output += "<a style='text-decoration: underline;' id='" + i + "' class=\"view_works_detail\">View Detail</a>";
               works_output += "</div></div></div></div>";
               works_curr = works_curr.prev();
               i++;
@@ -129,7 +129,7 @@ $(document).ready(function(){
             works_output += "<img src='" + works_main.text() + "' alt='" + works_curr.find('name').text() + "'></figure></div>";
             works_output += "<div class=\"card-content has-text-centered\"><div class=\"content\">"
             works_output += "<p class=\"title is-4\" style=\"color:black\">" + works_curr.find('name').text() + "</p>";
-            works_output += "<a id='" + i + "' class=\"view_works_detail\">View Detail</a>";
+            works_output += "<a style='text-decoration: underline;' id='" + i + "' class=\"view_works_detail\">View Detail</a>";
             works_output += "</div></div></div></div>";
             works_output += "</div>";
             $("#index_works").html(works_output);
