@@ -1,4 +1,19 @@
 $(document).ready(function(){
+    const monthName = {
+        "January": "01",
+        "February": "02",
+        "March": "03",
+        "April": "04",
+        "May": "05",
+        "June": "06",
+        "July": "07",
+        "August": "08",
+        "September": "09",
+        "October": "10",
+        "November": "11",
+        "December": "12"
+    };
+
     $.ajax({ 
         type: "GET",
         url: "xml/skills.xml", 
@@ -147,12 +162,17 @@ $(document).ready(function(){
                 working_output += start_date  + ", ";
                 working_output += start_year + " - ";
                 if(end_month == '-' && end_date == '-' && end_year == '-') {
-                    working_output += "current  |  ";
+                    working_output += "current";
                 } else {
                     working_output += end_month + " ";
                     working_output += end_date + ", ";
-                    working_output += end_year + "  |  ";    
+                    working_output += end_year + " ("; 
+                    let momentStart = moment(start_year + '-' + monthName[start_month] + '-' + start_date.padStart(2, '0') + ' 00:00:00','YYYY-MM-DD HH:mm:ss');
+                    let momentEnd = moment(end_year + '-' + monthName[end_month] + '-' + end_date.padStart(2, '0') + ' 00:00:00','YYYY-MM-DD HH:mm:ss');
+                    let diff = moment.preciseDiff(momentStart, momentEnd, true); 
+                    working_output += diff.years + " year(s) " + diff.months + " month(s))";
                 }
+                working_output += "<br>";
                 working_output += city + ", ";
                 working_output += province + ", ";
                 working_output += country + " ";
@@ -178,14 +198,18 @@ $(document).ready(function(){
             working_output += company_name + "</a></i><br>";   
             working_output += "<i>" + start_month + " ";   
             working_output += start_date  + ", ";
-            working_output += start_year + " - ";
             if(end_month == '-' && end_date == '-' && end_year == '-') {
-                working_output += "current | ";
+                working_output += "current";
             } else {
                 working_output += end_month + " ";
                 working_output += end_date + ", ";
-                working_output += end_year + "  |  ";    
+                working_output += end_year + " ("; 
+                let momentStart = moment(start_year + '-' + monthName[start_month] + '-' + start_date.padStart(2, '0') + ' 00:00:00','YYYY-MM-DD HH:mm:ss');
+                let momentEnd = moment(end_year + '-' + monthName[end_month] + '-' + end_date.padStart(2, '0') + ' 00:00:00','YYYY-MM-DD HH:mm:ss');
+                let diff = moment.preciseDiff(momentStart, momentEnd, true); 
+                working_output += diff.years + " year(s) " + diff.months + " month(s))";
             }
+            working_output += "<br>";
             working_output += city + ", ";
             working_output += province + ", ";
             working_output += country + " ";
